@@ -1,0 +1,5 @@
+z-push (1.3RC2-1) unstable; urgency=low
+
+  * Initial release (Closes: #533082)
+
+ -- Wolfram Quester <wolfi@sigxcpu.org>  Fri, 09 Apr 2010 20:16:37 +0200
