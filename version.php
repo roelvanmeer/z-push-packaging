@@ -11,5 +11,5 @@
 * Consult LICENSE file for details
 ************************************************/
 
-$zpush_version = "SVN 1.3 RC2 276";
+$zpush_version = "SVN 1.3 RC3 325";
 ?>

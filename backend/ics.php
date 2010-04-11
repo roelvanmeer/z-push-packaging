@@ -586,10 +586,29 @@ class ImportContentsChangesICS extends MAPIMapping {
     }
 
     function GetState() {
-        mapi_stream_seek($this->statestream, 0, STREAM_SEEK_SET);
-        $data = mapi_stream_read($this->statestream, 4096);
+    	if(!isset($this->statestream))
+            return false;
 
-        return $data;
+        if (function_exists("mapi_importcontentschanges_updatestate")) {
+        	debugLog("using mapi_importcontentschanges_updatestate");
+	        if(mapi_importcontentschanges_updatestate($this->importer, $this->statestream) != true) {
+	            debugLog("Unable to update state: " . sprintf("%X", mapi_last_hresult()));
+	            return false;
+	        }
+        }
+
+        mapi_stream_seek($this->statestream, 0, STREAM_SEEK_SET);
+
+        $state = "";
+        while(true) {
+            $data = mapi_stream_read($this->statestream, 4096);
+            if(strlen($data))
+                $state .= $data;
+            else
+                break;
+        }
+
+        return $state;
     }
 
     // ----------------------------------------------------------------------------------------------------------
@@ -822,7 +841,7 @@ class ImportContentsChangesICS extends MAPIMapping {
             foreach($appointment->attendees as $attendee) {
                 $recip = array();
                 $recip[PR_DISPLAY_NAME] = u2w($attendee->name);
-                $recip[PR_EMAIL_ADDRESS] = $attendee->email;
+                $recip[PR_EMAIL_ADDRESS] = u2w($attendee->email);
                 $recip[PR_ADDRTYPE] = "SMTP";
                 $recip[PR_RECIPIENT_TYPE] = MAPI_TO;
                 $recip[PR_ENTRYID] = mapi_createoneoff($recip[PR_DISPLAY_NAME], $recip[PR_ADDRTYPE], $recip[PR_EMAIL_ADDRESS]);
@@ -844,8 +863,13 @@ class ImportContentsChangesICS extends MAPIMapping {
         $this->_setPropsInMAPI($mapimessage, $contact, $this->_contactmapping);
 
         // Set display name and subject to a combined value of firstname and lastname
-        $cname = "".u2w($contact->firstname . " " . $contact->lastname);
-
+        $cname = (isset($contact->prefix))?u2w($contact->prefix)." ":"";
+        $cname .= u2w($contact->firstname);
+        $cname .= (isset($contact->middlename))?" ". u2w($contact->middlename):"";
+        $cname .= " ". u2w($contact->lastname);
+        $cname .= (isset($contact->suffix))?" ". u2w($contact->suffix):"";
+        $cname = trim($cname);
+         
         //set contact specific mapi properties
         $props = array();
         $nremails = array();
@@ -1403,7 +1427,7 @@ class PHPContentsImportProxy extends MAPIMapping {
         $messageprops = mapi_getprops($mapimessage, array($meetingstatustag, PR_SENT_REPRESENTING_ENTRYID, PR_SENT_REPRESENTING_NAME));
 
         if(isset($messageprops[$meetingstatustag]) && $messageprops[$meetingstatustag] > 0 && isset($messageprops[PR_SENT_REPRESENTING_ENTRYID]) && isset($messageprops[PR_SENT_REPRESENTING_NAME])) {
-            $message->organizeremail = $this->_getSMTPAddressFromEntryID($messageprops[PR_SENT_REPRESENTING_ENTRYID]);
+            $message->organizeremail = w2u($this->_getSMTPAddressFromEntryID($messageprops[PR_SENT_REPRESENTING_ENTRYID]));
             $message->organizername = w2u($messageprops[PR_SENT_REPRESENTING_NAME]);
         }
 
@@ -1419,16 +1443,16 @@ class PHPContentsImportProxy extends MAPIMapping {
             $attendee->name = w2u($row[PR_DISPLAY_NAME]);
             //smtp address is always a proper email address
             if(isset($row[PR_SMTP_ADDRESS]))
-                $attendee->email = $row[PR_SMTP_ADDRESS];
+                $attendee->email = w2u($row[PR_SMTP_ADDRESS]);
             elseif (isset($row[PR_ADDRTYPE]) && isset($row[PR_EMAIL_ADDRESS])) {
                 //if address type is SMTP, it's also a proper email address
-                if (PR_ADDRTYPE == "SMTP")
-                    $attendee->email = $row[PR_EMAIL_ADDRESS];
+                if ($row[PR_ADDRTYPE] == "SMTP")
+                    $attendee->email = w2u($row[PR_EMAIL_ADDRESS]);
                 //if address type is ZARAFA, the PR_EMAIL_ADDRESS contains username
-                elseif (PR_ADDRTYPE == "ZARAFA") {
+                elseif ($row[PR_ADDRTYPE] == "ZARAFA") {
                     $userinfo = mapi_zarafa_getuser_by_name($this->_store, $row[PR_EMAIL_ADDRESS]);
                     if (is_array($userinfo) && isset($userinfo["emailaddress"]))
-                        $attendee->email = $userinfo["emailaddress"];
+                        $attendee->email = w2u($userinfo["emailaddress"]);
                 }
             }
             // Some attendees have no email or name (eg resources), and if you
@@ -1596,13 +1620,13 @@ class PHPContentsImportProxy extends MAPIMapping {
             $name = isset($row[PR_DISPLAY_NAME]) ? $row[PR_DISPLAY_NAME] : "";
 
             if($name == "" || $name == $address)
-                $fulladdr = $address;
+                $fulladdr = w2u($address);
             else {
                 if (substr($name, 0, 1) != '"' && substr($name, -1) != '"') {
-                    $fulladdr = "\"" . w2u($name) ."\" <" . $address . ">";
+                    $fulladdr = "\"" . w2u($name) ."\" <" . w2u($address) . ">";
                 }
                 else {
-                    $fulladdr = w2u($name) ."<" . $address . ">";
+                    $fulladdr = w2u($name) ."<" . w2u($address) . ">";
                 }
             }
 
@@ -1828,11 +1852,13 @@ class ExportChangesICS  {
             $mapiimporter = mapi_wrap_importcontentschanges($phpimportproxy);
             $exporterflags |= SYNC_NORMAL | SYNC_READ_STATE;
 
-            // Initial sync, we don't want deleted items. On subsequent syncs, we do want to receive delete
-            // events.
-            if(strlen($syncstate) == 0)
-                $exporterflags |= SYNC_NO_SOFT_DELETIONS;
-
+            // Initial sync, we don't want deleted items. If the initial sync is chunked 
+            // we check the change ID of the syncstate (0 at initial sync) 
+            // On subsequent syncs, we do want to receive delete events.
+            if(strlen($syncstate) == 0 || bin2hex(substr($syncstate,4,4)) == "00000000") {
+                debugLog("synching inital data");
+                $exporterflags |= SYNC_NO_SOFT_DELETIONS | SYNC_NO_DELETIONS;
+            }
         } else {
             $phpimportproxy = new PHPHierarchyImportProxy($this->_store, $importer);
             $mapiimporter = mapi_wrap_importhierarchychanges($phpimportproxy);
@@ -2458,12 +2484,13 @@ class BackendICS {
 
         $toaddr = $ccaddr = $bccaddr = array();
 
+        $Mail_RFC822 = new Mail_RFC822();
         if(isset($message->headers["to"]))
-            $toaddr = Mail_RFC822::parseAddressList($message->headers["to"]);
+            $toaddr = $Mail_RFC822->parseAddressList($message->headers["to"]);
         if(isset($message->headers["cc"]))
-            $ccaddr = Mail_RFC822::parseAddressList($message->headers["cc"]);
+            $ccaddr = $Mail_RFC822->parseAddressList($message->headers["cc"]);
         if(isset($message->headers["bcc"]))
-            $bccaddr = Mail_RFC822::parseAddressList($message->headers["bcc"]);
+            $bccaddr = $Mail_RFC822->parseAddressList($message->headers["bcc"]);
 
         // Add recipients
         $recips = array();
@@ -2538,10 +2565,14 @@ class BackendICS {
                         return true;
                     }
 
-                    if (is_array($mapiprops) && !empty($mapiprops)) {
+                    if (!checkMapiExtVersion("6.30") && is_array($mapiprops) && !empty($mapiprops)) {
                         mapi_setprops($mapimessage, $mapiprops);
                     }
-                    else debugLog("ICAL: Mapi props array was empty");
+                    else {
+                        // store ics as attachment
+                        $this->_storeAttachment($mapimessage, $part);
+                        debugLog("Sending ICS file as attachment");
+                    }
                 }
                 // any other type, store as attachment
                 else
@@ -2757,8 +2788,8 @@ class BackendICS {
 
     function MeetingResponse($requestid, $folderid, $response, &$calendarid) {
         // Use standard meeting response code to process meeting request
-        $entryid = mapi_msgstore_entryidfromsourcekey($this->_defaultstore, hex2bin($folderid), hex2bin($requestid));
-        $mapimessage = mapi_msgstore_openentry($this->_defaultstore, $entryid);
+        $reqentryid = mapi_msgstore_entryidfromsourcekey($this->_defaultstore, hex2bin($folderid), hex2bin($requestid));
+        $mapimessage = mapi_msgstore_openentry($this->_defaultstore, $reqentryid);
 
         if(!$mapimessage) {
             debugLog("Unable to open request message for response");
@@ -2782,10 +2813,10 @@ class BackendICS {
         switch($response) {
             case 1:     // accept
             default:
-                $entryid = $meetingrequest->doAccept(false, false, $meetingrequest->isInCalendar());
+                $entryid = $meetingrequest->doAccept(false, false, false, false, false, false, true); // last true is the $userAction
                 break;
             case 2:        // tentative
-                $meetingrequest->doAccept(true, false, $meetingrequest->isInCalendar());
+                $entryid = $meetingrequest->doAccept(true, false, false, false, false, false, true); // last true is the $userAction
                 break;
             case 3:        // decline
                 $meetingrequest->doDecline(false);
@@ -2797,9 +2828,13 @@ class BackendICS {
         // We have to return the ID of the new calendar item, so do that here
         $newitem = mapi_msgstore_openentry($this->_defaultstore, $entryid);
         $newprops = mapi_getprops($newitem, array(PR_SOURCE_KEY));
-
         $calendarid = bin2hex($newprops[PR_SOURCE_KEY]);
-
+        
+        // delete meeting request from Inbox
+        $folderentryid = mapi_msgstore_entryidfromsourcekey($this->_defaultstore, hex2bin($folderid));
+        $folder = mapi_msgstore_openentry($this->_defaultstore, $folderentryid);
+        mapi_folder_deletemessages($folder, array($reqentryid), 0);
+        
         return true;
     }
 
@@ -2861,6 +2896,7 @@ class BackendICS {
         // attachment
         $attach = mapi_message_createattach($mapimessage);
 
+        $filename = "";
         // Filename is present in both Content-Type: name=.. and in Content-Disposition: filename=
         if(isset($part->ctype_parameters["name"]))
             $filename = $part->ctype_parameters["name"];
@@ -2868,6 +2904,12 @@ class BackendICS {
             $filename = $part->d_parameters["filename"];
         else if (isset($part->d_parameters["filename"])) // sending appointment with nokia & android only filename is set
             $filename = $part->d_parameters["filename"];
+        // filenames with more than 63 chars as splitted several strings
+        else if (isset($part->d_parameters["filename*0"])) {
+        	for ($i=0; $i< count($part->d_parameters); $i++) 
+        	   if (isset($part->d_parameters["filename*".$i]))
+        	       $filename .= $part->d_parameters["filename*".$i];
+        }
         else
             $filename = "untitled";
 

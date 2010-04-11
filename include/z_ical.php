@@ -118,6 +118,7 @@ class ZPush_ical{
                                     $mapiprops[PR_ICON_INDEX] = $aClassMap[$role]['icon'];
                                 }
                                 // END ADDED dw2412 to support meeting requests on HTC Android Mail App
+                                if (!isset($cn)) $cn = ""; 
                                 $data         = str_replace ("MAILTO:", "", $data);
                                 $attendee[] = array ('name' => stripslashes($cn), 'email' => stripslashes($data));
                                 break;
