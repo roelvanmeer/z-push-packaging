@@ -1,0 +1,73 @@
+From: Wolfram Quester <wolfi@sigxcpu.org>
+Date: Sun, 11 Apr 2010 16:09:17 +0200
+Subject: [PATCH] use correct envelope from, not the user running apache
+
+---
+ backend/imap.php |   19 ++++++++++++++++---
+ 1 files changed, 16 insertions(+), 3 deletions(-)
+
+diff --git a/backend/imap.php b/backend/imap.php
+index c51dc0f..9ad8730 100644
+--- a/backend/imap.php
++++ b/backend/imap.php
+@@ -118,9 +118,19 @@ class BackendIMAP extends BackendDiff {
+         $body_base64 = false;
+         $org_charset = "";
+         foreach($message->headers as $k => $v) {
+-            if ($k == "subject" || $k == "to" || $k == "cc" || $k == "bcc")
++            if ($k == "subject" || $k == "to")
+                 continue;
+ 
++            if ($k == "cc") {
++	        $v = $ccaddr;
++	        continue;
++	    }
++
++            if ($k == "bcc") {
++	        $v = $bccaddr;
++	        continue;
++	    }
++
+             if ($k == "content-type") {
+                 // save the original content-type header for the body part when forwarding
+                 if ($forward) {
+@@ -155,6 +165,7 @@ class BackendIMAP extends BackendDiff {
+                 if      (IMAP_DEFAULTFROM == 'username') $v = $this->_username;
+                 else if (IMAP_DEFAULTFROM == 'domain')   $v = $this->_domain;
+                 else $v = $this->_username . IMAP_DEFAULTFROM;
++		$envelopefrom = $v;
+             }
+ 
+             // check if "Return-Path"-header is set
+@@ -179,6 +190,7 @@ class BackendIMAP extends BackendDiff {
+             else $v = $this->_username . IMAP_DEFAULTFROM;
+             if ($headers) $headers .= "\n";
+             $headers .= 'From: '.$v;
++	    $envelopefrom = $v;
+         }
+ 
+         // set "Return-Path" header if not set on the device
+@@ -231,13 +243,14 @@ class BackendIMAP extends BackendDiff {
+             $headers .= "\n" . $aheader;
+         }
+ 
++        
+         //advanced debugging
+         //debugLog("IMAP-SendMail: parsed message: ". print_r($message,1));
+         //debugLog("IMAP-SendMail: headers: $headers");
+         //debugLog("IMAP-SendMail: subject: {$message->headers["subject"]}");
+         //debugLog("IMAP-SendMail: body: $body");
+ 
+-        $send =  @imap_mail ( $toaddr, $message->headers["subject"], $body, $headers, $ccaddr, $bccaddr);
++        $send =  @mail ( $toaddr, $message->headers["subject"], $body, $headers, "-f ".$envelopefrom );
+ 
+         // email sent?
+         if (!$send) {
+@@ -903,4 +916,4 @@ class BackendIMAP extends BackendDiff {
+ 
+ };
+ 
+-?>
+\ No newline at end of file
++?>
+-- 
