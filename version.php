@@ -6,10 +6,10 @@
 *
 * Created   :   18.04.2008
 *
-* © Zarafa Deutschland GmbH, www.zarafaserver.de
+* ï¿½ Zarafa Deutschland GmbH, www.zarafaserver.de
 * This file is distributed under GPL v2.
 * Consult LICENSE file for details
 ************************************************/
 
-$zpush_version = "SVN 1.3 RC3 325";
+$zpush_version = "1.4 405";
 ?>

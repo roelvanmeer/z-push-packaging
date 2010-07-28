@@ -20,7 +20,9 @@ function _saveFolderData($devid, $folders) {
     $unique_folders = array ();
 
     foreach ($folders as $folder) {    
-
+        if (!isset($folder->type))
+            continue;
+    	
         // don't save folder-ids for emails
         if ($folder->type == SYNC_FOLDER_TYPE_INBOX)
             continue;
@@ -171,5 +173,67 @@ function checkMapiExtVersion($version = "") {
         return false;
         
     return true;
+}
+
+/**
+ * Parses and returns an ecoded vCal-Uid from an 
+ * OL compatible GlobalObjectID
+ *
+ * @param string $olUid - an OL compatible GlobalObjectID
+ * @return string the vCal-Uid if available in the olUid, else the original olUid as HEX
+ */
+function getICalUidFromOLUid($olUid){
+    $icalUid = strtoupper(bin2hex($olUid));
+    if(($pos = stripos($olUid,"vCal-Uid"))) {
+    	$length = unpack("V", substr($olUid, $pos-4,4));
+    	$icalUid = substr($olUid, $pos+12, $length[1] -14);
+    }
+    return $icalUid;
+}
+
+/**
+ * Checks the given UID if it is an OL compatible GlobalObjectID
+ * If not, the given UID is encoded inside the GlobalObjectID
+ *
+ * @param string $icalUid - an appointment uid as HEX
+ * @return string an OL compatible GlobalObjectID
+ *
+ */
+function getOLUidFromICalUid($icalUid) {
+	if (strlen($icalUid) <= 64) {
+		$len = 13 + strlen($icalUid);
+		$OLUid = pack("V", $len);
+		$OLUid .= "vCal-Uid";
+		$OLUid .= pack("V", 1);
+		$OLUid .= $icalUid;
+		return hex2bin("040000008200E00074C5B7101A82E0080000000000000000000000000000000000000000". bin2hex($OLUid). "00");
+	}
+	else
+	   return hex2bin($icalUid);
+} 
+
+/**
+ * Extracts the basedate of the GlobalObjectID and the RecurStartTime 
+ *
+ * @param string $goid - OL compatible GlobalObjectID
+ * @param long $recurStartTime - RecurStartTime 
+ * @return long basedate 
+ *
+ */
+function extractBaseDate($goid, $recurStartTime) {
+    $hexbase = substr(bin2hex($goid), 32, 8);
+    $day = hexdec(substr($hexbase, 6, 2));
+    $month = hexdec(substr($hexbase, 4, 2));
+    $year = hexdec(substr($hexbase, 0, 4));
+
+    if ($day && $month && $year) {
+		$h = $recurStartTime >> 12;
+		$m = ($recurStartTime - $h * 4096) >> 6;
+		$s = $recurStartTime - $h * 4096 - $m * 64;
+
+        return gmmktime($h, $m, $s, $month, $day, $year);
+    }
+    else
+        return false;
 }
 ?>
