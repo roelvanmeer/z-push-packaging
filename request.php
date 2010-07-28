@@ -202,17 +202,25 @@ function HandleFolderSync($backend, $protocolversion) {
     $sfolderstate = $statemachine->getSyncState("s".$synckey);
     
     if (!$sfolderstate) {
-        $seenfolders = array();
+        $foldercache = array();
         if ($sfolderstate === false)
-            debugLog("Error: SeenFolderState for state 's". $synckey ."' not found. Reinitializing...");
+            debugLog("Error: FolderChacheState for state 's". $synckey ."' not found. Reinitializing...");
     }
     else {
-    	$seenfolders = unserialize($sfolderstate);
+    	$foldercache = unserialize($sfolderstate);
+
+    	// transform old seenfolder array
+    	if (array_key_exists("0", $foldercache)) {
+    		$tmp = array();
+    		foreach($foldercache as $s) $tmp[$s] = new SyncFolder();
+    		$foldercache = $tmp;
+    	}
     }
         
     // We will be saving the sync state under 'newsynckey'
     $newsynckey = $statemachine->getNewSyncKey($synckey);
-
+    $changes = false;
+    
     if($decoder->getElementStartTag(SYNC_FOLDERHIERARCHY_CHANGES)) {
         // Ignore <Count> if present
         if($decoder->getElementStartTag(SYNC_FOLDERHIERARCHY_COUNT)) {
@@ -242,15 +250,15 @@ function HandleFolderSync($backend, $protocolversion) {
                 case SYNC_MODIFY:
                     $serverid = $importer->ImportFolderChange($folder);
                     // add folder to the serverflags
-                    $seenfolders[] = $serverid;
+                    $foldercache[$serverid] = $folder;
+                    $changes = true;
                     break;
                 case SYNC_REMOVE:
                     $serverid = $importer->ImportFolderDeletion($folder);
-                    // remove folder from the folderflags array
-                    if (($sid = array_search($serverid, $seenfolders)) !== false) {
-                        unset($seenfolders[$sid]);
-                        $seenfolders = array_values($seenfolders);
-                    }
+                    $changes = true;
+                    // remove folder from the folderchache
+                    if (array_key_exists($serverid, $foldercache)) 
+                        unset($foldercache[$serverid]);
                     break;
             }
 
@@ -272,7 +280,7 @@ function HandleFolderSync($backend, $protocolversion) {
     // before sending the actual data. As the amount of data done in this operation
     // is rather low, this is not memory problem. Note that this is not done when
     // sync'ing messages - we let the exporter write directly to WBXML.
-    $importer = new ImportHierarchyChangesMem($encoder);
+    $importer = new ImportHierarchyChangesMem($foldercache);
 
     // Request changes from backend, they will be sent to the MemImporter passed as the first
     // argument, which stores them in $importer. Returns the new sync state for this exporter.
@@ -292,7 +300,8 @@ function HandleFolderSync($backend, $protocolversion) {
         $encoder->endTag();
 
         $encoder->startTag(SYNC_FOLDERHIERARCHY_SYNCKEY);
-        $encoder->content($newsynckey);
+        // only send new synckey if changes were processed or there are outgoing changes
+        $encoder->content((($changes || $importer->count > 0)?$newsynckey:$synckey));
         $encoder->endTag();
 
         $encoder->startTag(SYNC_FOLDERHIERARCHY_CHANGES);
@@ -304,13 +313,12 @@ function HandleFolderSync($backend, $protocolversion) {
             if(count($importer->changed) > 0) {
                 foreach($importer->changed as $folder) {
                 	// send a modify flag if the folder is already known on the device
-                	if (isset($folder->serverid) && in_array($folder->serverid, $seenfolders)){
+                	if (isset($folder->serverid) && array_key_exists($folder->serverid, $foldercache) !== false)
                         $encoder->startTag(SYNC_FOLDERHIERARCHY_UPDATE);
-                	}
-                	else {
+                	else 
                         $encoder->startTag(SYNC_FOLDERHIERARCHY_ADD);
-                        $seenfolders[] = $folder->serverid;
-                    }
+                    $foldercache[$folder->serverid] = $folder;
+                    
                     $folder->encode($encoder);
                     $encoder->endTag();
                 }
@@ -324,11 +332,9 @@ function HandleFolderSync($backend, $protocolversion) {
                         $encoder->endTag();
                     $encoder->endTag();
 
-                    // remove folder from the folderflags array
-                    if (($sid = array_search($folder, $seenfolders)) !== false) {
-                        unset($seenfolders[$sid]);
-                        $seenfolders = array_values($seenfolders);
-                    }
+                    // remove folder from the folderchache
+                    if (array_key_exists($folder, $foldercache)) 
+                        unset($foldercache[$folder]);
                 }
             }
         }
@@ -339,7 +345,7 @@ function HandleFolderSync($backend, $protocolversion) {
     // Save the sync state for the next time
     $syncstate = $exporter->GetState();
     $statemachine->setSyncState($newsynckey, $syncstate);
-    $statemachine->setSyncState("s".$newsynckey, serialize($seenfolders));
+    $statemachine->setSyncState("s".$newsynckey, serialize($foldercache));
 
 
     return true;
@@ -604,8 +610,20 @@ function HandleSync($backend, $protocolversion, $devid) {
         $encoder->startTag(SYNC_FOLDERS);
         {
             foreach($collections as $collection) {
-                // Get a new sync key to output to the client if any changes have been requested or have been sent
-                if (isset($collection["importedchanges"]) || isset($collection["getchanges"]) || $collection["synckey"] == "0")
+            	// initialize exporter to get changecount
+            	$changecount = 0;
+            	if(isset($collection["getchanges"])) {
+                    // Use the state from the importer, as changes may have already happened
+                    $exporter = $backend->GetExporter($collection["collectionid"]);
+
+                    $filtertype = isset($collection["filtertype"]) ? $collection["filtertype"] : false;
+                    $exporter->Config($importer, $collection["class"], $filtertype, $collection["syncstate"], 0, $collection["truncation"]);
+
+                    $changecount = $exporter->GetChangeCount();
+            	}
+            	
+                // Get a new sync key to output to the client if any changes have been requested or will be send
+                if (isset($collection["importedchanges"]) || $changecount > 0 || $collection["synckey"] == "0")
                     $collection["newsynckey"] = $statemachine->getNewSyncKey($collection["synckey"]);
 
                 $encoder->startTag(SYNC_FOLDER);
@@ -672,13 +690,7 @@ function HandleSync($backend, $protocolversion, $devid) {
                 }
 
                 if(isset($collection["getchanges"])) {
-                    // Use the state from the importer, as changes may have already happened
-                    $exporter = $backend->GetExporter($collection["collectionid"]);
-
-                    $filtertype = isset($collection["filtertype"]) ? $collection["filtertype"] : false;
-                    $exporter->Config($importer, $collection["class"], $filtertype, $collection["syncstate"], 0, $collection["truncation"]);
-
-                    $changecount = $exporter->GetChangeCount();
+                    // exporter already intialized
 
                     if($changecount > $collection["maxitems"]) {
                         $encoder->startTag(SYNC_MOREAVAILABLE, false, true);
