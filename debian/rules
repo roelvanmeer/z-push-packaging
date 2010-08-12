@@ -9,10 +9,19 @@
 # Uncomment this to turn on verbose mode.
 export DH_VERBOSE=1
 
+include /usr/share/quilt/quilt.make
+
 %:
-	dh  $@ --with quilt
+	dh  $@
 
 override_dh_install:
 	dh_install -X debian -X LICENSE
 	mkdir -p debian/z-push/var/lib/z-push/state/
 
+clean: unpatch
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp
+	dh_clean
+
+build: patch
