@@ -5,11 +5,14 @@ Now, you must configure Apache to redirect the URL
 'Microsoft-Server-ActiveSync' to the index.php file in the Z-Push
 directory. This can be done by adding the line
 
-Alias /Microsoft-Server-ActiveSync /var/www/z-push/index.php
+Alias /Microsoft-Server-ActiveSync /usr/share/z-push/index.php
 
 to your httpd.conf file. Make sure that you are adding the line to the
 correct part of your Apache configuration, taking care of virtual hosts and
 other Apache configurations.
+
+If you like the postinst script automatically configures apache or
+lighttp for you.
 
 *WARNING* You CANNOT simply rename the z-push directory to
 Microsoft-Server-ActiveSync. This will cause Apache to send redirects to the

@@ -1,0 +1,60 @@
+#!/bin/sh
+# postrm script for z-push
+
+set -e
+
+lighttpd_remove() {
+    if [ -f /etc/lighttpd/conf-available/50-z-push.conf ] ; then
+	rm -f /etc/lighttpd/conf-available/50-z-push.conf
+	if [ ! -x /usr/sbin/lighty-disable-mod ] ; then
+	    echo "Lighttpd not installed, skipping"
+	else
+	    /usr/sbin/lighty-disable-mod z-push
+	    # We also enabled auth in postinst, but I think it's safer to keep it there
+	fi
+	# See bug #448682
+	if [ -h /etc/lighttpd/conf-enabled/50-z-push.conf ] ; then
+	    echo 'Manually deleting lighttpd/phpMyAdmin configuration link'
+	    rm /etc/lighttpd/conf-enabled/50-z-push.conf
+	fi
+    fi
+}
+
+apache_remove() {
+    if [ -d /etc/$webserver/conf.d ] && [ -L /etc/$webserver/conf.d/z-push.conf ]; then
+	rm -f /etc/$webserver/conf.d/z-push.conf
+    fi
+}
+
+
+if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
+    if [ -f /usr/share/debconf/confmodule ]; then
+	. /usr/share/debconf/confmodule
+	db_version 2.0
+
+	db_get z-push/reconfigure-webserver
+
+	webservers="$RET"
+
+	for webserver in $webservers; do
+	    webserver=${webserver%,}
+	    if [ "$webserver" = "lighttpd" ] ; then
+		lighttpd_remove
+	    else
+		apache_remove $webserver
+	    fi
+	    # Redirection of 3 is needed because Debconf uses it and it might
+	    # be inherited by webserver. See bug #446324.
+	    if [ -x /usr/sbin/invoke-rc.d ]; then
+		invoke-rc.d $webserver reload 3>/dev/null || true
+	    else
+		/etc/init.d/$webserver reload 3>/dev/null || true
+	    fi
+	done
+    fi
+fi
+
+
+#DEBHELPER#
+
+exit 0

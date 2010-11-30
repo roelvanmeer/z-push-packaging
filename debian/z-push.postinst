@@ -17,6 +17,26 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
+
+lighttpd_install() {
+    if [ ! -f /etc/lighttpd/conf-available/50-z-push.conf ] ; then
+	if [ ! -x /usr/sbin/lighty-enable-mod ] ; then
+	    echo "Lighttpd not installed, skipping"
+	else
+	    ln -s ../../z-push/lighttpd.conf /etc/lighttpd/conf-available/50-z-push.conf
+	    # We also need auth to protect setup.php
+	    /usr/sbin/lighty-enable-mod z-push auth
+	fi
+    fi
+}
+
+apache_install() {
+    webserver=$1
+    if [ -d /etc/$webserver/conf.d ] && [ ! -e /etc/$webserver/conf.d/z-push.conf ]; then
+	ln -s ../../z-push/apache.conf /etc/$webserver/conf.d/z-push.conf
+    fi
+}
+
 set_perms() {
         USER=$1
         GROUP=$2
@@ -31,7 +51,34 @@ set_perms() {
 
 case "$1" in
     configure)
+
+    . /usr/share/debconf/confmodule
+    db_version 2.0
+
+    # Configure Apache
+    db_get z-push/reconfigure-webserver
+
+    webservers="$RET"
+
+    for webserver in $webservers; do
+	webserver=${webserver%,}
+	if [ "$webserver" = "lighttpd" ] ; then
+	    lighttpd_install
+	else
+	    apache_install $webserver
+	fi
+	# Reload webserver in any case, configuration might have changed
+	# Redirection of 3 is needed because Debconf uses it and it might
+	# be inherited by webserver. See bug #446324.
+	if [ -x /usr/sbin/invoke-rc.d ]; then
+	    invoke-rc.d $webserver reload 3>/dev/null || true
+	else
+	    /etc/init.d/$webserver reload 3>/dev/null || true
+	fi
+    done
+
         set_perms www-data www-data 700 /var/lib/z-push/state
+
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

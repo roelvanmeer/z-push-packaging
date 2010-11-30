@@ -14,3 +14,5 @@ version.php        /usr/share/z-push/
 wbxml.php          /usr/share/z-push/
 zpushdefs.php      /usr/share/z-push/
 zpushdtd.php       /usr/share/z-push/
+
+debian/conf/*   etc/z-push/
