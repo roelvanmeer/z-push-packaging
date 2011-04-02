@@ -1,3 +1,4 @@
+backend/searchldap/config.php /etc/z-push/backend/searchldap/
 config.php         /etc/z-push/
 backend            /usr/share/z-push/
 compat.php         /usr/share/z-push/
