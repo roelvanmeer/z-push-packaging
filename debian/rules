@@ -15,7 +15,7 @@ include /usr/share/quilt/quilt.make
 	dh  $@
 
 override_dh_install:
-	dh_install -X debian -X LICENSE
+	dh_install -X LICENSE
 	mkdir -p debian/z-push/var/lib/z-push/state/
 
 clean: unpatch
