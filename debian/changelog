@@ -1,3 +1,15 @@
+z-push (1.5.1-1) unstable; urgency=low
+
+  * [3fbfaa5] lower dependencies on quilt to ease backports
+  * [8e9c1d0] recommend web-server and modules
+  * [e6dbeb4] add patch to autoconfigure the web server by Philipp Büttgenbach <Philipp.Buettgenbach@gmx.de>
+  * [97b2eb2] Imported Upstream version 1.5.1
+  * [b917b5b] remove patches applied upstream
+  * [e417ae6] add link to config for new backend searchldap
+  * [71d2ac8] allow installation of files under debian/
+
+ -- Wolfram Quester <wolfi@sigxcpu.org>  Sun, 03 Apr 2011 10:21:28 +0200
+
 z-push (1.4-1) unstable; urgency=low
 
   * [a423f55] Imported Upstream version 1.4
