@@ -5,7 +5,7 @@ Now, you must configure Apache to redirect the URL
 'Microsoft-Server-ActiveSync' to the index.php file in the Z-Push
 directory. This can be done by adding the line
 
-Alias /Microsoft-Server-ActiveSync /usr/share/z-push/index.php
+Alias /Microsoft-Server-ActiveSync /usr/share/d-push/index.php
 
 to your httpd.conf file. Make sure that you are adding the line to the
 correct part of your Apache configuration, taking care of virtual hosts and
@@ -14,7 +14,7 @@ other Apache configurations.
 If you like the postinst script automatically configures apache or
 lighttp for you.
 
-*WARNING* You CANNOT simply rename the z-push directory to
+*WARNING* You CANNOT simply rename the d-push directory to
 Microsoft-Server-ActiveSync. This will cause Apache to send redirects to the
 PDA, which will definitely break your PDA synchronisation.
 
@@ -26,8 +26,8 @@ php_flag magic_quotes_runtime off
 php_flag short_open_tag on
 
 You can set this in the httpd.conf, in php.ini or in an .htaccess file in
-the root of z-push. If you don't set this up correctly, you will not be
-able to login correctly via z-push.
+the root of d-push. If you don't set this up correctly, you will not be
+able to login correctly via d-push.
 
 After doing this, you should be able to synchronize from your PDA.
 
@@ -50,7 +50,7 @@ Troubleshooting
 Most problems will be caused by incorrect Apache settings. To test whether
 your Apache setup is working correctly, you can simply type the Z-Push URL
 in your browser, to see if apache is correctly redirecting your request to
-z-push. You can simply use:
+d-push. You can simply use:
 
 http://<serverip>/Microsoft-Server-ActiveSync
 
@@ -62,11 +62,11 @@ when you specify a valid username & password, you should see a string like
 If not, then check your PHP and Apache settings.
 
 If you have other synchronisation problems, you can create the file
-'debug.txt' in the root directory of z-push, which should also be
+'debug.txt' in the root directory of d-push, which should also be
 world-writable:
 
-touch /var/www/z-push/debug.txt
-chmod 777 /var/www/z-push/debug.txt
+touch /var/www/d-push/debug.txt
+chmod 777 /var/www/d-push/debug.txt
 
 The debug.txt file will then collect debug information from your
 synchronisation.
