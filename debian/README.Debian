@@ -1,18 +1,21 @@
 How to install
 --------------
 
-Now, you must configure Apache to redirect the URL
-'Microsoft-Server-ActiveSync' to the index.php file in the Z-Push
-directory. This can be done by adding the line
+After installing d-push, you must configure your webserver to redirect the URL
+'Microsoft-Server-ActiveSync' to the index.php file in the d-push directory.
+
+If you like the postinst script automatically configures apache or
+lighttp for you via debconf. You can rerun this configuration by issuing
+"dpkg-reconfigure d-push" as root on the command line.
+
+If you still want to do things by hand, the redirect can be achieved by adding
+the line
 
 Alias /Microsoft-Server-ActiveSync /usr/share/d-push/index.php
 
-to your httpd.conf file. Make sure that you are adding the line to the
+to your Apache httpd.conf file. Make sure that you are adding the line to the
 correct part of your Apache configuration, taking care of virtual hosts and
 other Apache configurations.
-
-If you like the postinst script automatically configures apache or
-lighttp for you.
 
 *WARNING* You CANNOT simply rename the d-push directory to
 Microsoft-Server-ActiveSync. This will cause Apache to send redirects to the
@@ -35,7 +38,7 @@ Setting up your PocketPC
 ------------------------
 
 This is simply a case of adding an 'exchange server' to your activesync
-server list, specifying the IP address of the Z-Push apache server,
+server list, specifying the IP address of the d-push apache server,
 disabling SSL, unless you have already setup SSL on your Apache server,
 setting the correct username & password (the domain is ignored, you can
 simply specify 'domain' or some other random string), and then going through
@@ -48,7 +51,7 @@ Troubleshooting
 ---------------
 
 Most problems will be caused by incorrect Apache settings. To test whether
-your Apache setup is working correctly, you can simply type the Z-Push URL
+your Apache setup is working correctly, you can simply type the d-push URL
 in your browser, to see if apache is correctly redirecting your request to
 d-push. You can simply use:
 
@@ -57,7 +60,7 @@ http://<serverip>/Microsoft-Server-ActiveSync
 If correctly configured, you should see a username/password request, and
 when you specify a valid username & password, you should see a string like
 
-"Your device requested the Z-Push URL without the required GET parameters"
+"Your device requested the d-push URL without the required GET parameters"
 
 If not, then check your PHP and Apache settings.
 
