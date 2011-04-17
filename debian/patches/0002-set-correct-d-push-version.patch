@@ -1,0 +1,22 @@
+From: Wolfram Quester <wolfi@sigxcpu.org>
+Date: Sun, 17 Apr 2011 15:49:03 +0200
+Subject: set correct d-push version
+
+---
+ version.php |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/version.php b/version.php
+index c8b37cd..fd34a7c 100644
+--- a/version.php
++++ b/version.php
+@@ -41,5 +41,5 @@
+ * Consult LICENSE file for details
+ ************************************************/
+ 
+-$zpush_version = "1.5.1 (517)";
+-?>
+\ No newline at end of file
++$zpush_version = "1.5.1-2 (d-push)";
++?>
+-- 

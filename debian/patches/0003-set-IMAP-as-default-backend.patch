@@ -1,0 +1,29 @@
+From: Wolfram Quester <wolfi@sigxcpu.org>
+Date: Sun, 17 Apr 2011 16:05:40 +0200
+Subject: set IMAP as default backend
+
+---
+ config.php |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/config.php b/config.php
+index a15daad..e0da0e0 100644
+--- a/config.php
++++ b/config.php
+@@ -82,7 +82,7 @@
+     define('SYNC_CONFLICT_DEFAULT', SYNC_CONFLICT_OVERWRITE_PIM);
+ 
+     // The data providers that we are using (see configuration below)
+-    $BACKEND_PROVIDER = "BackendICS";
++    $BACKEND_PROVIDER = "BackendIMAP";
+ 
+     // ************************
+     //  BackendICS settings
+@@ -132,4 +132,4 @@
+     // use 'SearchLDAP' to search in a LDAP directory (see backend/searchldap/config.php)
+     define('SEARCH_PROVIDER', '');
+ 
+-?>
+\ No newline at end of file
++?>
+-- 
