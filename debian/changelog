@@ -1,3 +1,16 @@
+d-push (1.5.1-2) unstable; urgency=low
+
+  * first upload to debian unstable
+  * upload sponsored by Torsten Werner <twerner@debian.org>, many thanks to him
+  * [f120357] update copyright information
+  * [cb1fea1] remove unneeded README.source
+  * [d5bc564] Rebranding: rename z-push* to d-push* and replace occurrences in
+    installation files
+  * [8ae5e00] update installation notes
+  * [8f90986] add patches for rebranding, version and config
+
+ -- Wolfram Quester <wolfi@sigxcpu.org>  Sun, 17 Apr 2011 16:17:57 +0200
+
 z-push (1.5.1-1) unstable; urgency=low
 
   * [3fbfaa5] lower dependencies on quilt to ease backports
