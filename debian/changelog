@@ -1,3 +1,10 @@
+d-push (1.5.1-3) unstable; urgency=low
+
+  * [a42e561] correct license info for some files. Thanks to Alexander Reichle-Schmehl for spotting this
+  * upload sponsored by Torsten Werner <twerner@debian.org>, many thanks to him
+
+ -- Wolfram Quester <wolfi@sigxcpu.org>  Wed, 20 Apr 2011 06:47:13 +0200
+
 d-push (1.5.1-2) unstable; urgency=low
 
   * first upload to debian unstable
