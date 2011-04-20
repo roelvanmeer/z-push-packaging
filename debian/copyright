@@ -19,6 +19,14 @@ Copyright:
 License:
 Z-push is subject to the GNU AFFERO GENERAL PUBLIC LICENSE Version 3, cited
 below.
+Some files are taken from different software and thus other licenses apply, namely:
+backend/kolab/kolab.php: GPL
+include/mimeDecode.php: BSD
+include/z_RFC822.php: BSD
+On debian systems, these licenses can be found in 
+/usr/share/common-licenses/GPL and /usr/share/common-licenses/BSD
+respectively.
+
 Z-push itself has the following trademark statement added to its source files:
 
 * According to sec. 7 of the GNU Affero General Public License, version 3,
