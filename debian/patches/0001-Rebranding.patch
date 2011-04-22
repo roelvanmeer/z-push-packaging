@@ -64,10 +64,10 @@ index a7d51b0..89fe574 100644
 \ No newline at end of file
 +?>
 diff --git a/include/utils.php b/include/utils.php
-index adf3a86..9b0989b 100644
+index 8df6983..cf9e523 100644
 --- a/include/utils.php
 +++ b/include/utils.php
-@@ -292,14 +292,18 @@ function printZPushLegal($message = "", $additionalMessage = "") {
+@@ -288,14 +288,18 @@ function printZPushLegal($message = "", $additionalMessage = "") {
      $zpush_legal = <<<END
  <html>
  <header>
@@ -88,7 +88,7 @@ index adf3a86..9b0989b 100644
  More information about Z-Push can be found at:<br>
  <a href="http://z-push.sf.net/">Z-Push homepage</a><br>
  <a href="http://z-push.sf.net/download">Z-Push download page at BerliOS</a><br>
-@@ -315,4 +319,4 @@ END;
+@@ -311,4 +315,4 @@ END;
      header("Content-type: text/html");
      print $zpush_legal;
  }
