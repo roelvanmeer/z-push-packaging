@@ -1,3 +1,10 @@
+d-push (1.5.2-1) unstable; urgency=low
+
+  * New Upstream version 1.5.2
+  * upload sponsored by Torsten Werner <twerner@debian.org>, many thanks to him
+
+ -- Wolfram Quester <wolfi@sigxcpu.org>  Sat, 23 Apr 2011 16:18:31 +0200
+
 d-push (1.5.1-4) unstable; urgency=low
 
   * Since I'm confident this version of the package passes NEW, it's not too
