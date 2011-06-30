@@ -1,3 +1,15 @@
+d-push (1.5.3-1) unstable; urgency=low
+
+  * [3fe7e81] Imported Upstream version 1.5.3 (Closes: #631115)
+  * [f95f309] update patches to new d-push-version 1.5.3
+  * [33ec05b] Drop webservers not contained in Squeeze or Wheezy (Closes: #631380)
+  * [fe4cc52] Use po-debconf (Closes: #631379)
+              Patch by Guido Günther, many thanks to him!
+  * [75752c8] Recommend to use SSL in README.Debian (Closes: #631378)
+  * upload sponsored by Guido Günther <agx@debian.org>, many thanks to him
+
+ -- Wolfram Quester <wolfi@sigxcpu.org>  Thu, 30 Jun 2011 22:39:52 +0200
+
 d-push (1.5.2-1) unstable; urgency=low
 
   * New Upstream version 1.5.2
