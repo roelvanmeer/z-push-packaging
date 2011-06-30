@@ -37,12 +37,13 @@ After doing this, you should be able to synchronize from your PDA.
 Setting up your PocketPC
 ------------------------
 
-This is simply a case of adding an 'exchange server' to your activesync
-server list, specifying the IP address of the d-push apache server,
-disabling SSL, unless you have already setup SSL on your Apache server,
-setting the correct username & password (the domain is ignored, you can
-simply specify 'domain' or some other random string), and then going through
-the standard activesync settings.
+This is simply a case of adding an 'exchange server' to your activesync server
+list, specifying the IP address or the DNS name of the d-push apache server,
+setting the correct username & password (the domain is ignored, you can simply
+specify 'domain' or some other random string), and then going through the
+standard activesync settings.
+From a security POV it is highly recommended to use SSL. For a basic setup,
+debian ships with a default-ssl site and self signed certificates.
 
 Once you have done this, you should be able to synchronise your PocketPC
 simply by clicking the 'Sync' button in ActiveSync on your PocketPC.
