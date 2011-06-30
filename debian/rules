@@ -23,5 +23,6 @@ clean: unpatch
 	dh_testroot
 	rm -f build-stamp
 	dh_clean
+	debconf-updatepo
 
 build: patch
