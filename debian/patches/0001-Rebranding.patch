@@ -1,9 +1,7 @@
 From: Wolfram Quester <wolfi@sigxcpu.org>
 Date: Sat, 16 Apr 2011 12:44:47 +0200
-Subject: Rebranding
- - set correct X-Mailer in Kolab backend
- - replace z-push in vcards
- - change html-pages and log-messages
+Subject: Rebranding - set correct X-Mailer in Kolab backend - replace z-push
+ in vcards - change html-pages and log-messages
 
 ---
  backend/kolab/kolab.php |    6 +++---
