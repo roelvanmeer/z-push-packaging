@@ -25,7 +25,7 @@ lighttpd_install() {
 	else
 	    ln -s ../../d-push/lighttpd.conf /etc/lighttpd/conf-available/50-d-push.conf
 	    # We also need auth to protect setup.php
-	    /usr/sbin/lighty-enable-mod d-push auth
+	    lighty-enable-mod d-push auth
 	fi
     fi
 }

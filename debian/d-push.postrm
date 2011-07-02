@@ -9,7 +9,7 @@ lighttpd_remove() {
 	if [ ! -x /usr/sbin/lighty-disable-mod ] ; then
 	    echo "Lighttpd not installed, skipping"
 	else
-	    /usr/sbin/lighty-disable-mod d-push
+	    lighty-disable-mod d-push
 	    # We also enabled auth in postinst, but I think it's safer to keep it there
 	fi
 	# See bug #448682
