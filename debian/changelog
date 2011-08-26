@@ -1,3 +1,11 @@
+d-push (1.5.4-1) unstable; urgency=low
+
+  * [8baa360] Imported Upstream version 1.5.4
+  * [8ab20f6] depend on php5-cli to fix lintian's
+              php-script-but-no-phpX-cli-dep
+
+ -- Wolfram Quester <wolfi@sigxcpu.org>  Fri, 26 Aug 2011 19:44:08 +0200
+
 d-push (1.5.3-2) unstable; urgency=low
 
   [ Wolfram Quester ]
