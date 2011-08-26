@@ -1,3 +1,17 @@
+d-push (1.5.3-2) unstable; urgency=low
+
+  [ Wolfram Quester ]
+
+  * [b7c2235] fix lintian's command-with-path-in-maintainer-script
+  * [da416c8] fix lintian's debhelper-overrides-need-versioned-build-depends
+  * [c659416] fix lintian's description-synopsis-starts-with-article
+  * [e717d55] fix lintian's helper-templates-in-copyright
+  * [a2b0f6b] Add french debconf translation (Closes: #634093)
+  * [d27ae02] Add russian debconf translation (Closes: 635148)
+  * upload sponsored by Guido Günther <agx@debian.org>, many thanks to him
+
+ -- Wolfram Quester <wolfi@sigxcpu.org>  Fri, 26 Aug 2011 18:28:55 +0200
+
 d-push (1.5.3-1) unstable; urgency=low
 
   * [3fe7e81] Imported Upstream version 1.5.3 (Closes: #631115)
