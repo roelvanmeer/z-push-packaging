@@ -1,7 +1,8 @@
 From: Wolfram Quester <wolfi@sigxcpu.org>
 Date: Sat, 16 Apr 2011 12:44:47 +0200
-Subject: Rebranding - set correct X-Mailer in Kolab backend - replace z-push
- in vcards - change html-pages and log-messages
+Subject: =?UTF-8?q?Rebranding=0A-=20set=20correct=20X-Mailer=20in=20Kolab=20?=
+ =?UTF-8?q?backend=0A-=20replace=20z-push=20in=20vcards=0A-=20change=20html-?=
+ =?UTF-8?q?pages=20and=20log-messages?=
 
 ---
  backend/kolab/kolab.php |    6 +++---
@@ -62,10 +63,10 @@ index a7d51b0..89fe574 100644
 \ No newline at end of file
 +?>
 diff --git a/include/utils.php b/include/utils.php
-index 8df6983..cf9e523 100644
+index a5388d4..dff154a 100644
 --- a/include/utils.php
 +++ b/include/utils.php
-@@ -288,14 +288,18 @@ function printZPushLegal($message = "", $additionalMessage = "") {
+@@ -291,14 +291,18 @@ function printZPushLegal($message = "", $additionalMessage = "") {
      $zpush_legal = <<<END
  <html>
  <header>
@@ -86,15 +87,15 @@ index 8df6983..cf9e523 100644
  More information about Z-Push can be found at:<br>
  <a href="http://z-push.sf.net/">Z-Push homepage</a><br>
  <a href="http://z-push.sf.net/download">Z-Push download page at BerliOS</a><br>
-@@ -311,4 +315,4 @@ END;
-     header("Content-type: text/html");
-     print $zpush_legal;
+@@ -404,4 +408,4 @@ function zp_utf8_to_utf7($string) {
+     }
+     return $string;
  }
 -?>
 \ No newline at end of file
 +?>
 diff --git a/index.php b/index.php
-index 1a5df6d..c706604 100644
+index 6f557ab..5937445 100644
 --- a/index.php
 +++ b/index.php
 @@ -63,9 +63,9 @@ $output = fopen("php://output", "w+");
