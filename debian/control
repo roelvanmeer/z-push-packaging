@@ -3,7 +3,7 @@ Section: web
 Priority: extra
 Maintainer: Wolfram Quester <wolfi@sigxcpu.org>
 Build-Depends: debhelper (>= 7.0.50~), quilt, po-debconf
-Standards-Version: 3.8.4
+Standards-Version: 3.9.2
 Homepage: http://z-push.sourceforge.net/soswp
 #Vcs-Git: git://git.debian.org/collab-maint/d-push.git
 #Vcs-Browser: http://git.debian.org/?p=collab-maint/d-push.git;a=summary
