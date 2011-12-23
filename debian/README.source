@@ -1,0 +1,2 @@
+The d-push package uses quilt for the handling of patches. For more
+informatione please see /usr/share/doc/quilt/README.source
