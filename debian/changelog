@@ -1,3 +1,18 @@
+d-push (1.5.5-1) unstable; urgency=low
+
+  * [c733807] Imported Upstream version 1.5.5
+  * [5830366] Adapt patches to new upstream version
+  * [e0e4402] Add portuguese debconf translation (Closes: #651675)
+  * [746749f] Add swedish debconf translation (Closes: #640060)
+  * [3d588ce] Add spanish debconf translation (Closes: #640312)
+  * [6c6c922] Add german debconf translation (Closes: #653017)
+  * [af381fa] Raise standards version to 3.9.2, following changes needed:
+  * [1966bc2] include BSD license in copyright file as indicated by lintian
+  * [8f9b446] Add README.source as indicated by lintian
+  * Upload sponsored by Christian PERRIER, many thanks to him
+
+ -- Wolfram Quester <wolfi@sigxcpu.org>  Tue, 27 Dec 2011 22:56:11 +0100
+
 d-push (1.5.4-1) unstable; urgency=low
 
   * [8baa360] Imported Upstream version 1.5.4
