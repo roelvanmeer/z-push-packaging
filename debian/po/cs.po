@@ -1,0 +1,33 @@
+# Czech PO debconf template translation of d-push.
+# Copyright (C) 2012 Michal Simunek <michal.simunek@gmail.com>
+# This file is distributed under the same license as the d-push package.
+# Michal Simunek <michal.simunek@gmail.com>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: d-push 1.5.5-1\n"
+"Report-Msgid-Bugs-To: d-push@packages.debian.org\n"
+"POT-Creation-Date: 2011-06-23 14:53+0200\n"
+"PO-Revision-Date: 2012-02-18 18:01+0100\n"
+"Last-Translator: Michal Simunek <michal.simunek@gmail.com>\n"
+"Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: multiselect
+#. Description
+#: ../d-push.templates:1001
+msgid "Web server to reconfigure automatically:"
+msgstr "Automaticky přenastavit webový server:"
+
+#. Type: multiselect
+#. Description
+#: ../d-push.templates:1001
+msgid ""
+"Please choose the web server that should be automatically configured to run "
+"d-push."
+msgstr ""
+"Zvolte si prosím webový server, který se má automaticky nastavit ke spuštění "
+"d-push."
