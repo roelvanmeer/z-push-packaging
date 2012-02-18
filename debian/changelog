@@ -1,3 +1,14 @@
+d-push (1.5.7-1) unstable; urgency=low
+
+  * [394a573] Imported Upstream version 1.5.7 (Closes: #656520)
+  * [297b0a8] add watch file (Closes: #656524)
+  * [709810b] Add dutch debconf translation (Closes: #654200)
+  * [ecddd4e] Add danish debconf translation (Closes: #658531)
+  * [4faf517] Add czech debconf translation (Closes: #660364)
+  * Upload sponsored by Christian PERRIER, many thanks to him
+
+ -- Wolfram Quester <wolfi@sigxcpu.org>  Sat, 18 Feb 2012 21:32:42 +0100
+
 d-push (1.5.5-1) unstable; urgency=low
 
   * [c733807] Imported Upstream version 1.5.5
