@@ -3,21 +3,19 @@ Date: Sun, 17 Apr 2011 15:49:03 +0200
 Subject: set correct d-push version
 
 ---
- version.php |    5 +++--
- 1 files changed, 3 insertions(+), 2 deletions(-)
+ version.php |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/version.php b/version.php
-index cf77934..d599186 100644
+index cf77934..7e11374 100644
 --- a/version.php
 +++ b/version.php
-@@ -41,5 +41,6 @@
+@@ -41,5 +41,5 @@
  * Consult LICENSE file for details
  ************************************************/
  
 -$zpush_version = "1.5.8-1187";
 -?>
 \ No newline at end of file
-+=======
 +$zpush_version = "1.5.8-1 (d-push)";
 +?>
--- 
