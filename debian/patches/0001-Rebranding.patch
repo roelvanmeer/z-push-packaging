@@ -95,7 +95,7 @@ index a5388d4..dff154a 100644
 \ No newline at end of file
 +?>
 diff --git a/index.php b/index.php
-index 6f557ab..5937445 100644
+index 778bb6c..b3dc7bf 100644
 --- a/index.php
 +++ b/index.php
 @@ -63,9 +63,9 @@ $output = fopen("php://output", "w+");
