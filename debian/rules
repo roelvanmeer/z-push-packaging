@@ -11,10 +11,13 @@ export DH_VERBOSE=1
 
 include /usr/share/quilt/quilt.make
 
+DEB_VERSION := $(shell dpkg-parsechangelog | egrep '^Version:' | cut -f 2 -d ' ')
+
 %:
 	dh  $@
 
 override_dh_install:
+	sed -s "s/DPUSHVERSION/${DEB_VERSION}/" debian/version.php.in > version.php
 	dh_install -X LICENSE
 	mkdir -p debian/d-push/var/lib/d-push/state/
 
