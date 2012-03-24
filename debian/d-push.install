@@ -1,19 +1,11 @@
 backend/searchldap/config.php /etc/d-push/backend/searchldap/
 config.php         /etc/d-push/
 backend            /usr/share/d-push/
-compat.php         /usr/share/d-push/
-debug.php          /usr/share/d-push/
+lib                /usr/share/d-push/
 include            /usr/share/d-push/
 index.php          /usr/share/d-push/
-memimporter.php    /usr/share/d-push/
-proto.php          /usr/share/d-push/
-request.php        /usr/share/d-push/
-statemachine.php   /usr/share/d-push/
-streamer.php       /usr/share/d-push/
-streamimporter.php /usr/share/d-push/
 version.php        /usr/share/d-push/
-wbxml.php          /usr/share/d-push/
-zpushdefs.php      /usr/share/d-push/
-zpushdtd.php       /usr/share/d-push/
+z-push-admin.php   /usr/share/d-push/
+z-push-top.php     /usr/share/d-push/
 
 debian/conf/*   etc/d-push/
