@@ -1,16 +1,18 @@
-d-push (1.5.8-1) unstable; urgency=low
+d-push (1.5.8-2) unstable; urgency=low
 
-  * [4f45a24] Add Brazilian Portuguese debconf templates translation (closes: #661930)
+  * [4f45a24] Add Brazilian Portuguese debconf templates translation
+    (closes: #661930)
   * [5c3393e] Add Italian translation debconf messages (closes: #661236)
   * [c7bf5c2] Add Slovak po-debconf translation (closes: #661142)
   * [f0c8653] Add Polish debconf translation (closes: #660529)
   * [6ae57cb] Imported Upstream version 1.5.8
-  * [6ef38b9] php5.4 introduced an own hex2bin function. Use this if it exists, if it doesn't use the old implementation by z-push
+  * [6ef38b9] php5.4 introduced an own hex2bin function.
+    Use this if it exists, if it doesn't use the old implementation by z-push
   * [f872e7b] rebase patches to new upstream version
   * [d30a302] Saner sample config
   * upload sponsored by Guido Günther <agx@debian.org>, many thanks to him
 
- -- Wolfram Quester <wolfi@sigxcpu.org>  Sat, 24 Mar 2012 14:48:48 +0100
+ -- Wolfram Quester <wolfi@sigxcpu.org>  Sat, 24 Mar 2012 15:03:11 +0100
 
 d-push (1.5.7-1) unstable; urgency=low
 
