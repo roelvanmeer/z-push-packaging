@@ -1,3 +1,10 @@
+d-push (1.5.8-3) unstable; urgency=low
+
+  * [b94739e] set d-push version automagically
+  * upload sponsored by Guido Günther <agx@debian.org>, many thanks to him
+
+ -- Wolfram Quester <wolfi@sigxcpu.org>  Sun, 25 Mar 2012 13:56:18 +0200
+
 d-push (1.5.8-2) unstable; urgency=low
 
   * [4f45a24] Add Brazilian Portuguese debconf templates translation
