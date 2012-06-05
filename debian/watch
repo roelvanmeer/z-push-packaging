@@ -1,5 +1,3 @@
 version=3
 
-opts=downloadurlmangle=s/prdownload/download/ \
-    http://developer.berlios.de/project/showfiles.php?group_id=8963 \
-    http://prdownload.berlios.de/z-push/z-push-(\d+)\.(\d+)\.(\d+)-\d+\.tar\.gz
+http://zarafa-deutschland.de/z-push-download/final/1.5/z-push-(\d+)\.(\d+)\.(\d+)-\d+\.tar\.gz
