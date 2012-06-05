@@ -1332,6 +1332,16 @@ class ImportHierarchyChangesICS  {
     }
 
     function ImportFolderDeletion($id, $parent) {
+        $folderentryid = mapi_msgstore_entryidfromsourcekey($this->store, hex2bin($id));
+        if (!$folderentryid) {
+            debugLog(sprintf("Could not get the entryid for the sourcekey %s", $id));
+            return 4; //SYNC_FSSTATUS_FOLDERDOESNOTEXIST - constant not available in z-push 1
+        }
+        $type = $this->GetFolderType($folderentryid);
+        if (isSystemFolder($type)) {
+            debugLog(sprintf("A system folder (%s) cannot be deleted", $id));
+            return 3; //SYNC_FSSTATUS_SYSTEMFOLDER - constant not available in z-push 1
+        }
         return mapi_importhierarchychanges_importfolderdeletion ($this->importer, 0, array (PR_SOURCE_KEY => hex2bin($id)) );
     }
 
@@ -1389,6 +1399,59 @@ class ImportHierarchyChangesICS  {
                 return "IPF.Note";
                 break;
         }
+    }
+
+    /**
+    * Returns the foldertype for an entryid
+    * Gets the folder type by checking the default folders in MAPI
+    *
+    * @param string            $entryid
+    * @param string            $class      (opt)
+    *
+    * @access public
+    * @return long
+    */
+    public function GetFolderType($entryid, $class = false) {
+        $storeprops = mapi_getprops($this->store, array(PR_IPM_OUTBOX_ENTRYID, PR_IPM_WASTEBASKET_ENTRYID, PR_IPM_SENTMAIL_ENTRYID));
+        $inbox = mapi_msgstore_getreceivefolder($this->store);
+        $inboxprops = mapi_getprops($inbox, array(PR_ENTRYID, PR_IPM_DRAFTS_ENTRYID, PR_IPM_TASK_ENTRYID, PR_IPM_APPOINTMENT_ENTRYID, PR_IPM_CONTACT_ENTRYID, PR_IPM_NOTE_ENTRYID, PR_IPM_JOURNAL_ENTRYID));
+
+        if($entryid == $inboxprops[PR_ENTRYID])
+        return SYNC_FOLDER_TYPE_INBOX;
+        if($entryid == $inboxprops[PR_IPM_DRAFTS_ENTRYID])
+        return SYNC_FOLDER_TYPE_DRAFTS;
+        if($entryid == $storeprops[PR_IPM_WASTEBASKET_ENTRYID])
+        return SYNC_FOLDER_TYPE_WASTEBASKET;
+        if($entryid == $storeprops[PR_IPM_SENTMAIL_ENTRYID])
+        return SYNC_FOLDER_TYPE_SENTMAIL;
+        if($entryid == $storeprops[PR_IPM_OUTBOX_ENTRYID])
+        return SYNC_FOLDER_TYPE_OUTBOX;
+        if($entryid == $inboxprops[PR_IPM_TASK_ENTRYID])
+        return SYNC_FOLDER_TYPE_TASK;
+        if($entryid == $inboxprops[PR_IPM_APPOINTMENT_ENTRYID])
+        return SYNC_FOLDER_TYPE_APPOINTMENT;
+        if($entryid == $inboxprops[PR_IPM_CONTACT_ENTRYID])
+        return SYNC_FOLDER_TYPE_CONTACT;
+        if($entryid == $inboxprops[PR_IPM_NOTE_ENTRYID])
+        return SYNC_FOLDER_TYPE_NOTE;
+        if($entryid == $inboxprops[PR_IPM_JOURNAL_ENTRYID])
+        return SYNC_FOLDER_TYPE_JOURNAL;
+
+        // user created folders
+        if ($class == "IPF.Note")
+        return SYNC_FOLDER_TYPE_USER_MAIL;
+        if ($class == "IPF.Task")
+        return SYNC_FOLDER_TYPE_USER_TASK;
+        if ($class == "IPF.Appointment")
+        return SYNC_FOLDER_TYPE_USER_APPOINTMENT;
+        if ($class == "IPF.Contact")
+        return SYNC_FOLDER_TYPE_USER_CONTACT;
+        if ($class == "IPF.StickyNote")
+        return SYNC_FOLDER_TYPE_USER_NOTE;
+        if ($class == "IPF.Journal")
+        return  SYNC_FOLDER_TYPE_USER_JOURNAL;
+
+        return SYNC_FOLDER_TYPE_OTHER;
     }
 };
 
@@ -1785,8 +1848,10 @@ class PHPContentsImportProxy extends MAPIMapping {
 
         $fromname = $fromaddr = "";
 
-        if(isset($messageprops[PR_SENT_REPRESENTING_NAME]))
-            $fromname = $messageprops[PR_SENT_REPRESENTING_NAME];
+        if(isset($messageprops[PR_SENT_REPRESENTING_NAME])) {
+            // remove encapsulating double quotes from the representingname
+            $fromname = preg_replace('/^\"(.*)\"$/',"\${1}", $messageprops[PR_SENT_REPRESENTING_NAME]);
+        }
         if(isset($messageprops[PR_SENT_REPRESENTING_ENTRYID]))
             $fromaddr = $this->_getSMTPAddressFromEntryID($messageprops[PR_SENT_REPRESENTING_ENTRYID]);
 
@@ -1906,7 +1971,7 @@ class PHPContentsImportProxy extends MAPIMapping {
             if(isset($row[PR_ATTACH_NUM])) {
                 $mapiattach = mapi_message_openattach($mapimessage, $row[PR_ATTACH_NUM]);
 
-                $attachprops = mapi_getprops($mapiattach, array(PR_ATTACH_LONG_FILENAME, PR_ATTACH_FILENAME));
+                $attachprops = mapi_getprops($mapiattach, array(PR_ATTACH_LONG_FILENAME, PR_ATTACH_FILENAME, PR_ATTACH_MIME_TAG, PR_ATTACH_MIME_TAG_W));
 
                 $attach = new SyncAttachment();
 
@@ -1917,6 +1982,16 @@ class PHPContentsImportProxy extends MAPIMapping {
                     $attach->attsize = $stat["cb"];
                     $attach->displayname = w2u((isset($attachprops[PR_ATTACH_LONG_FILENAME]))?$attachprops[PR_ATTACH_LONG_FILENAME]:((isset($attachprops[PR_ATTACH_FILENAME]))?$attachprops[PR_ATTACH_FILENAME]:"attachment.bin"));
                     $attach->attname = bin2hex($this->_folderid) . ":" . bin2hex($sourcekey) . ":" . $row[PR_ATTACH_NUM];
+
+                    // fix attachment name in case of inline images
+                    if ($attach->displayname == "inline.txt" && (isset($attachprops[PR_ATTACH_MIME_TAG]) || $attachprops[PR_ATTACH_MIME_TAG_W])) {
+                        $mimetype = (isset($attachprops[PR_ATTACH_MIME_TAG]))?$attachprops[PR_ATTACH_MIME_TAG]:$attachprops[PR_ATTACH_MIME_TAG_W];
+                        $mime = explode("/", $mimetype);
+
+                        if (count($mime) == 2 && $mime[0] == "image") {
+                            $attach->displayname = "inline." . $mime[1];
+                        }
+                    }
 
                     if(!isset($message->attachments))
                         $message->attachments = array();
