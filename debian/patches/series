@@ -1,5 +1,4 @@
 0001-Rebranding.patch
 0002-set-correct-d-push-version.patch
 0003-set-IMAP-as-default-backend.patch
-0004-php5.4-introduced-an-own-hex2bin-function.-Use-this-.patch
-0005-Use-mail-in-sample-config.patch
+0004-Use-mail-in-sample-config.patch

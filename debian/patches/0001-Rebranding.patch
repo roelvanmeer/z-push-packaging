@@ -63,10 +63,10 @@ index a7d51b0..89fe574 100644
 \ No newline at end of file
 +?>
 diff --git a/include/utils.php b/include/utils.php
-index a5388d4..dff154a 100644
+index 8e1c5fd..f041a78 100644
 --- a/include/utils.php
 +++ b/include/utils.php
-@@ -291,14 +291,18 @@ function printZPushLegal($message = "", $additionalMessage = "") {
+@@ -283,14 +283,18 @@ function printZPushLegal($message = "", $additionalMessage = "") {
      $zpush_legal = <<<END
  <html>
  <header>
@@ -87,9 +87,9 @@ index a5388d4..dff154a 100644
  More information about Z-Push can be found at:<br>
  <a href="http://z-push.sf.net/">Z-Push homepage</a><br>
  <a href="http://z-push.sf.net/download">Z-Push download page at BerliOS</a><br>
-@@ -404,4 +408,4 @@ function zp_utf8_to_utf7($string) {
-     }
-     return $string;
+@@ -410,4 +414,4 @@ function isSystemFolder($foldertype) {
+     $foldertype == SYNC_FOLDER_TYPE_OUTBOX || $foldertype == SYNC_FOLDER_TYPE_TASK || $foldertype == SYNC_FOLDER_TYPE_APPOINTMENT || $foldertype == SYNC_FOLDER_TYPE_CONTACT ||
+     $foldertype == SYNC_FOLDER_TYPE_NOTE || $foldertype == SYNC_FOLDER_TYPE_JOURNAL) ? true:false;
  }
 -?>
 \ No newline at end of file
