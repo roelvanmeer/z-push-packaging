@@ -1,3 +1,12 @@
+d-push (1.5.10-1) unstable; urgency=low
+
+  * [1dc1638] New download location
+  * [c52f63f] Imported Upstream version 1.5.10 (closes: #675269)
+  * [2ad07a3] Adapt patches to new upstream version
+  * [afe418d] actually use Vcs-* fields in control
+
+ -- Wolfram Quester <wolfi@sigxcpu.org>  Tue, 19 Jun 2012 07:08:00 +0200
+
 d-push (1.5.8-3) unstable; urgency=low
 
   * [b94739e] set d-push version automagically
