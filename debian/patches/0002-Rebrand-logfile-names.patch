@@ -1,0 +1,48 @@
+From: Wolfram Quester <wolfi@sigxcpu.org>
+Date: Wed, 27 Jun 2012 20:24:10 +0200
+Subject: Rebrand logfile names
+
+---
+ config.php |   12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/config.php b/config.php
+index 344110a..7ce0d90 100644
+--- a/config.php
++++ b/config.php
+@@ -60,15 +60,15 @@
+ /**********************************************************************************
+  *  Default FileStateMachine settings
+  */
+-    define('STATE_DIR', '/var/lib/z-push/');
++    define('STATE_DIR', '/var/lib/d-push/');
+ 
+ 
+ /**********************************************************************************
+  *  Logging settings
+  */
+-    define('LOGFILEDIR', '/var/log/z-push/');
+-    define('LOGFILE', LOGFILEDIR . 'z-push.log');
+-    define('LOGERRORFILE', LOGFILEDIR . 'z-push-error.log');
++    define('LOGFILEDIR', '/var/log/d-push/');
++    define('LOGFILE', LOGFILEDIR . 'd-push.log');
++    define('LOGERRORFILE', LOGFILEDIR . 'd-push-error.log');
+     define('LOGLEVEL', LOGLEVEL_INFO);
+     define('LOGAUTHFAIL', false);
+ 
+@@ -146,7 +146,7 @@
+     //        'domain'    - the value of the "domain" field is used
+     //        '@mydomain.com' - the username is used and the given string will be appended
+     define('IMAP_DEFAULTFROM', '');
+-    // copy outgoing mail to this folder. If not set z-push will try the default folders
++    // copy outgoing mail to this folder. If not set d-push will try the default folders
+     define('IMAP_SENTFOLDER', '');
+     // forward messages inline (default false - as attachment)
+     define('IMAP_INLINE_FORWARD', false);
+@@ -234,4 +234,4 @@
+ */
+     );
+ 
+-?>
+\ No newline at end of file
++?>

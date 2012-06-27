@@ -7,15 +7,16 @@ Subject: set correct d-push version
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/version.php b/version.php
-index c1964cb..436fd75 100644
+index 43f1bad..030b21d 100644
 --- a/version.php
 +++ b/version.php
-@@ -41,5 +41,5 @@
- * Consult LICENSE file for details
+@@ -42,6 +42,6 @@
  ************************************************/
  
--$zpush_version = "1.5.10-1262";
+ 
+-define("ZPUSH_VERSION", "2.0-1346");
++define("ZPUSH_VERSION", "2.0-1 (d-push)");
+ 
 -?>
 \ No newline at end of file
-+$zpush_version = "1.5.10-1 (d-push)";
 +?>

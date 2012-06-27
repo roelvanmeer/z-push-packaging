@@ -1,15 +1,13 @@
 From: Wolfram Quester <wolfi@sigxcpu.org>
 Date: Sat, 16 Apr 2011 12:44:47 +0200
-Subject: =?UTF-8?q?Rebranding=0A-=20set=20correct=20X-Mailer=20in=20Kolab=20?=
- =?UTF-8?q?backend=0A-=20replace=20z-push=20in=20vcards=0A-=20change=20html-?=
- =?UTF-8?q?pages=20and=20log-messages?=
+Subject: Rebranding
 
 ---
  backend/kolab/kolab.php |    6 +++---
  backend/vcarddir.php    |    4 ++--
- include/utils.php       |   10 +++++++---
- index.php               |   16 ++++++++--------
- 4 files changed, 20 insertions(+), 16 deletions(-)
+ index.php               |    6 +++---
+ lib/core/zpush.php      |   10 +++++++---
+ 4 files changed, 15 insertions(+), 11 deletions(-)
 
 diff --git a/backend/kolab/kolab.php b/backend/kolab/kolab.php
 index 9d70726..9a7a2d4 100644
@@ -43,10 +41,10 @@ index 9d70726..9a7a2d4 100644
              $h["message-id"]= "<" . strtoupper(md5(uniqid(time()))) . ">";
              $h["date"]=date(DATE_RFC2822);
 diff --git a/backend/vcarddir.php b/backend/vcarddir.php
-index a7d51b0..89fe574 100644
+index 4f06f4f..26f62bf 100644
 --- a/backend/vcarddir.php
 +++ b/backend/vcarddir.php
-@@ -388,7 +388,7 @@ class BackendVCDir extends BackendDiff {
+@@ -524,7 +524,7 @@ class BackendVCardDir extends BackendDiff {
              'jobtitle' => 'ROLE',
              'webpage' => 'URL',
          );
@@ -54,111 +52,72 @@ index a7d51b0..89fe574 100644
 +        $data = "BEGIN:VCARD\nVERSION:2.1\nPRODID:d-push\n";
          foreach($mapping as $k => $v){
              $val = '';
-             $ks = split(';', $k);
-@@ -468,4 +468,4 @@ class BackendVCDir extends BackendDiff {
+             $ks = explode(';', $k);
+@@ -670,4 +670,4 @@ class BackendVCardDir extends BackendDiff {
          return $data;
      }
  };
 -?>
 \ No newline at end of file
 +?>
-diff --git a/include/utils.php b/include/utils.php
-index 8e1c5fd..f041a78 100644
---- a/include/utils.php
-+++ b/include/utils.php
-@@ -283,14 +283,18 @@ function printZPushLegal($message = "", $additionalMessage = "") {
-     $zpush_legal = <<<END
- <html>
- <header>
--<title>Z-Push ActiveSync</title>
-+<title>d-push ActiveSync</title>
- </header>
- <body>
- <font face="verdana">
--<h2>Z-Push - Open Source ActiveSync</h2>
-+<h2>d-push - Open Source ActiveSync</h2>
- <b>Version $zpush_version</b><br>
- $message $additionalMessage
- <br><br>
-+d-push is debians rebranding of z-push. The rebranding was done to avoid
-+possible trademark issues.<br>
-+Copyright (C) for z-push: Zarafa Deutschland GmbH <a href="http://www.zarafaserver.de/">http://www.zarafaserver.de/</a><br>
-+
- More information about Z-Push can be found at:<br>
- <a href="http://z-push.sf.net/">Z-Push homepage</a><br>
- <a href="http://z-push.sf.net/download">Z-Push download page at BerliOS</a><br>
-@@ -410,4 +414,4 @@ function isSystemFolder($foldertype) {
-     $foldertype == SYNC_FOLDER_TYPE_OUTBOX || $foldertype == SYNC_FOLDER_TYPE_TASK || $foldertype == SYNC_FOLDER_TYPE_APPOINTMENT || $foldertype == SYNC_FOLDER_TYPE_CONTACT ||
-     $foldertype == SYNC_FOLDER_TYPE_NOTE || $foldertype == SYNC_FOLDER_TYPE_JOURNAL) ? true:false;
- }
+diff --git a/index.php b/index.php
+index 0a904a2..4feacd3 100644
+--- a/index.php
++++ b/index.php
+@@ -139,7 +139,7 @@ include_once('version.php');
+ 
+         // Check required GET parameters
+         if(Request::IsMethodPOST() && (Request::GetCommandCode() === false || !Request::GetGETUser() || !Request::GetDeviceID() || !Request::GetDeviceType()))
+-            throw new FatalException("Requested the Z-Push URL without the required GET parameters");
++            throw new FatalException("Requested the d-push URL without the required GET parameters");
+ 
+         // Load the backend
+         $backend = ZPush::GetBackend();
+@@ -162,7 +162,7 @@ include_once('version.php');
+ 
+         // Do the actual processing of the request
+         if (Request::IsMethodGET())
+-            throw new NoPostRequestException("This is the Z-Push location and can only be accessed by Microsoft ActiveSync-capable devices", NoPostRequestException::GET_REQUEST);
++            throw new NoPostRequestException("This is the d-push location and can only be accessed by Microsoft ActiveSync-capable devices", NoPostRequestException::GET_REQUEST);
+ 
+         // Do the actual request
+         header(ZPush::GetServerHeader());
+@@ -277,4 +277,4 @@ include_once('version.php');
+ 
+     // end gracefully
+     ZLog::Write(LOGLEVEL_DEBUG, '-------- End');
 -?>
 \ No newline at end of file
 +?>
-diff --git a/index.php b/index.php
-index 778bb6c..b3dc7bf 100644
---- a/index.php
-+++ b/index.php
-@@ -63,9 +63,9 @@ $output = fopen("php://output", "w+");
- // The script must always be called with authorisation info
- if(!isset($_SERVER['PHP_AUTH_PW'])) {
-     debugLog("Start");
--    debugLog("Z-Push version: $zpush_version");
-+    debugLog("d-push version: $zpush_version");
-     debugLog("Client IP: ". $_SERVER['REMOTE_ADDR']);
--    header("WWW-Authenticate: Basic realm=\"ZPush\"");
-+    header("WWW-Authenticate: Basic realm=\"DPush\"");
-     header("HTTP/1.1 401 Unauthorized");
-     printZPushLegal("Access denied. Please send authorisation information");
-     debugLog("Access denied: no password sent.");
-@@ -87,7 +87,7 @@ if($pos === false){
- $auth_pw = $_SERVER['PHP_AUTH_PW'];
- 
- debugLog("Start");
--debugLog("Z-Push version: $zpush_version");
-+debugLog("d-push version: $zpush_version");
- debugLog("Client IP: ". $_SERVER['REMOTE_ADDR']);
- 
- $cmd = $user = $devid = $devtype = "";
-@@ -105,7 +105,7 @@ if(isset($_GET["DeviceType"]))
- // The GET parameters are required
- if($_SERVER["REQUEST_METHOD"] == "POST") {
-     if(!isset($user) || !isset($devid) || !isset($devtype)) {
--        print("Your device requested the Z-Push URL without the required GET parameters");
-+        print("Your device requested the d-push URL without the required GET parameters");
-         return;
+diff --git a/lib/core/zpush.php b/lib/core/zpush.php
+index c4a62d6..0c3233c 100644
+--- a/lib/core/zpush.php
++++ b/lib/core/zpush.php
+@@ -553,14 +553,18 @@ class ZPush {
+         print <<<END
+         <html>
+         <header>
+-        <title>Z-Push ActiveSync</title>
++        <title>d-push ActiveSync</title>
+         </header>
+         <body>
+         <font face="verdana">
+-        <h2>Z-Push - Open Source ActiveSync</h2>
++        <h2>d-push - Open Source ActiveSync</h2>
+         <b>Version $zpush_version</b><br>
+         $message $additionalMessage
+         <br><br>
++	d-push is debians rebranding of z-push. The rebranding was done to avoid
++	possible trademark issues.<br>
++	Copyright (C) for z-push: Zarafa Deutschland GmbH <a href="http://www.zarafaserver.de/">http://www.zarafaserver.de/</a><br>
++
+         More information about Z-Push can be found at:<br>
+         <a href="http://z-push.sf.net/">Z-Push homepage</a><br>
+         <a href="http://z-push.sf.net/download">Z-Push download page at BerliOS</a><br>
+@@ -764,4 +768,4 @@ END;
      }
+ 
  }
-@@ -147,7 +147,7 @@ $backend = new $BACKEND_PROVIDER();
- 
- if($backend->Logon($auth_user, $auth_domain, $auth_pw) == false) {
-     header("HTTP/1.1 401 Unauthorized");
--    header("WWW-Authenticate: Basic realm=\"ZPush\"");
-+    header("WWW-Authenticate: Basic realm=\"DPush\"");
-     printZPushLegal("Access denied. Username or password incorrect.");
-     debugLog("Access denied: backend logon failed.");
-     debugLog("end");
-@@ -159,7 +159,7 @@ if($backend->Logon($auth_user, $auth_domain, $auth_pw) == false) {
- // have sufficient privileges as user 'joe'.
- if($backend->Setup($user, $devid, $protocolversion) == false) {
-     header("HTTP/1.1 401 Unauthorized");
--    header("WWW-Authenticate: Basic realm=\"ZPush\"");
-+    header("WWW-Authenticate: Basic realm=\"DPush\"");
-     printZPushLegal("Access denied or user '$user' unknown.");
-     debugLog("Access denied: backend setup failed.");
-     debugLog("end");
-@@ -206,7 +206,7 @@ switch($_SERVER["REQUEST_METHOD"]) {
-         break;
-     case 'GET':
-         debugLog("GET request from agent: ". $useragent);
--        printZPushLegal("GET not supported", "This is the z-push location and can only be accessed by Microsoft ActiveSync-capable devices.");
-+        printZPushLegal("GET not supported", "This is the d-push location and can only be accessed by Microsoft ActiveSync-capable devices.");
-         break;
- }
- 
-@@ -231,4 +231,4 @@ $backend->Logoff();
- 
- debugLog("end");
- debugLog("--------");
 -?>
 \ No newline at end of file
 +?>
