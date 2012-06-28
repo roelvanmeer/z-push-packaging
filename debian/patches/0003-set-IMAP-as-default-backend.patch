@@ -3,11 +3,11 @@ Date: Sun, 17 Apr 2011 16:05:40 +0200
 Subject: set IMAP as default backend
 
 ---
- config.php |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ config.php |    5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/config.php b/config.php
-index 7ce0d90..f6533cb 100644
+index 344110a..a6c6299 100644
 --- a/config.php
 +++ b/config.php
 @@ -122,8 +122,7 @@
@@ -20,3 +20,10 @@ index 7ce0d90..f6533cb 100644
  
      // ************************
      //  BackendZarafa settings
+@@ -234,4 +233,4 @@
+ */
+     );
+ 
+-?>
+\ No newline at end of file
++?>

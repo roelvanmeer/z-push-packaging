@@ -7,7 +7,7 @@ Subject: Use mail() in sample config
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/config.php b/config.php
-index f6533cb..3f9cb5a 100644
+index a6c6299..bb219af 100644
 --- a/config.php
 +++ b/config.php
 @@ -149,8 +149,10 @@
