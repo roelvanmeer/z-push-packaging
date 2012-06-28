@@ -3,11 +3,18 @@ Date: Sat, 16 Apr 2011 12:44:47 +0200
 Subject: Rebranding
 
 ---
- backend/kolab/kolab.php |    6 +++---
- backend/vcarddir.php    |    4 ++--
- index.php               |    6 +++---
- lib/core/zpush.php      |   10 +++++++---
- 4 files changed, 15 insertions(+), 11 deletions(-)
+ backend/kolab/kolab.php       |    6 +++---
+ backend/vcarddir.php          |    4 ++--
+ backend/zarafa/importer.php   |    2 +-
+ backend/zarafa/zarafa.php     |    6 +++---
+ index.php                     |    6 +++---
+ lib/core/interprocessdata.php |    4 ++--
+ lib/core/loopdetection.php    |    4 ++--
+ lib/core/topcollector.php     |    4 ++--
+ lib/core/zpush.php            |   10 +++++++---
+ lib/utils/timezoneutil.php    |    4 ++--
+ lib/wbxml/wbxmldecoder.php    |    4 ++--
+ 11 files changed, 29 insertions(+), 25 deletions(-)
 
 diff --git a/backend/kolab/kolab.php b/backend/kolab/kolab.php
 index 9d70726..9a7a2d4 100644
@@ -60,6 +67,48 @@ index 4f06f4f..26f62bf 100644
 -?>
 \ No newline at end of file
 +?>
+diff --git a/backend/zarafa/importer.php b/backend/zarafa/importer.php
+index f57a130..3969679 100644
+--- a/backend/zarafa/importer.php
++++ b/backend/zarafa/importer.php
+@@ -519,7 +519,7 @@ class ImportChangesICS implements IImportChanges {
+         // In theory the parent id could change, which means that the folder was moved.
+         // It is unknown if any device supports this, so we do currently not implement it (no known device is able to do this)
+         if (bin2hex($props[PR_PARENT_SOURCE_KEY]) !== $parent)
+-            throw new StatusException(sprintf("ImportChangesICS->ImportFolderChange('%s','%s','%s'): Folder was moved to another location, which is currently not supported. Please report this to the Z-Push dev team together with the WBXML log and your device details (model, firmware etc).", Utils::PrintAsString($folder->serverid), $folder->parentid, $displayname, mapi_last_hresult()), SYNC_FSSTATUS_UNKNOWNERROR);
++            throw new StatusException(sprintf("ImportChangesICS->ImportFolderChange('%s','%s','%s'): Folder was moved to another location, which is currently not supported. Please report this to the D-Push dev team together with the WBXML log and your device details (model, firmware etc).", Utils::PrintAsString($folder->serverid), $folder->parentid, $displayname, mapi_last_hresult()), SYNC_FSSTATUS_UNKNOWNERROR);
+ 
+         $props = array(PR_DISPLAY_NAME => $displayname);
+         mapi_setprops($folder, $props);
+diff --git a/backend/zarafa/zarafa.php b/backend/zarafa/zarafa.php
+index 3c609b3..b245c2d 100644
+--- a/backend/zarafa/zarafa.php
++++ b/backend/zarafa/zarafa.php
+@@ -1182,7 +1182,7 @@ class BackendZarafa implements IBackend, ISearchProvider {
+                 array(
+                     FUZZYLEVEL      => FL_PREFIX,
+                     ULPROPTAG       => PR_DISPLAY_NAME,
+-                    VALUE           => array(PR_DISPLAY_NAME=>"Z-Push Search Folder ".$pid)
++                    VALUE           => array(PR_DISPLAY_NAME=>"D-Push Search Folder ".$pid)
+                 )
+             ),
+             TBL_BATCH);
+@@ -1633,7 +1633,7 @@ class BackendZarafa implements IBackend, ISearchProvider {
+      * @return mapiFolderObject
+      */
+     private function createSearchFolder($searchFolderRoot) {
+-        $folderName = "Z-Push Search Folder ".@getmypid();
++        $folderName = "D-Push Search Folder ".@getmypid();
+         $searchFolders = mapi_folder_gethierarchytable($searchFolderRoot);
+         $restriction = array(
+             RES_CONTENT,
+@@ -1704,4 +1704,4 @@ class BackendZarafa implements IBackend, ISearchProvider {
+  */
+ class BackendICS extends BackendZarafa {}
+ 
+-?>
+\ No newline at end of file
++?>
 diff --git a/index.php b/index.php
 index 0a904a2..4feacd3 100644
 --- a/index.php
@@ -86,6 +135,66 @@ index 0a904a2..4feacd3 100644
  
      // end gracefully
      ZLog::Write(LOGLEVEL_DEBUG, '-------- End');
+-?>
+\ No newline at end of file
++?>
+diff --git a/lib/core/interprocessdata.php b/lib/core/interprocessdata.php
+index 2a9845a..406c7bd 100644
+--- a/lib/core/interprocessdata.php
++++ b/lib/core/interprocessdata.php
+@@ -92,7 +92,7 @@ abstract class InterProcessData {
+     private function InitSharedMem() {
+         // shared mem general "turn off switch"
+         if (defined("USE_SHARED_MEM") && USE_SHARED_MEM === false) {
+-            ZLog::Write(LOGLEVEL_INFO, "InterProcessData::InitSharedMem(): the usage of shared memory for Z-Push has been disabled. Check your config for 'USE_SHARED_MEM'.");
++            ZLog::Write(LOGLEVEL_INFO, "InterProcessData::InitSharedMem(): the usage of shared memory for D-Push has been disabled. Check your config for 'USE_SHARED_MEM'.");
+             return false;
+         }
+ 
+@@ -294,4 +294,4 @@ abstract class InterProcessData {
+ 
+ }
+ 
+-?>
+\ No newline at end of file
++?>
+diff --git a/lib/core/loopdetection.php b/lib/core/loopdetection.php
+index e0690ae..bfb5911 100644
+--- a/lib/core/loopdetection.php
++++ b/lib/core/loopdetection.php
+@@ -258,7 +258,7 @@ class LoopDetection extends InterProcessData {
+             if (!isset($se['end']) && $se['cc'] != ZPush::COMMAND_PING) {
+                 // there is no end time
+                 ZLog::Write(LOGLEVEL_ERROR, sprintf("LoopDetection->ProcessLoopDetectionPreviousConnectionFailed(): Command '%s' at %s with pid '%d' terminated unexpectedly or is still running.", Utils::GetCommandFromCode($se['cc']), Utils::GetFormattedTime($se['time']), $se['pid']));
+-                ZLog::Write(LOGLEVEL_ERROR, "Please check your logs for this PID and errors like PHP-Fatals or Apache segmentation faults and report your results to the Z-Push dev team.");
++                ZLog::Write(LOGLEVEL_ERROR, "Please check your logs for this PID and errors like PHP-Fatals or Apache segmentation faults and report your results to the D-Push dev team.");
+             }
+         }
+     }
+@@ -875,4 +875,4 @@ class LoopDetection extends InterProcessData {
+     }
+ }
+ 
+-?>
+\ No newline at end of file
++?>
+diff --git a/lib/core/topcollector.php b/lib/core/topcollector.php
+index 84225e7..87cefb8 100644
+--- a/lib/core/topcollector.php
++++ b/lib/core/topcollector.php
+@@ -161,7 +161,7 @@ class TopCollector extends InterProcessData {
+         // end exclusive block
+ 
+         if ($this->isEnabled() === true && !$ok) {
+-            ZLog::Write(LOGLEVEL_WARN, "TopCollector::AnnounceInformation(): could not write to shared memory. Z-Push top will not display this data.");
++            ZLog::Write(LOGLEVEL_WARN, "TopCollector::AnnounceInformation(): could not write to shared memory. D-Push top will not display this data.");
+             return false;
+         }
+ 
+@@ -294,4 +294,4 @@ class TopCollector extends InterProcessData {
+     }
+ }
+ 
 -?>
 \ No newline at end of file
 +?>
@@ -118,6 +227,46 @@ index c4a62d6..0c3233c 100644
      }
  
  }
+-?>
+\ No newline at end of file
++?>
+diff --git a/lib/utils/timezoneutil.php b/lib/utils/timezoneutil.php
+index e34f584..b344e2f 100644
+--- a/lib/utils/timezoneutil.php
++++ b/lib/utils/timezoneutil.php
+@@ -1195,7 +1195,7 @@ class TimezoneUtil {
+         }
+ 
+         if (!isset($tzname) || is_int($tzname)) {
+-            ZLog::Write(LOGLEVEL_ERROR, sprintf("TimezoneUtil::guessTZNameFromPHPName() no compatible timezone found for '%s'. Returning 'GMT Standard Time'. Please contact the Z-Push dev team.", $phpname));
++            ZLog::Write(LOGLEVEL_ERROR, sprintf("TimezoneUtil::guessTZNameFromPHPName() no compatible timezone found for '%s'. Returning 'GMT Standard Time'. Please contact the D-Push dev team.", $phpname));
+             return self::$mstzones["085"][0];
+         }
+ 
+@@ -1260,4 +1260,4 @@ class TimezoneUtil {
+ 
+ }
+ 
+-?>
+\ No newline at end of file
++?>
+diff --git a/lib/wbxml/wbxmldecoder.php b/lib/wbxml/wbxmldecoder.php
+index bfceb5e..2b071a4 100644
+--- a/lib/wbxml/wbxmldecoder.php
++++ b/lib/wbxml/wbxmldecoder.php
+@@ -171,7 +171,7 @@ class WBXMLDecoder extends WBXMLDefs {
+             ZLog::Write(LOGLEVEL_WBXMLSTACK, sprintf("WBXMLDecoder->getElementEndTag(): unmatched WBXML tag: '%s' type '%s' flags '%s'", ((isset($element[EN_TAG]))?$element[EN_TAG]:""), ((isset($element[EN_TYPE]))?$element[EN_TYPE]:""), ((isset($element[EN_FLAGS]))?$element[EN_FLAGS]:"")));
+ 
+             $bt = debug_backtrace();
+-            ZLog::Write(LOGLEVEL_ERROR, sprintf("WBXMLDecoder->getElementEndTag(): could not read end tag in '%s'. Please enable the LOGLEVEL_WBXML and send the log to the Z-Push dev team.", $bt[0]["file"] . ":" . $bt[0]["line"]));
++            ZLog::Write(LOGLEVEL_ERROR, sprintf("WBXMLDecoder->getElementEndTag(): could not read end tag in '%s'. Please enable the LOGLEVEL_WBXML and send the log to the D-Push dev team.", $bt[0]["file"] . ":" . $bt[0]["line"]));
+ 
+             // log the remaining wbxml content
+             $this->ungetElement($element);
+@@ -657,4 +657,4 @@ class WBXMLDecoder extends WBXMLDefs {
+     }
+ }
+ 
 -?>
 \ No newline at end of file
 +?>

@@ -2,18 +2,22 @@ From: Wolfram Quester <wolfi@sigxcpu.org>
 Date: Sun, 17 Apr 2011 16:05:40 +0200
 Subject: set proper default config
 
-Conflicts:
-
-	config.php
 ---
- config.php |   11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ config.php |   17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
 diff --git a/config.php b/config.php
-index bb219af..2f2528c 100644
+index bb219af..be19132 100644
 --- a/config.php
 +++ b/config.php
-@@ -66,9 +66,14 @@
+@@ -60,15 +60,20 @@
+ /**********************************************************************************
+  *  Default FileStateMachine settings
+  */
+-    define('STATE_DIR', '/var/lib/z-push/');
++    define('STATE_DIR', '/var/lib/d-push/');
+ 
+ 
  /**********************************************************************************
   *  Logging settings
   */
@@ -31,3 +35,21 @@ index bb219af..2f2528c 100644
      define('LOGLEVEL', LOGLEVEL_INFO);
      define('LOGAUTHFAIL', false);
  
+@@ -145,7 +150,7 @@
+     //        'domain'    - the value of the "domain" field is used
+     //        '@mydomain.com' - the username is used and the given string will be appended
+     define('IMAP_DEFAULTFROM', '');
+-    // copy outgoing mail to this folder. If not set z-push will try the default folders
++    // copy outgoing mail to this folder. If not set d-push will try the default folders
+     define('IMAP_SENTFOLDER', '');
+     // forward messages inline (default false - as attachment)
+     define('IMAP_INLINE_FORWARD', false);
+@@ -209,7 +214,7 @@
+  *  - on Zarafa systems use backend/zarafa/listfolders.php script to get a list
+  *    of available folders
+  *
+- *  - all Z-Push users must have full writing permissions (secretary rights) so
++ *  - all D-Push users must have full writing permissions (secretary rights) so
+  *    the configured folders can be synchronized to the mobile
+  *
+  *  - this feature is only partly suitable for multi-tenancy environments,
