@@ -1,3 +1,16 @@
+d-push (2.0-1) unstable; urgency=low
+
+  * [817397a] Imported Upstream version 2.0
+  * [7e2fdca] Adapt patches to new upstream version
+  * [0b859bf] Adapt install file to new upstream version
+  * [a4fc529] Update README.Debian, introduce NEWS file
+  * [1b797bc] Raise standards version; no changes needed
+  * [9ce7720] create and ship some new directories
+  * [ee25092] adapt and enhance default config
+  * upload sponsored by Guido Günther <agx@debian.org>, many thanks to him
+
+ -- Wolfram Quester <wolfi@sigxcpu.org>  Fri, 29 Jun 2012 13:59:02 +0200
+
 d-push (1.5.10-1) unstable; urgency=low
 
   * [1dc1638] New download location
