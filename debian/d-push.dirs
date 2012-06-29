@@ -1,1 +1,3 @@
 var/lib/d-push/state
+var/log/d-push
+

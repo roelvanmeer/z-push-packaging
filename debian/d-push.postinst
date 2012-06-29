@@ -78,6 +78,7 @@ case "$1" in
     done
 
         set_perms www-data www-data 700 /var/lib/d-push/state
+        set_perms www-data www-data 700 /var/log/d-push
 
     ;;
 
