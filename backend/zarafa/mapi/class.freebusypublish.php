@@ -284,7 +284,7 @@ class FreeBusyPublish {
         }
 
         // Open updater for this user
-        if(isset($fbsupport)) {
+        if(isset($fbsupport) && $fbsupport) {
             $updaters = mapi_freebusysupport_loadupdate($fbsupport, Array($this->entryid));
 
             $updater = $updaters[0];
@@ -297,6 +297,8 @@ class FreeBusyPublish {
             // We're finished
             mapi_freebusysupport_close($fbsupport);
         }
+        else
+            ZLog::Write(LOGLEVEL_WARN, "FreeBusyPublish is not available");
     }
 
     /**
@@ -332,13 +334,13 @@ class FreeBusyPublish {
             $ts["type"] = 0;
             $ts["time"] = $item[$this->proptags["startdate"]];
             $ts["subject"] = $item[PR_SUBJECT];
-            $ts["status"] = $item[$this->proptags["busystatus"]];
+            $ts["status"] = (isset($item[$this->proptags["busystatus"]])) ? $item[$this->proptags["busystatus"]] : 0; //ZP-197
             $timestamps[] = $ts;
 
             $ts["type"] = 1;
             $ts["time"] = $item[$this->proptags["duedate"]];
             $ts["subject"] = $item[PR_SUBJECT];
-            $ts["status"] = $item[$this->proptags["busystatus"]];
+            $ts["status"] = (isset($item[$this->proptags["busystatus"]])) ? $item[$this->proptags["busystatus"]] : 0; //ZP-197
             $timestamps[] = $ts;
         }
 

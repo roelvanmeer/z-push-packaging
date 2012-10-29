@@ -168,8 +168,14 @@ class GetItemEstimate extends RequestProcessor {
             // Process folder data
 
             //In AS 14 request only collectionid is sent, without class
-            if (! $spa->HasContentClass() && $spa->HasFolderId())
-                $spa->SetContentClass(self::$deviceManager->GetFolderClassFromCacheByID($spa->GetFolderId()));
+            if (! $spa->HasContentClass() && $spa->HasFolderId()) {
+               try {
+                    $spa->SetContentClass(self::$deviceManager->GetFolderClassFromCacheByID($spa->GetFolderId()));
+                }
+                catch (NoHierarchyCacheAvailableException $nhca) {
+                    $spastatus = SYNC_GETITEMESTSTATUS_COLLECTIONINVALID;
+                }
+            }
 
             // compatibility mode AS 1.0 - get folderid which was sent during GetHierarchy()
             if (! $spa->HasFolderId() && $spa->HasContentClass()) {
@@ -266,6 +272,8 @@ class GetItemEstimate extends RequestProcessor {
                 }
                 self::$encoder->endTag();
             }
+            if (array_sum($changes) == 0)
+                self::$topCollector->AnnounceInformation("No changes found", true);
         }
         self::$encoder->endTag();
 

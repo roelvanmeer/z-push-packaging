@@ -45,6 +45,7 @@ class MAPIProvider {
     private $session;
     private $store;
     private $zRFC822;
+    private $addressbook;
 
     /**
      * Constructor of the MAPI Provider
@@ -218,10 +219,8 @@ class MAPIProvider {
         else
             $message->uid = Utils::GetICalUidFromOLUid($message->uid);
 
-        // Get organizer information if it is a meetingrequest
-        if(isset($messageprops[$appointmentprops["meetingstatus"]]) &&
-            $messageprops[$appointmentprops["meetingstatus"]] > 0 &&
-            isset($messageprops[$appointmentprops["representingentryid"]]) &&
+        // Always set organizer information because some devices do not work properly without it
+        if( isset($messageprops[$appointmentprops["representingentryid"]]) &&
             isset($messageprops[$appointmentprops["representingname"]])) {
 
             $message->organizeremail = w2u($this->getSMTPAddressFromEntryID($messageprops[$appointmentprops["representingentryid"]]));
@@ -412,7 +411,7 @@ class MAPIProvider {
                 $exceptionatt = $recurrence->getExceptionAttachment($change["basedate"]);
                 if($exceptionatt) {
                     $exceptionobj = mapi_attach_openobj($exceptionatt, 0);
-                    $exception->body = mapi_openproperty($exceptionobj, PR_BODY);
+                    $this->setMessageBodyForType($exceptionobj, SYNC_BODYPREFERENCE_PLAIN, $exception);
                 }
             }
             if(isset($change["subject"]))
@@ -1122,18 +1121,23 @@ class MAPIProvider {
             $props[$appointmentprops["isrecurring"]] = false;
         }
 
+        //always set the PR_SENT_REPRESENTING_* props so that the attendee status update also works with the webaccess
+        $p = array($appointmentprops["representingentryid"]);
+        $representingentryid = $this->getProps($mapimessage, $p);
+
+        if (!isset($representingentryid[$appointmentprops["representingentryid"]])) {
+            $props[$appointmentprops["representingname"]] = Request::GetAuthUser();
+            $props[$appointmentprops["sentrepresentingemail"]] = Request::GetAuthUser();
+            $props[$appointmentprops["sentrepresentingaddt"]] = "ZARAFA";
+            $props[$appointmentprops["representingentryid"]] = mapi_createoneoff(Request::GetAuthUser(), "ZARAFA", Request::GetAuthUser());
+        }
+
         // Do attendees
         if(isset($appointment->attendees) && is_array($appointment->attendees)) {
             $recips = array();
 
             //open addresss book for user resolve
-            $addrbook = mapi_openaddressbook($this->session);
-            //set the PR_SENT_REPRESENTING_* props so that the attendee status update also works with the webaccess
-            if (!isset($props[$appointmentprops["representingentryid"]])) {
-                $props[$appointmentprops["representingname"]] = Request::GetAuthUser();
-                $props[$appointmentprops["representingentryid"]] = mapi_createoneoff(Request::GetAuthUser(), "ZARAFA", Request::GetAuthUser());
-            }
-
+            $addrbook = $this->getAddressbook();
             foreach($appointment->attendees as $attendee) {
                 $recip = array();
                 $recip[PR_EMAIL_ADDRESS] = u2w($attendee->email);
@@ -1206,9 +1210,12 @@ class MAPIProvider {
         $nremails = array();
         $abprovidertype = 0;
 
-        $this->setEmailAddress($contact->email1address, $cname, 1, $props, $contactprops, $nremails, $abprovidertype);
-        $this->setEmailAddress($contact->email2address, $cname, 2, $props, $contactprops, $nremails, $abprovidertype);
-        $this->setEmailAddress($contact->email3address, $cname, 3, $props, $contactprops, $nremails, $abprovidertype);
+        if (isset($contact->email1address))
+            $this->setEmailAddress($contact->email1address, $cname, 1, $props, $contactprops, $nremails, $abprovidertype);
+        if (isset($contact->email2address))
+            $this->setEmailAddress($contact->email2address, $cname, 2, $props, $contactprops, $nremails, $abprovidertype);
+        if (isset($contact->email3address))
+            $this->setEmailAddress($contact->email3address, $cname, 3, $props, $contactprops, $nremails, $abprovidertype);
 
         $props[$contactprops["addressbooklong"]] = $abprovidertype;
         $props[$contactprops["displayname"]] = $props[$contactprops["subject"]] = $cname;
@@ -1286,6 +1293,16 @@ class MAPIProvider {
         if (isset($contact->asbody)) {
             $this->setASbody($contact->asbody, $props, $contactprops);
         }
+
+        //set fileas
+        if (defined('FILEAS_ORDER')) {
+            $lastname = (isset($contact->lastname)) ? $contact->lastname : "";
+            $firstname = (isset($contact->firstname)) ? $contact->firstname : "";
+            $middlename = (isset($contact->middlename)) ? $contact->middlename : "";
+            $company = (isset($contact->companyname)) ? $contact->companyname : "";
+            $props[$contactprops["fileas"]] = Utils::BuildFileAs($lastname, $firstname, $middlename, $company);
+        }
+        else ZLog::Write(LOGLEVEL_DEBUG, "FILEAS_ORDER not defined");
 
         mapi_setprops($mapimessage, $props);
     }
@@ -1843,9 +1860,9 @@ class MAPIProvider {
      * @return string
      */
     private function getSMTPAddressFromEntryID($entryid) {
-        $ab = mapi_openaddressbook($this->session);
+        $addrbook = $this->getAddressbook();
 
-        $mailuser = mapi_ab_openentry($ab, $entryid);
+        $mailuser = mapi_ab_openentry($addrbook, $entryid);
         if(!$mailuser)
             return "";
 
@@ -1858,6 +1875,11 @@ class MAPIProvider {
 
         if($addrtype == "SMTP" && isset($props[PR_EMAIL_ADDRESS]))
             return $props[PR_EMAIL_ADDRESS];
+        elseif ($addrtype == "ZARAFA" && isset($props[PR_EMAIL_ADDRESS])) {
+            $userinfo = mapi_zarafa_getuser_by_name($this->store, $props[PR_EMAIL_ADDRESS]);
+            if (is_array($userinfo) && isset($userinfo["emailaddress"]))
+                return $userinfo["emailaddress"];
+        }
 
         return "";
     }
@@ -2129,11 +2151,13 @@ class MAPIProvider {
         if (Request::GetProtocolVersion() >= 12.0) {
             $message->asbody = new SyncBaseBody();
             $message->asbody->type = $bpReturnType;
-            $message->asbody->data = ($bpReturnType == SYNC_BODYPREFERENCE_RTF) ? base64_encode($body) :
-                (isset($message->internetcpid) && $message->internetcpid == INTERNET_CPID_WINDOWS1252 && $bpReturnType == SYNC_BODYPREFERENCE_HTML) ?
-                   windows1252_to_utf8($body, "", true) : w2u($body);
+            if ($bpReturnType == SYNC_BODYPREFERENCE_RTF)
+                $message->asbody->data = base64_encode($body);
+            elseif (isset($message->internetcpid) && $bpReturnType == SYNC_BODYPREFERENCE_HTML)
+                $message->asbody->data = Utils::ConvertCodepageStringToUtf8($message->internetcpid, $body);
+            else
+                $message->asbody->data = w2u($body);
             $message->asbody->estimatedDataSize = strlen($message->asbody->data);
-            $message->asbody->truncated = 0;
         }
         else {
             $message->body = str_replace("\n","\r\n", w2u(str_replace("\r", "", $body)));
@@ -2155,8 +2179,8 @@ class MAPIProvider {
      */
     private function imtoinet($mapimessage, &$message) {
         if (function_exists("mapi_inetmapi_imtoinet")) {
-            $addrBook = mapi_openaddressbook($this->session);
-            $mstream = mapi_inetmapi_imtoinet($this->session, $addrBook, $mapimessage, array());
+            $addrbook = $this->getAddressbook();
+            $mstream = mapi_inetmapi_imtoinet($this->session, $addrbook, $mapimessage, array());
 
             $mstreamstat = mapi_stream_stat($mstream);
             if ($mstreamstat['cb'] < MAX_EMBEDDED_SIZE) {
@@ -2177,6 +2201,7 @@ class MAPIProvider {
                 unset($message->body, $message->bodytruncated);
                 return true;
             }
+            ZLog::Write(LOGLEVEL_WARN, sprintf("Your request (%d bytes) exceeds the value for inline attachments (%d bytes). You can change the value of MAX_EMBEDDED_SIZE in config.php", $mstreamstat['cb'], MAX_EMBEDDED_SIZE));
         }
         return false;
     }
@@ -2209,6 +2234,11 @@ class MAPIProvider {
             if ($bpo->GetTruncationSize() != false && $bpReturnType != SYNC_BODYPREFERENCE_MIME && $message->asbody->estimatedDataSize > $bpo->GetTruncationSize()) {
                 $message->asbody->data = Utils::Utf8_truncate($message->asbody->data, $bpo->GetTruncationSize());
                 $message->asbody->truncated = 1;
+
+            }
+            // set the preview or windows phones won't show the preview of an email
+            if (Request::GetProtocolVersion() >= 14.0 && $bpo->GetPreview()) {
+                $message->asbody->preview = Utils::Utf8_truncate(MAPIUtils::readPropStream($mapimessage, PR_BODY), $bpo->GetPreview());
             }
         }
         else {
@@ -2378,9 +2408,28 @@ class MAPIProvider {
             }
         }
         else {
-            ZLog::Write(LOGLEVEL_INFO, "MAPIProvider->setASbody either type or data are not set. Setting to empty body");
+            ZLog::Write(LOGLEVEL_DEBUG, "MAPIProvider->setASbody either type or data are not set. Setting to empty body");
             $props[$appointmentprops["body"]] = "";
         }
+    }
+
+    /**
+     * Get MAPI addressbook object
+     *
+     * @access private
+     * @return MAPIAddressbook object to be used with mapi_ab_* or false on failure
+     */
+    private function getAddressbook() {
+        if (isset($this->addressbook) && $this->addressbook) {
+            return $this->addressbook;
+        }
+        $this->addressbook = mapi_openaddressbook($this->session);
+        $result = mapi_last_hresult();
+        if ($result && $this->addressbook === false) {
+            ZLog::Write(LOGLEVEL_ERROR, sprintf("MAPIProvider->getAddressbook error opening addressbook 0x%X", $result));
+            return false;
+        }
+        return $this->addressbook;
     }
 }
 
