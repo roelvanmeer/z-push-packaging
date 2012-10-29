@@ -68,10 +68,10 @@ index 4f06f4f..26f62bf 100644
 \ No newline at end of file
 +?>
 diff --git a/backend/zarafa/importer.php b/backend/zarafa/importer.php
-index f57a130..3969679 100644
+index ffe4bed..23d5d9c 100644
 --- a/backend/zarafa/importer.php
 +++ b/backend/zarafa/importer.php
-@@ -519,7 +519,7 @@ class ImportChangesICS implements IImportChanges {
+@@ -535,7 +535,7 @@ class ImportChangesICS implements IImportChanges {
          // In theory the parent id could change, which means that the folder was moved.
          // It is unknown if any device supports this, so we do currently not implement it (no known device is able to do this)
          if (bin2hex($props[PR_PARENT_SOURCE_KEY]) !== $parent)
@@ -79,12 +79,12 @@ index f57a130..3969679 100644
 +            throw new StatusException(sprintf("ImportChangesICS->ImportFolderChange('%s','%s','%s'): Folder was moved to another location, which is currently not supported. Please report this to the D-Push dev team together with the WBXML log and your device details (model, firmware etc).", Utils::PrintAsString($folder->serverid), $folder->parentid, $displayname, mapi_last_hresult()), SYNC_FSSTATUS_UNKNOWNERROR);
  
          $props = array(PR_DISPLAY_NAME => $displayname);
-         mapi_setprops($folder, $props);
+         mapi_setprops($mfolder, $props);
 diff --git a/backend/zarafa/zarafa.php b/backend/zarafa/zarafa.php
-index 3c609b3..b245c2d 100644
+index a3332c2..56ebee2 100644
 --- a/backend/zarafa/zarafa.php
 +++ b/backend/zarafa/zarafa.php
-@@ -1182,7 +1182,7 @@ class BackendZarafa implements IBackend, ISearchProvider {
+@@ -1186,7 +1186,7 @@ class BackendZarafa implements IBackend, ISearchProvider {
                  array(
                      FUZZYLEVEL      => FL_PREFIX,
                      ULPROPTAG       => PR_DISPLAY_NAME,
@@ -93,7 +93,7 @@ index 3c609b3..b245c2d 100644
                  )
              ),
              TBL_BATCH);
-@@ -1633,7 +1633,7 @@ class BackendZarafa implements IBackend, ISearchProvider {
+@@ -1660,7 +1660,7 @@ class BackendZarafa implements IBackend, ISearchProvider {
       * @return mapiFolderObject
       */
      private function createSearchFolder($searchFolderRoot) {
@@ -102,7 +102,7 @@ index 3c609b3..b245c2d 100644
          $searchFolders = mapi_folder_gethierarchytable($searchFolderRoot);
          $restriction = array(
              RES_CONTENT,
-@@ -1704,4 +1704,4 @@ class BackendZarafa implements IBackend, ISearchProvider {
+@@ -1731,4 +1731,4 @@ class BackendZarafa implements IBackend, ISearchProvider {
   */
  class BackendICS extends BackendZarafa {}
  
@@ -110,10 +110,10 @@ index 3c609b3..b245c2d 100644
 \ No newline at end of file
 +?>
 diff --git a/index.php b/index.php
-index 0a904a2..4feacd3 100644
+index 8abd2c2..d3ff12e 100644
 --- a/index.php
 +++ b/index.php
-@@ -139,7 +139,7 @@ include_once('version.php');
+@@ -143,7 +143,7 @@ include_once('version.php');
  
          // Check required GET parameters
          if(Request::IsMethodPOST() && (Request::GetCommandCode() === false || !Request::GetGETUser() || !Request::GetDeviceID() || !Request::GetDeviceType()))
@@ -122,7 +122,7 @@ index 0a904a2..4feacd3 100644
  
          // Load the backend
          $backend = ZPush::GetBackend();
-@@ -162,7 +162,7 @@ include_once('version.php');
+@@ -166,7 +166,7 @@ include_once('version.php');
  
          // Do the actual processing of the request
          if (Request::IsMethodGET())
@@ -131,7 +131,7 @@ index 0a904a2..4feacd3 100644
  
          // Do the actual request
          header(ZPush::GetServerHeader());
-@@ -277,4 +277,4 @@ include_once('version.php');
+@@ -281,4 +281,4 @@ include_once('version.php');
  
      // end gracefully
      ZLog::Write(LOGLEVEL_DEBUG, '-------- End');
@@ -159,7 +159,7 @@ index 2a9845a..406c7bd 100644
 \ No newline at end of file
 +?>
 diff --git a/lib/core/loopdetection.php b/lib/core/loopdetection.php
-index e0690ae..bfb5911 100644
+index b2542d2..3e89dd3 100644
 --- a/lib/core/loopdetection.php
 +++ b/lib/core/loopdetection.php
 @@ -258,7 +258,7 @@ class LoopDetection extends InterProcessData {
@@ -179,7 +179,7 @@ index e0690ae..bfb5911 100644
 \ No newline at end of file
 +?>
 diff --git a/lib/core/topcollector.php b/lib/core/topcollector.php
-index 84225e7..87cefb8 100644
+index 7255327..fdd7c07 100644
 --- a/lib/core/topcollector.php
 +++ b/lib/core/topcollector.php
 @@ -161,7 +161,7 @@ class TopCollector extends InterProcessData {
@@ -251,7 +251,7 @@ index e34f584..b344e2f 100644
 \ No newline at end of file
 +?>
 diff --git a/lib/wbxml/wbxmldecoder.php b/lib/wbxml/wbxmldecoder.php
-index bfceb5e..2b071a4 100644
+index 65a847f..df2aa6b 100644
 --- a/lib/wbxml/wbxmldecoder.php
 +++ b/lib/wbxml/wbxmldecoder.php
 @@ -171,7 +171,7 @@ class WBXMLDecoder extends WBXMLDefs {
@@ -263,7 +263,7 @@ index bfceb5e..2b071a4 100644
  
              // log the remaining wbxml content
              $this->ungetElement($element);
-@@ -657,4 +657,4 @@ class WBXMLDecoder extends WBXMLDefs {
+@@ -665,4 +665,4 @@ class WBXMLDecoder extends WBXMLDefs {
      }
  }
  

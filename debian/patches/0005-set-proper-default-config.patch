@@ -7,7 +7,7 @@ Subject: set proper default config
  1 file changed, 11 insertions(+), 6 deletions(-)
 
 diff --git a/config.php b/config.php
-index bb219af..418c325 100644
+index feb27bf..275ddd3 100644
 --- a/config.php
 +++ b/config.php
 @@ -60,15 +60,20 @@
@@ -35,7 +35,7 @@ index bb219af..418c325 100644
      define('LOGLEVEL', LOGLEVEL_INFO);
      define('LOGAUTHFAIL', false);
  
-@@ -145,7 +150,7 @@
+@@ -161,7 +166,7 @@
      //        'domain'    - the value of the "domain" field is used
      //        '@mydomain.com' - the username is used and the given string will be appended
      define('IMAP_DEFAULTFROM', '');
@@ -44,7 +44,7 @@ index bb219af..418c325 100644
      define('IMAP_SENTFOLDER', '');
      // forward messages inline (default false - as attachment)
      define('IMAP_INLINE_FORWARD', false);
-@@ -209,7 +214,7 @@
+@@ -225,7 +230,7 @@
   *  - on Zarafa systems use backend/zarafa/listfolders.php script to get a list
   *    of available folders
   *
