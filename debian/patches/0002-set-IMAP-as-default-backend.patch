@@ -1,0 +1,29 @@
+From: Wolfram Quester <wolfi@sigxcpu.org>
+Date: Sun, 17 Apr 2011 16:05:40 +0200
+Subject: set IMAP as default backend
+
+---
+ config.php |    5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/config.php b/config.php
+index eb8703e..dd343b7 100644
+--- a/config.php
++++ b/config.php
+@@ -161,8 +161,7 @@
+  *  Backend settings
+  */
+     // The data providers that we are using (see configuration below)
+-    define('BACKEND_PROVIDER', "BackendZarafa");
+-
++    define('BACKEND_PROVIDER', "BackendIMAP");
+ 
+     // ************************
+     //  BackendZarafa settings
+@@ -273,4 +272,4 @@
+ */
+     );
+ 
+-?>
+\ No newline at end of file
++?>

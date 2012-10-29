@@ -1,0 +1,57 @@
+From: Wolfram Quester <wolfi@sigxcpu.org>
+Date: Sun, 17 Apr 2011 16:05:40 +0200
+Subject: set proper default config
+
+---
+ config.php |   17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
+
+diff --git a/config.php b/config.php
+index de6761f..3f53479 100644
+--- a/config.php
++++ b/config.php
+@@ -60,7 +60,7 @@
+ /**********************************************************************************
+  *  Default FileStateMachine settings
+  */
+-    define('STATE_DIR', '/var/lib/z-push/');
++    define('STATE_DIR', '/var/lib/d-push/state');
+ 
+ 
+ /**********************************************************************************
+@@ -80,9 +80,14 @@
+  *  ones, e.g. setting to LOGLEVEL_DEBUG will also output LOGLEVEL_FATAL, LOGLEVEL_ERROR,
+  *  LOGLEVEL_WARN and LOGLEVEL_INFO level entries.
+  */
+-    define('LOGFILEDIR', '/var/log/z-push/');
+-    define('LOGFILE', LOGFILEDIR . 'z-push.log');
+-    define('LOGERRORFILE', LOGFILEDIR . 'z-push-error.log');
++    define('LOGFILEDIR', '/var/log/d-push/');
++    define('LOGFILE', LOGFILEDIR . 'd-push.log');
++    define('LOGERRORFILE', LOGFILEDIR . 'd-push-error.log');
++    // Possible Loglevels are:
++    // LOGLEVEL_OFF, LOGLEVEL_FATAL, LOGLEVEL_ERROR, LOGLEVEL_WARN,
++    // LOGLEVEL_INFO, LOGLEVEL_DEBUG, LOGLEVEL_WBXML, LOGLEVEL_DEVICEID,
++    // LOGLEVEL_WBXMLSTACK, LOGLEVEL_ALL
++    // see /usr/share/d-push/lib/core/zpushdefs.php for more info
+     define('LOGLEVEL', LOGLEVEL_INFO);
+     define('LOGAUTHFAIL', false);
+ 
+@@ -184,7 +189,7 @@
+     //        'domain'    - the value of the "domain" field is used
+     //        '@mydomain.com' - the username is used and the given string will be appended
+     define('IMAP_DEFAULTFROM', '');
+-    // copy outgoing mail to this folder. If not set z-push will try the default folders
++    // copy outgoing mail to this folder. If not set d-push will try the default folders
+     define('IMAP_SENTFOLDER', '');
+     // forward messages inline (default false - as attachment)
+     define('IMAP_INLINE_FORWARD', false);
+@@ -248,7 +253,7 @@
+  *  - on Zarafa systems use backend/zarafa/listfolders.php script to get a list
+  *    of available folders
+  *
+- *  - all Z-Push users must have full writing permissions (secretary rights) so
++ *  - all D-Push users must have full writing permissions (secretary rights) so
+  *    the configured folders can be synchronized to the mobile
+  *
+  *  - this feature is only partly suitable for multi-tenancy environments,
