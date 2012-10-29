@@ -48,7 +48,7 @@ index 9d70726..9a7a2d4 100644
              $h["message-id"]= "<" . strtoupper(md5(uniqid(time()))) . ">";
              $h["date"]=date(DATE_RFC2822);
 diff --git a/backend/vcarddir.php b/backend/vcarddir.php
-index 4f06f4f..26f62bf 100644
+index dfc2ed2..f24178e 100644
 --- a/backend/vcarddir.php
 +++ b/backend/vcarddir.php
 @@ -524,7 +524,7 @@ class BackendVCardDir extends BackendDiff {
@@ -68,10 +68,10 @@ index 4f06f4f..26f62bf 100644
 \ No newline at end of file
 +?>
 diff --git a/backend/zarafa/importer.php b/backend/zarafa/importer.php
-index ffe4bed..23d5d9c 100644
+index 48ae518..b2236cd 100644
 --- a/backend/zarafa/importer.php
 +++ b/backend/zarafa/importer.php
-@@ -535,7 +535,7 @@ class ImportChangesICS implements IImportChanges {
+@@ -615,7 +615,7 @@ class ImportChangesICS implements IImportChanges {
          // In theory the parent id could change, which means that the folder was moved.
          // It is unknown if any device supports this, so we do currently not implement it (no known device is able to do this)
          if (bin2hex($props[PR_PARENT_SOURCE_KEY]) !== $parent)
@@ -81,10 +81,10 @@ index ffe4bed..23d5d9c 100644
          $props = array(PR_DISPLAY_NAME => $displayname);
          mapi_setprops($mfolder, $props);
 diff --git a/backend/zarafa/zarafa.php b/backend/zarafa/zarafa.php
-index a3332c2..56ebee2 100644
+index 01ccca2..e65e191 100644
 --- a/backend/zarafa/zarafa.php
 +++ b/backend/zarafa/zarafa.php
-@@ -1186,7 +1186,7 @@ class BackendZarafa implements IBackend, ISearchProvider {
+@@ -1205,7 +1205,7 @@ class BackendZarafa implements IBackend, ISearchProvider {
                  array(
                      FUZZYLEVEL      => FL_PREFIX,
                      ULPROPTAG       => PR_DISPLAY_NAME,
@@ -93,7 +93,7 @@ index a3332c2..56ebee2 100644
                  )
              ),
              TBL_BATCH);
-@@ -1660,7 +1660,7 @@ class BackendZarafa implements IBackend, ISearchProvider {
+@@ -1679,7 +1679,7 @@ class BackendZarafa implements IBackend, ISearchProvider {
       * @return mapiFolderObject
       */
      private function createSearchFolder($searchFolderRoot) {
@@ -102,7 +102,7 @@ index a3332c2..56ebee2 100644
          $searchFolders = mapi_folder_gethierarchytable($searchFolderRoot);
          $restriction = array(
              RES_CONTENT,
-@@ -1731,4 +1731,4 @@ class BackendZarafa implements IBackend, ISearchProvider {
+@@ -1750,4 +1750,4 @@ class BackendZarafa implements IBackend, ISearchProvider {
   */
  class BackendICS extends BackendZarafa {}
  
@@ -139,7 +139,7 @@ index 8abd2c2..d3ff12e 100644
 \ No newline at end of file
 +?>
 diff --git a/lib/core/interprocessdata.php b/lib/core/interprocessdata.php
-index 2a9845a..406c7bd 100644
+index d1328a3..92168be 100644
 --- a/lib/core/interprocessdata.php
 +++ b/lib/core/interprocessdata.php
 @@ -92,7 +92,7 @@ abstract class InterProcessData {
@@ -159,7 +159,7 @@ index 2a9845a..406c7bd 100644
 \ No newline at end of file
 +?>
 diff --git a/lib/core/loopdetection.php b/lib/core/loopdetection.php
-index b2542d2..3e89dd3 100644
+index 38fbc19..e358916 100644
 --- a/lib/core/loopdetection.php
 +++ b/lib/core/loopdetection.php
 @@ -258,7 +258,7 @@ class LoopDetection extends InterProcessData {
@@ -179,7 +179,7 @@ index b2542d2..3e89dd3 100644
 \ No newline at end of file
 +?>
 diff --git a/lib/core/topcollector.php b/lib/core/topcollector.php
-index 7255327..fdd7c07 100644
+index 5adc8fe..382d68a 100644
 --- a/lib/core/topcollector.php
 +++ b/lib/core/topcollector.php
 @@ -161,7 +161,7 @@ class TopCollector extends InterProcessData {
@@ -199,7 +199,7 @@ index 7255327..fdd7c07 100644
 \ No newline at end of file
 +?>
 diff --git a/lib/core/zpush.php b/lib/core/zpush.php
-index c4a62d6..0c3233c 100644
+index 1d48689..192a7fe 100644
 --- a/lib/core/zpush.php
 +++ b/lib/core/zpush.php
 @@ -553,14 +553,18 @@ class ZPush {
@@ -251,7 +251,7 @@ index e34f584..b344e2f 100644
 \ No newline at end of file
 +?>
 diff --git a/lib/wbxml/wbxmldecoder.php b/lib/wbxml/wbxmldecoder.php
-index 65a847f..df2aa6b 100644
+index f113025..4388538 100644
 --- a/lib/wbxml/wbxmldecoder.php
 +++ b/lib/wbxml/wbxmldecoder.php
 @@ -171,7 +171,7 @@ class WBXMLDecoder extends WBXMLDefs {
