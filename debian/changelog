@@ -1,3 +1,11 @@
+d-push (2.0.5~rc2-1) unstable; urgency=low
+
+  * [6db857f] Adapt uscan to new upstream version numbering
+  * [1c98e95] Imported Upstream version 2.0.5~rc2
+  * [617af60] adapt patches to new upstream version
+
+ -- Wolfram Quester <wolfi@sigxcpu.org>  Mon, 29 Oct 2012 16:09:42 +0100
+
 d-push (2.0-1) unstable; urgency=low
 
   * [817397a] Imported Upstream version 2.0
