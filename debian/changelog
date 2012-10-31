@@ -1,3 +1,10 @@
+d-push (2.0.5~rc2-2) unstable; urgency=low
+
+  * [84d570a] implementation needs trailing / in dir variables
+  * upload sponsored by Guido Günther <agx@debian.org>, many thanks to him
+
+ -- Wolfram Quester <wolfi@sigxcpu.org>  Wed, 31 Oct 2012 08:17:39 +0100
+
 d-push (2.0.5~rc2-1) unstable; urgency=low
 
   * [6db857f] Adapt uscan to new upstream version numbering
