@@ -7,7 +7,7 @@ Subject: set proper default config
  1 file changed, 11 insertions(+), 6 deletions(-)
 
 diff --git a/config.php b/config.php
-index de6761f..3f53479 100644
+index de6761f..637f27b 100644
 --- a/config.php
 +++ b/config.php
 @@ -60,7 +60,7 @@
@@ -15,7 +15,7 @@ index de6761f..3f53479 100644
   *  Default FileStateMachine settings
   */
 -    define('STATE_DIR', '/var/lib/z-push/');
-+    define('STATE_DIR', '/var/lib/d-push/state');
++    define('STATE_DIR', '/var/lib/d-push/state/');
  
  
  /**********************************************************************************
