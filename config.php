@@ -6,7 +6,7 @@
 *
 * Created   :   01.10.2007
 *
-* Copyright 2007 - 2012 Zarafa Deutschland GmbH
+* Copyright 2007 - 2013 Zarafa Deutschland GmbH
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU Affero General Public License, version 3,
@@ -89,9 +89,14 @@
 
     // To save e.g. WBXML data only for selected users, add the usernames to the array
     // The data will be saved into a dedicated file per user in the LOGFILEDIR
+    // Users have to be encapusulated in quotes, several users are comma separated, like:
+    //   $specialLogUsers = array('info@domain.com', 'myusername');
     define('LOGUSERLEVEL', LOGLEVEL_DEVICEID);
     $specialLogUsers = array();
 
+    // Location of the trusted CA, e.g. '/etc/ssl/certs/EmailCA.pem'
+    // Uncomment and modify the following line if the validation of the certificates fails.
+    // define('CAINFO', '/etc/ssl/certs/EmailCA.pem');
 
 /**********************************************************************************
  *  Mobile settings
@@ -191,6 +196,11 @@
     define('IMAP_INLINE_FORWARD', false);
     // use imap_mail() to send emails (default) - if false mail() is used
     define('IMAP_USE_IMAPMAIL', true);
+    /* BEGIN fmbiete's contribution r1527, ZP-319 */
+    // list of folders we want to exclude from sync. Names, or part of it, separated by |
+    // example: dovecot.sieve|archive|spam
+    define('IMAP_EXCLUDED_FOLDERS', '');
+    /* END fmbiete's contribution r1527, ZP-319 */
 
 
     // ************************

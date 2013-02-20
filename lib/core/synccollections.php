@@ -14,7 +14,7 @@
 *
 * Created   :   06.01.2012
 *
-* Copyright 2007 - 2012 Zarafa Deutschland GmbH
+* Copyright 2007 - 2013 Zarafa Deutschland GmbH
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU Affero General Public License, version 3,
@@ -426,13 +426,13 @@ class SyncCollections implements Iterator {
             }
         }
         else
-            $checkClasses = implode("/", array_keys($classes));
+            $checkClasses = implode(" ", array_keys($classes));
 
         $pingTracking = new PingTracking();
         $this->changes = array();
         $changesAvailable = false;
 
-        ZPush::GetTopCollector()->SetAsPushConnection();
+        ZPush::GetDeviceManager()->AnnounceProcessAsPush();
         ZPush::GetTopCollector()->AnnounceInformation(sprintf("lifetime %ds", $lifetime), true);
         ZLog::Write(LOGLEVEL_INFO, sprintf("SyncCollections->CheckForChanges(): Waiting for %s changes... (lifetime %d seconds)", (empty($classes))?'policy':'store', $lifetime));
 
@@ -512,6 +512,7 @@ class SyncCollections implements Iterator {
                     if ($this->CountChange($folderid)) {
                         ZLog::Write(LOGLEVEL_DEBUG, sprintf("SyncCollections->CheckForChanges(): Notification received on folder '%s'", $folderid));
                         $validNotifications = true;
+                        $this->waitingTime = time()-$started;
                     }
                     else {
                         ZLog::Write(LOGLEVEL_DEBUG, sprintf("SyncCollections->CheckForChanges(): Notification received on folder '%s', but it is not relevant", $folderid));
@@ -632,7 +633,8 @@ class SyncCollections implements Iterator {
      * @return array
      */
     public function WaitedForChanges() {
-        return ($this->waitingTime > 1);
+        ZLog::Write(LOGLEVEL_DEBUG, sprintf("SyncCollections->WaitedForChanges: waited for %d seconds", $this->waitingTime));
+        return ($this->waitingTime > 0);
     }
 
     /**

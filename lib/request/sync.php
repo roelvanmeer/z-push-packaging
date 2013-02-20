@@ -6,7 +6,7 @@
 *
 * Created   :   16.02.2012
 *
-* Copyright 2007 - 2012 Zarafa Deutschland GmbH
+* Copyright 2007 - 2013 Zarafa Deutschland GmbH
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU Affero General Public License, version 3,
@@ -569,17 +569,18 @@ class Sync extends RequestProcessor {
                 $sc->SetLifetime($hbinterval);
 
             // states are lazy loaded - we have to make sure that they are there!
+            $loadstatus = SYNC_STATUS_SUCCESS;
             foreach($sc as $folderid => $spa) {
                 $fad = array();
                 // if loading the states fails, we do not enter heartbeat, but we keep $status on SYNC_STATUS_SUCCESS
                 // so when the changes are exported the correct folder gets an SYNC_STATUS_INVALIDSYNCKEY
-                $loadstatus = $this->loadStates($sc, $spa, $fad);
+                if ($loadstatus == SYNC_STATUS_SUCCESS)
+                    $loadstatus = $this->loadStates($sc, $spa, $fad);
             }
 
-            if ($loadstatus = SYNC_STATUS_SUCCESS) {
+            if ($loadstatus == SYNC_STATUS_SUCCESS) {
                 $foundchanges = false;
 
-                // wait for changes
                 try {
                     // if doing an empty sync, check only once for changes
                     if ($emptysync) {
@@ -596,9 +597,11 @@ class Sync extends RequestProcessor {
                    self::$topCollector->AnnounceInformation(sprintf("StatusException code: %d", $status), true);
                 }
 
-                // in case of an empty sync with no changes, we can reply with an empty response
-                if ($emptysync && !$foundchanges){
-                    ZLog::Write(LOGLEVEL_DEBUG, "No changes found for empty sync. Replying with empty response");
+                // in case there are no changes, we can reply with an empty response
+                if (!$foundchanges){
+                    ZLog::Write(LOGLEVEL_DEBUG, "No changes found. Replying with empty response and closing connection.");
+                    self::$specialHeaders = array();
+                    self::$specialHeaders[] = "Connection: close";
                     return true;
                 }
 
@@ -708,9 +711,13 @@ class Sync extends RequestProcessor {
                         self::$encoder->startTag(SYNC_FOLDER);
 
                         if($spa->HasContentClass()) {
-                            self::$encoder->startTag(SYNC_FOLDERTYPE);
+                            ZLog::Write(LOGLEVEL_DEBUG, sprintf("Folder type: %s", $spa->GetContentClass()));
+                            // AS 12.0 devices require content class
+                            if (Request::GetProtocolVersion() < 12.1) {
+                                self::$encoder->startTag(SYNC_FOLDERTYPE);
                                 self::$encoder->content($spa->GetContentClass());
-                            self::$encoder->endTag();
+                                self::$encoder->endTag();
+                            }
                         }
 
                         self::$encoder->startTag(SYNC_SYNCKEY);
@@ -1041,13 +1048,16 @@ class Sync extends RequestProcessor {
         if ($this->importer == false)
             throw StatusException(sprintf("Sync->importMessage(): importer not available", SYNC_STATUS_SERVERERROR));
 
+        // mark this state as used, e.g. for HeartBeat
+        self::$deviceManager->SetHeartbeatStateIntegrity($spa->GetFolderId(), $spa->GetUuid(), $spa->GetUuidCounter());
+
         // Detect incoming loop
         // messages which were created/removed before will not have the same action executed again
         // if a message is edited we perform this action "again", as the message could have been changed on the mobile in the meantime
         $ignoreMessage = false;
         if ($actiondata["failstate"]) {
             // message was ADDED before, do NOT add it again
-            if ($todo == SYNC_ADD && $actiondata["failstate"]["clientids"][$clientid]) {
+            if ($todo == SYNC_ADD && isset($actiondata["failstate"]["clientids"][$clientid])) {
                 $ignoreMessage = true;
 
                 // make sure no messages are sent back
