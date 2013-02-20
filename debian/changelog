@@ -1,3 +1,14 @@
+d-push (2.0.7-1) unstable; urgency=low
+
+  * [5dad554] Imported Upstream version 2.0.7
+  * [29235d0] adapt debian patches to new upstream version
+  * [df825b5] fix permissions of script files which are not called directly
+  * [c3bb49b] adapt version file to new upstream version
+  * [d35b681] Add lintian override for version file
+  * upload sponsored by Guido Günther <agx@debian.org>, many thanks to him
+
+ -- Wolfram Quester <wolfi@sigxcpu.org>  Wed, 20 Feb 2013 22:12:15 +0100
+
 d-push (2.0.5~rc2-2) unstable; urgency=low
 
   * [84d570a] implementation needs trailing / in dir variables
