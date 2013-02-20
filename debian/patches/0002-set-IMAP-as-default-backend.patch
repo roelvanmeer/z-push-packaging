@@ -7,10 +7,10 @@ Subject: set IMAP as default backend
  1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/config.php b/config.php
-index eb8703e..dd343b7 100644
+index 1da1a0f..d5a6605 100644
 --- a/config.php
 +++ b/config.php
-@@ -161,8 +161,7 @@
+@@ -166,8 +166,7 @@
   *  Backend settings
   */
      // The data providers that we are using (see configuration below)
@@ -20,7 +20,7 @@ index eb8703e..dd343b7 100644
  
      // ************************
      //  BackendZarafa settings
-@@ -273,4 +272,4 @@
+@@ -283,4 +282,4 @@
  */
      );
  

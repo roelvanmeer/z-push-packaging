@@ -3,9 +3,7 @@ Date: Sat, 16 Apr 2011 12:44:47 +0200
 Subject: Rebranding
 
 ---
- backend/kolab/kolab.php       |    6 +++---
  backend/vcarddir.php          |    4 ++--
- backend/zarafa/importer.php   |    2 +-
  backend/zarafa/zarafa.php     |    6 +++---
  index.php                     |    6 +++---
  lib/core/interprocessdata.php |    4 ++--
@@ -14,41 +12,10 @@ Subject: Rebranding
  lib/core/zpush.php            |   10 +++++++---
  lib/utils/timezoneutil.php    |    4 ++--
  lib/wbxml/wbxmldecoder.php    |    4 ++--
- 11 files changed, 29 insertions(+), 25 deletions(-)
+ 9 files changed, 25 insertions(+), 21 deletions(-)
 
-diff --git a/backend/kolab/kolab.php b/backend/kolab/kolab.php
-index 9d70726..9a7a2d4 100644
---- a/backend/kolab/kolab.php
-+++ b/backend/kolab/kolab.php
-@@ -1952,7 +1952,7 @@
-             //add header
-             $h["from"]=$this->_email;
-             $h["to"]=$this->_email; 
--            $h["X-Mailer"]="z-push-Kolab Backend";
-+            $h["X-Mailer"]="d-push-Kolab Backend";
-             $h["subject"]= $object["uid"];
-             $h["message-id"]= "<" . strtoupper(md5(uniqid(time()))) . ">";
-             $h["date"]=date(DATE_RFC2822);
-@@ -2249,7 +2249,7 @@
-             //add header
-             $h["from"]=$this->_email;
-             $h["to"]=$this->_email; 
--            $h["X-Mailer"]="z-push-Kolab Backend";
-+            $h["X-Mailer"]="d-push-Kolab Backend";
-             $h["subject"]= $object["uid"];
-             $h["message-id"]= "<" . strtoupper(md5(uniqid(time()))) . ">";
-             $h["date"]=date(DATE_RFC2822);
-@@ -2524,7 +2524,7 @@
-             //add header
-             $h["from"]=$this->_email;
-             $h["to"]=$this->_email; 
--            $h["X-Mailer"]="z-push-Kolab Backend";
-+            $h["X-Mailer"]="d-push-Kolab Backend";
-             $h["subject"]= $object["uid"];
-             $h["message-id"]= "<" . strtoupper(md5(uniqid(time()))) . ">";
-             $h["date"]=date(DATE_RFC2822);
 diff --git a/backend/vcarddir.php b/backend/vcarddir.php
-index dfc2ed2..f24178e 100644
+index b5f4e01..b36b1f3 100644
 --- a/backend/vcarddir.php
 +++ b/backend/vcarddir.php
 @@ -524,7 +524,7 @@ class BackendVCardDir extends BackendDiff {
@@ -67,24 +34,11 @@ index dfc2ed2..f24178e 100644
 -?>
 \ No newline at end of file
 +?>
-diff --git a/backend/zarafa/importer.php b/backend/zarafa/importer.php
-index 48ae518..b2236cd 100644
---- a/backend/zarafa/importer.php
-+++ b/backend/zarafa/importer.php
-@@ -615,7 +615,7 @@ class ImportChangesICS implements IImportChanges {
-         // In theory the parent id could change, which means that the folder was moved.
-         // It is unknown if any device supports this, so we do currently not implement it (no known device is able to do this)
-         if (bin2hex($props[PR_PARENT_SOURCE_KEY]) !== $parent)
--            throw new StatusException(sprintf("ImportChangesICS->ImportFolderChange('%s','%s','%s'): Folder was moved to another location, which is currently not supported. Please report this to the Z-Push dev team together with the WBXML log and your device details (model, firmware etc).", Utils::PrintAsString($folder->serverid), $folder->parentid, $displayname, mapi_last_hresult()), SYNC_FSSTATUS_UNKNOWNERROR);
-+            throw new StatusException(sprintf("ImportChangesICS->ImportFolderChange('%s','%s','%s'): Folder was moved to another location, which is currently not supported. Please report this to the D-Push dev team together with the WBXML log and your device details (model, firmware etc).", Utils::PrintAsString($folder->serverid), $folder->parentid, $displayname, mapi_last_hresult()), SYNC_FSSTATUS_UNKNOWNERROR);
- 
-         $props = array(PR_DISPLAY_NAME => $displayname);
-         mapi_setprops($mfolder, $props);
 diff --git a/backend/zarafa/zarafa.php b/backend/zarafa/zarafa.php
-index 01ccca2..e65e191 100644
+index 142e446..7596c53 100644
 --- a/backend/zarafa/zarafa.php
 +++ b/backend/zarafa/zarafa.php
-@@ -1205,7 +1205,7 @@ class BackendZarafa implements IBackend, ISearchProvider {
+@@ -1246,7 +1246,7 @@ class BackendZarafa implements IBackend, ISearchProvider {
                  array(
                      FUZZYLEVEL      => FL_PREFIX,
                      ULPROPTAG       => PR_DISPLAY_NAME,
@@ -93,7 +47,7 @@ index 01ccca2..e65e191 100644
                  )
              ),
              TBL_BATCH);
-@@ -1679,7 +1679,7 @@ class BackendZarafa implements IBackend, ISearchProvider {
+@@ -1720,7 +1720,7 @@ class BackendZarafa implements IBackend, ISearchProvider {
       * @return mapiFolderObject
       */
      private function createSearchFolder($searchFolderRoot) {
@@ -102,7 +56,7 @@ index 01ccca2..e65e191 100644
          $searchFolders = mapi_folder_gethierarchytable($searchFolderRoot);
          $restriction = array(
              RES_CONTENT,
-@@ -1750,4 +1750,4 @@ class BackendZarafa implements IBackend, ISearchProvider {
+@@ -2041,4 +2041,4 @@ class BackendZarafa implements IBackend, ISearchProvider {
   */
  class BackendICS extends BackendZarafa {}
  
@@ -110,10 +64,10 @@ index 01ccca2..e65e191 100644
 \ No newline at end of file
 +?>
 diff --git a/index.php b/index.php
-index 8abd2c2..d3ff12e 100644
+index 361698f..7076222 100644
 --- a/index.php
 +++ b/index.php
-@@ -143,7 +143,7 @@ include_once('version.php');
+@@ -150,7 +150,7 @@ include_once('version.php');
  
          // Check required GET parameters
          if(Request::IsMethodPOST() && (Request::GetCommandCode() === false || !Request::GetGETUser() || !Request::GetDeviceID() || !Request::GetDeviceType()))
@@ -122,7 +76,7 @@ index 8abd2c2..d3ff12e 100644
  
          // Load the backend
          $backend = ZPush::GetBackend();
-@@ -166,7 +166,7 @@ include_once('version.php');
+@@ -173,7 +173,7 @@ include_once('version.php');
  
          // Do the actual processing of the request
          if (Request::IsMethodGET())
@@ -131,7 +85,7 @@ index 8abd2c2..d3ff12e 100644
  
          // Do the actual request
          header(ZPush::GetServerHeader());
-@@ -281,4 +281,4 @@ include_once('version.php');
+@@ -292,4 +292,4 @@ include_once('version.php');
  
      // end gracefully
      ZLog::Write(LOGLEVEL_DEBUG, '-------- End');
@@ -139,7 +93,7 @@ index 8abd2c2..d3ff12e 100644
 \ No newline at end of file
 +?>
 diff --git a/lib/core/interprocessdata.php b/lib/core/interprocessdata.php
-index d1328a3..92168be 100644
+index 5a5cefc..53c2839 100644
 --- a/lib/core/interprocessdata.php
 +++ b/lib/core/interprocessdata.php
 @@ -92,7 +92,7 @@ abstract class InterProcessData {
@@ -159,11 +113,11 @@ index d1328a3..92168be 100644
 \ No newline at end of file
 +?>
 diff --git a/lib/core/loopdetection.php b/lib/core/loopdetection.php
-index 38fbc19..e358916 100644
+index 225d853..4991594 100644
 --- a/lib/core/loopdetection.php
 +++ b/lib/core/loopdetection.php
-@@ -258,7 +258,7 @@ class LoopDetection extends InterProcessData {
-             if (!isset($se['end']) && $se['cc'] != ZPush::COMMAND_PING) {
+@@ -272,7 +272,7 @@ class LoopDetection extends InterProcessData {
+             if (!isset($se['end']) && $se['cc'] != ZPush::COMMAND_PING && !isset($se['push']) ) {
                  // there is no end time
                  ZLog::Write(LOGLEVEL_ERROR, sprintf("LoopDetection->ProcessLoopDetectionPreviousConnectionFailed(): Command '%s' at %s with pid '%d' terminated unexpectedly or is still running.", Utils::GetCommandFromCode($se['cc']), Utils::GetFormattedTime($se['time']), $se['pid']));
 -                ZLog::Write(LOGLEVEL_ERROR, "Please check your logs for this PID and errors like PHP-Fatals or Apache segmentation faults and report your results to the Z-Push dev team.");
@@ -171,7 +125,7 @@ index 38fbc19..e358916 100644
              }
          }
      }
-@@ -875,4 +875,4 @@ class LoopDetection extends InterProcessData {
+@@ -933,4 +933,4 @@ class LoopDetection extends InterProcessData {
      }
  }
  
@@ -179,7 +133,7 @@ index 38fbc19..e358916 100644
 \ No newline at end of file
 +?>
 diff --git a/lib/core/topcollector.php b/lib/core/topcollector.php
-index 5adc8fe..382d68a 100644
+index ae1b247..f23960b 100644
 --- a/lib/core/topcollector.php
 +++ b/lib/core/topcollector.php
 @@ -161,7 +161,7 @@ class TopCollector extends InterProcessData {
@@ -191,7 +145,7 @@ index 5adc8fe..382d68a 100644
              return false;
          }
  
-@@ -294,4 +294,4 @@ class TopCollector extends InterProcessData {
+@@ -296,4 +296,4 @@ class TopCollector extends InterProcessData {
      }
  }
  
@@ -199,7 +153,7 @@ index 5adc8fe..382d68a 100644
 \ No newline at end of file
 +?>
 diff --git a/lib/core/zpush.php b/lib/core/zpush.php
-index 1d48689..192a7fe 100644
+index 2252c83..624cd5a 100644
 --- a/lib/core/zpush.php
 +++ b/lib/core/zpush.php
 @@ -553,14 +553,18 @@ class ZPush {
@@ -231,7 +185,7 @@ index 1d48689..192a7fe 100644
 \ No newline at end of file
 +?>
 diff --git a/lib/utils/timezoneutil.php b/lib/utils/timezoneutil.php
-index e34f584..b344e2f 100644
+index 910b3fc..a5b7259 100644
 --- a/lib/utils/timezoneutil.php
 +++ b/lib/utils/timezoneutil.php
 @@ -1195,7 +1195,7 @@ class TimezoneUtil {
@@ -251,7 +205,7 @@ index e34f584..b344e2f 100644
 \ No newline at end of file
 +?>
 diff --git a/lib/wbxml/wbxmldecoder.php b/lib/wbxml/wbxmldecoder.php
-index f113025..4388538 100644
+index ea8a703..3544534 100644
 --- a/lib/wbxml/wbxmldecoder.php
 +++ b/lib/wbxml/wbxmldecoder.php
 @@ -171,7 +171,7 @@ class WBXMLDecoder extends WBXMLDefs {
