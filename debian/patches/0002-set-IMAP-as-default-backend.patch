@@ -3,24 +3,25 @@ Date: Sun, 17 Apr 2011 16:05:40 +0200
 Subject: set IMAP as default backend
 
 ---
- config.php |    5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ config.php |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/config.php b/config.php
-index 1da1a0f..d5a6605 100644
+index 65ff02c..8e1f8b8 100644
 --- a/config.php
 +++ b/config.php
-@@ -166,8 +166,7 @@
+@@ -184,8 +184,8 @@
+ /**********************************************************************************
   *  Backend settings
   */
-     // The data providers that we are using (see configuration below)
--    define('BACKEND_PROVIDER', "BackendZarafa");
--
+-    // the backend data provider
+-    define('BACKEND_PROVIDER', '');
++    // The data providers that we are using (see configuration below)
 +    define('BACKEND_PROVIDER', "BackendIMAP");
  
-     // ************************
-     //  BackendZarafa settings
-@@ -283,4 +282,4 @@
+ /**********************************************************************************
+  *  Search provider settings
+@@ -255,4 +255,4 @@
  */
      );
  

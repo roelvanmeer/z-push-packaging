@@ -3,14 +3,14 @@ Date: Sun, 17 Apr 2011 16:05:40 +0200
 Subject: set proper default config
 
 ---
- config.php |   17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ config.php |   15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
 diff --git a/config.php b/config.php
-index 3a1b0e8..f789c0b 100644
+index 8e1f8b8..d3630fb 100644
 --- a/config.php
 +++ b/config.php
-@@ -60,7 +60,7 @@
+@@ -66,7 +66,7 @@
  /**********************************************************************************
   *  Default FileStateMachine settings
   */
@@ -19,7 +19,7 @@ index 3a1b0e8..f789c0b 100644
  
  
  /**********************************************************************************
-@@ -80,9 +80,14 @@
+@@ -86,9 +86,14 @@
   *  ones, e.g. setting to LOGLEVEL_DEBUG will also output LOGLEVEL_FATAL, LOGLEVEL_ERROR,
   *  LOGLEVEL_WARN and LOGLEVEL_INFO level entries.
   */
@@ -37,16 +37,7 @@ index 3a1b0e8..f789c0b 100644
      define('LOGLEVEL', LOGLEVEL_INFO);
      define('LOGAUTHFAIL', false);
  
-@@ -189,7 +194,7 @@
-     //        'domain'    - the value of the "domain" field is used
-     //        '@mydomain.com' - the username is used and the given string will be appended
-     define('IMAP_DEFAULTFROM', '');
--    // copy outgoing mail to this folder. If not set z-push will try the default folders
-+    // copy outgoing mail to this folder. If not set d-push will try the default folders
-     define('IMAP_SENTFOLDER', '');
-     // forward messages inline (default false - as attachment)
-     define('IMAP_INLINE_FORWARD', false);
-@@ -256,7 +261,7 @@
+@@ -229,7 +234,7 @@
   *  - on Zarafa systems use backend/zarafa/listfolders.php script to get a list
   *    of available folders
   *

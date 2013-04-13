@@ -3,22 +3,23 @@ Date: Sat, 16 Apr 2011 12:44:47 +0200
 Subject: Rebranding
 
 ---
- backend/vcarddir.php          |    4 ++--
- backend/zarafa/zarafa.php     |    6 +++---
- index.php                     |    6 +++---
- lib/core/interprocessdata.php |    4 ++--
- lib/core/loopdetection.php    |    4 ++--
- lib/core/topcollector.php     |    4 ++--
- lib/core/zpush.php            |   10 +++++++---
- lib/utils/timezoneutil.php    |    4 ++--
- lib/wbxml/wbxmldecoder.php    |    4 ++--
- 9 files changed, 25 insertions(+), 21 deletions(-)
+ backend/vcarddir/vcarddir.php                      |    4 ++--
+ backend/zarafa/zarafa.php                          |    6 +++---
+ index.php                                          |    6 +++---
+ lib/core/interprocessdata.php                      |    4 ++--
+ lib/core/loopdetection.php                         |    4 ++--
+ lib/core/topcollector.php                          |    4 ++--
+ lib/core/zpush.php                                 |   10 +++++++---
+ lib/exceptions/authenticationrequiredexception.php |    4 ++--
+ lib/utils/timezoneutil.php                         |    4 ++--
+ lib/wbxml/wbxmldecoder.php                         |    4 ++--
+ 10 files changed, 27 insertions(+), 23 deletions(-)
 
-diff --git a/backend/vcarddir.php b/backend/vcarddir.php
-index b5f4e01..b36b1f3 100644
---- a/backend/vcarddir.php
-+++ b/backend/vcarddir.php
-@@ -524,7 +524,7 @@ class BackendVCardDir extends BackendDiff {
+diff --git a/backend/vcarddir/vcarddir.php b/backend/vcarddir/vcarddir.php
+index b1d8a0a..ab7d936 100644
+--- a/backend/vcarddir/vcarddir.php
++++ b/backend/vcarddir/vcarddir.php
+@@ -529,7 +529,7 @@ class BackendVCardDir extends BackendDiff {
              'jobtitle' => 'ROLE',
              'webpage' => 'URL',
          );
@@ -27,7 +28,7 @@ index b5f4e01..b36b1f3 100644
          foreach($mapping as $k => $v){
              $val = '';
              $ks = explode(';', $k);
-@@ -670,4 +670,4 @@ class BackendVCardDir extends BackendDiff {
+@@ -678,4 +678,4 @@ class BackendVCardDir extends BackendDiff {
          return $data;
      }
  };
@@ -35,10 +36,10 @@ index b5f4e01..b36b1f3 100644
 \ No newline at end of file
 +?>
 diff --git a/backend/zarafa/zarafa.php b/backend/zarafa/zarafa.php
-index 142e446..7596c53 100644
+index 5cdf96f..35d9b5e 100644
 --- a/backend/zarafa/zarafa.php
 +++ b/backend/zarafa/zarafa.php
-@@ -1246,7 +1246,7 @@ class BackendZarafa implements IBackend, ISearchProvider {
+@@ -1083,7 +1083,7 @@ class BackendZarafa implements IBackend, ISearchProvider {
                  array(
                      FUZZYLEVEL      => FL_PREFIX,
                      ULPROPTAG       => PR_DISPLAY_NAME,
@@ -47,7 +48,7 @@ index 142e446..7596c53 100644
                  )
              ),
              TBL_BATCH);
-@@ -1720,7 +1720,7 @@ class BackendZarafa implements IBackend, ISearchProvider {
+@@ -1470,7 +1470,7 @@ class BackendZarafa implements IBackend, ISearchProvider {
       * @return mapiFolderObject
       */
      private function createSearchFolder($searchFolderRoot) {
@@ -56,7 +57,7 @@ index 142e446..7596c53 100644
          $searchFolders = mapi_folder_gethierarchytable($searchFolderRoot);
          $restriction = array(
              RES_CONTENT,
-@@ -2041,4 +2041,4 @@ class BackendZarafa implements IBackend, ISearchProvider {
+@@ -1791,4 +1791,4 @@ class BackendZarafa implements IBackend, ISearchProvider {
   */
  class BackendICS extends BackendZarafa {}
  
@@ -153,10 +154,10 @@ index ae1b247..f23960b 100644
 \ No newline at end of file
 +?>
 diff --git a/lib/core/zpush.php b/lib/core/zpush.php
-index 2252c83..624cd5a 100644
+index 95a7361..e3fb0c0 100644
 --- a/lib/core/zpush.php
 +++ b/lib/core/zpush.php
-@@ -553,14 +553,18 @@ class ZPush {
+@@ -600,14 +600,18 @@ class ZPush {
          print <<<END
          <html>
          <header>
@@ -177,10 +178,26 @@ index 2252c83..624cd5a 100644
          More information about Z-Push can be found at:<br>
          <a href="http://z-push.sf.net/">Z-Push homepage</a><br>
          <a href="http://z-push.sf.net/download">Z-Push download page at BerliOS</a><br>
-@@ -764,4 +768,4 @@ END;
+@@ -811,4 +815,4 @@ END;
      }
  
  }
+-?>
+\ No newline at end of file
++?>
+diff --git a/lib/exceptions/authenticationrequiredexception.php b/lib/exceptions/authenticationrequiredexception.php
+index 87fa134..af74212 100644
+--- a/lib/exceptions/authenticationrequiredexception.php
++++ b/lib/exceptions/authenticationrequiredexception.php
+@@ -45,8 +45,8 @@ class AuthenticationRequiredException extends HTTPReturnCodeException {
+     protected $defaultLogLevel = LOGLEVEL_INFO;
+     protected $httpReturnCode = HTTP_CODE_401;
+     protected $httpReturnMessage = "Unauthorized";
+-    protected $httpHeaders = array('WWW-Authenticate: Basic realm="ZPush"');
++    protected $httpHeaders = array('WWW-Authenticate: Basic realm="DPush"');
+     protected $showLegal = true;
+ }
+ 
 -?>
 \ No newline at end of file
 +?>
