@@ -68,7 +68,9 @@ class SyncParameters extends StateObject {
                                     'deletesasmoves' => false,
                                     'conversationmode' => false,
                                     'windowsize' => 5,
-                                    'contentparameters' => array()
+                                    'contentparameters' => array(),
+                                    'foldersynctotal' => false,
+                                    'foldersyncremaining' => false,
                                 );
 
     /**
@@ -395,7 +397,7 @@ class SyncParameters extends StateObject {
     protected function preSerialize() {
         parent::preSerialize();
 
-        if ($this->changed === true && $this->synckeyChanged)
+        if ($this->changed === true && ($this->synckeyChanged || $this->lastsynctime === false))
             $this->lastsynctime = time();
 
         return true;
