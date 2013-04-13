@@ -1,3 +1,4 @@
 version=3
 
-http://zarafa-deutschland.de/z-push-download/final/2.0/z-push-(\d+)\.(\d+)\.(\d+)-\d+\.tar\.gz
+opts=uversionmangle=s/.([a-zA-Z]+).(\d+).(\d+)/~$1$2/;s/\.rc(\d+)/~rc$1/;s/\.+$// \
+  http://zarafa-deutschland.de/z-push-download/beta/(\d+)\.(\d+)/z-push-(\d+)\.(\d+)\.(\d+)(\w+)(\d+)-(\d+).tar.gz
