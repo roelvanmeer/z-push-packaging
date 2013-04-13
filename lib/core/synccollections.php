@@ -53,6 +53,7 @@
 class SyncCollections implements Iterator {
     const ERROR_NO_COLLECTIONS = 1;
     const ERROR_WRONG_HIERARCHY = 2;
+    const OBSOLETE_CONNECTION = 3;
 
     private $stateManager;
 
@@ -213,6 +214,7 @@ class SyncCollections implements Iterator {
     public function AddCollection($spa) {
         $this->collections[$spa->GetFolderId()] = $spa;
 
+        ZLog::Write(LOGLEVEL_DEBUG, sprintf("SyncCollections->AddCollection(): Folder id '%s' : ref. PolicyKey '%s', ref. Lifetime '%s', last sync at '%s'", $spa->GetFolderId(), $spa->GetReferencePolicyKey(), $spa->GetReferenceLifetime(), $spa->GetLastSyncTime()));
         if ($spa->HasLastSyncTime() && $spa->GetLastSyncTime() > $this->lastSyncTime) {
             $this->lastSyncTime = $spa->GetLastSyncTime();
 
@@ -223,6 +225,8 @@ class SyncCollections implements Iterator {
             // use SyncParameters LifeTime as reference if available
             if ($spa->HasReferenceLifetime())
                 $this->refLifetime = $spa->GetReferenceLifetime();
+
+            ZLog::Write(LOGLEVEL_DEBUG, sprintf("SyncCollections->AddCollection(): Updated reference PolicyKey '%s', reference Lifetime '%s', Last sync at '%s'", $this->refPolicyKey, $this->refLifetime, $this->lastSyncTime));
         }
 
         return true;
@@ -368,28 +372,6 @@ class SyncCollections implements Iterator {
     }
 
     /**
-     * Returns the timestamp of the last synchronization of a device.
-     *
-     * @param $device       an ASDevice
-     *
-     * @access public
-     * @return int                  timestamp
-     */
-    static public function GetLastSyncTimeOfDevice(&$device) {
-        // we need a StateManager for this operation
-        $stateManager = new StateManager();
-        $stateManager->SetDevice($device);
-
-        $sc = new SyncCollections();
-        $sc->SetStateManager($stateManager);
-
-        // load all collections of device without loading states or checking permissions
-        $sc->LoadAllCollections(true, false, false);
-
-        return $sc->GetLastSyncTime();
-    }
-
-    /**
      * Checks if the currently known collections for changes for $lifetime seconds.
      * If the backend provides a ChangesSink the sink will be used.
      * If not every $interval seconds an exporter will be configured for each
@@ -485,9 +467,8 @@ class SyncCollections implements Iterator {
 
                 // more than 60 secs to go?
                 if (($now + 60) < $endat) {
-                    ZLog::Write(LOGLEVEL_DEBUG, sprintf("SyncCollections->CheckForChanges(): Timeout forced after %ss from %ss due to other process", ($now-$started), $lifetime));
                     ZPush::GetTopCollector()->AnnounceInformation(sprintf("Forced timeout after %ds", ($now-$started)), true);
-                    return false;
+                    throw new StatusException(sprintf("SyncCollections->CheckForChanges(): Timeout forced after %ss from %ss due to other process", ($now-$started), $lifetime), self::OBSOLETE_CONNECTION);
                 }
             }
 
@@ -623,6 +604,23 @@ class SyncCollections implements Iterator {
      */
     public function GetChangedFolderIds() {
         return $this->changes;
+    }
+
+    /**
+     * Indicates if there are folders which are pingable
+     *
+     * @access public
+     * @return boolean
+     */
+    public function PingableFolders() {
+        $pingable = false;
+
+        foreach ($this->collections as $folderid => $spa) {
+            if ($spa->GetPingableFlag() == true)
+                $pingable = true;
+        }
+
+        return $pingable;
     }
 
     /**

@@ -1,10 +1,10 @@
 <?php
 /***********************************************
-* File      :   version.php
+* File      :   config.php
 * Project   :   Z-Push
-* Descr     :   version number
+* Descr     :   Maildir backend configuration file
 *
-* Created   :   18.04.2008
+* Created   :   27.11.2012
 *
 * Copyright 2007 - 2013 Zarafa Deutschland GmbH
 *
@@ -41,13 +41,11 @@
 * Consult LICENSE file for details
 ************************************************/
 
-if (!defined("ZPUSH_VERSION")) {
-    if (file_exists(".svn/entries")) {
-        $svn = file(".svn/entries");
-        define("ZPUSH_VERSION", "SVN " . substr(trim($svn[4]),stripos($svn[4],"z-push")+7) ." r".trim($svn[3]));
-    }
-    else
-        define("ZPUSH_VERSION", "SVN checkout");
-}
+// ************************
+//  BackendMaildir settings
+// ************************
+
+define('MAILDIR_BASE', '/tmp');
+define('MAILDIR_SUBDIR', 'Maildir');
 
 ?>
