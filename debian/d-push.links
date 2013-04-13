@@ -1,3 +1,9 @@
 var/lib/d-push/state/ usr/share/d-push/state 
 etc/d-push/config.php usr/share/d-push/config.php
 etc/d-push/backend/searchldap/config.php usr/share/d-push/backend/searchldap/config.php
+etc/d-push/backend/imap/config.php usr/share/d-push/backend/imap/config.php
+etc/d-push/backend/vcarddir/config.php usr/share/d-push/backend/vcarddir/config.php
+etc/d-push/backend/combined/config.php usr/share/d-push/backend/combined/config.php
+etc/d-push/backend/maildir/config.php usr/share/d-push/backend/maildir/config.php
+etc/d-push/backend/zarafa/config.php usr/share/d-push/backend/zarafa/config.php
+
