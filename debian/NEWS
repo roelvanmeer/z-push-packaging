@@ -1,3 +1,38 @@
+d-push (2.1.0~M2-1) experimental; urgency=low
+
+    Upgrading from d-push 2.0 versions
+
+    Due to enhanced modularisation in the 2.1 z-push versions, the structure of
+    the debian packages has changed. The former d-push package is now split
+    into a common package and the backend packages.
+    So make sure that you have the backend installed which you want to use.
+    As a consequence, the configuration of the backends moved into separate
+    files in /etc/d-push/backend/$BACKEND/config.php. Please update your
+    configuration accordingly.
+ 
+    The states of D-Push 2.0 and 2.1 Milestone releases are not compatible, but
+    a state migration script is available in the tools folder.
+
+    To upgrade, please follow these steps:
+    1. upgrade your d-push files to the new version
+    2. mobiles which connect will receive a temporary synchronization error
+       (only visible if you explicitly click "refresh" on the mobiles)
+    3. run the upgrade script located in the tools folder. The files
+       distributed by us contain a correct configuration of this script to access
+       the config file and locate the state files. If your file locations are
+       different, please check the path settings in the top of the migration
+       script.
+    4. After running the migration script, mobiles will continue synchronizing
+       without any re-synchronization
+
+    You can run the script multiple times, but normally there is no need to do so.
+   
+    Please report us your experience, about this release in general and please
+    also about the upgrade process.
+
+
+ -- Wolfram Quester <wolfi@sigxcpu.org>  Sun, 14 Apr 2013 13:19:37 +0200
+
 d-push (2.0-1) unstable; urgency=low
 
     Upgrading from d-push 1.X versions
@@ -14,4 +49,4 @@ d-push (2.0-1) unstable; urgency=low
     This version offers improved logging facilities, so please review your
     configuration with respect to this.
 
- -- Wolfram Quester <wolfi@sigxcpu.org>  Thu, 28 Jun 2012 21:34:55 +0200
+-- Wolfram Quester <wolfi@sigxcpu.org>  Thu, 28 Jun 2012 21:34:55 +0200

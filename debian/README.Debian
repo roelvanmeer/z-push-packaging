@@ -1,5 +1,9 @@
+If you are upgrading from a 2.0 version of d-push or lowere, please have look
+at the NEWS file for changes in configuration and package structure.
+
+
 Installing and Configuring D-Push
-======================
+=================================
 
 After installing d-push, you must configure your webserver to redirect the URL
 'Microsoft-Server-ActiveSync' to the index.php file in the d-push directory.
