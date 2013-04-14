@@ -1,3 +1,16 @@
+d-push (2.1.0~M2-1) experimental; urgency=low
+
+  * We want to ship beta versions in experimental
+  * Imported Upstream version 2.1.0~M2
+  * Split backends into their own packages
+  * Make NEWS file accessible to dch, explain new package structure
+  * Adapt patches to new version
+  * install new config files properly
+  * Add logrotate snippet for log files
+  * upload sponsored by Guido Günther <agx@debian.org>, many thanks to him
+
+ -- Wolfram Quester <wolfi@sigxcpu.org>  Sun, 14 Apr 2013 13:33:18 +0200
+
 d-push (2.0.7-1) unstable; urgency=low
 
   * [5dad554] Imported Upstream version 2.0.7
