@@ -1,0 +1,2 @@
+backend/searchldap/config.php /etc/d-push/backend/searchldap/
+backend/searchldap  /usr/share/d-push/backend/

@@ -10,7 +10,7 @@ Vcs-Browser: http://git.debian.org/?p=git/pkg-giraffe/d-push.git;a=summary
 
 Package: d-push
 Architecture: all
-Depends: ${misc:Depends}, php5, php5-cli, php-pear, php5-imap, php-mail
+Depends: ${misc:Depends}, d-push-common, d-push-imap | d-push-maildir | d-push-vcarddir | d-push-zarafa | d-push-combined | d-push-searchldap
 Recommends: apache2 | lighttpd | httpd-cgi, libapache2-mod-php5
 Description: open source implementation of the ActiveSync protocol
  D-push is debian's rebranded version of zarafa's z-push.
@@ -18,3 +18,104 @@ Description: open source implementation of the ActiveSync protocol
  'over-the-air' for multi platform ActiveSync devices, including Windows
  Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With D-push any
  groupware can be connected and synced with these devices.
+ .
+ This is a meta package depending on packages providing the basic
+ syncronisation functionality.
+
+Package: d-push-common
+Architecture: all
+Depends: ${misc:Depends}, php5, php5-cli, php-pear, php-mail
+Recommends:
+Description: open source implementation of the ActiveSync protocol
+ D-push is debian's rebranded version of zarafa's z-push.
+ It is an implementation of the ActiveSync protocol which is used
+ 'over-the-air' for multi platform ActiveSync devices, including Windows
+ Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With D-push any
+ groupware can be connected and synced with these devices.
+ .
+ This package contains the actual d-push software used by all the backends.
+
+Package: d-push-zarafa
+Architecture: all
+Depends: ${misc:Depends}, d-push-common
+Recommends: 
+Description: open source implementation of the ActiveSync protocol
+ D-push is debian's rebranded version of zarafa's z-push.
+ It is an implementation of the ActiveSync protocol which is used
+ 'over-the-air' for multi platform ActiveSync devices, including Windows
+ Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With D-push any
+ groupware can be connected and synced with these devices.
+ .
+ The backend contained in this package allows you to sync mobile devices
+ against a zarafa server.
+
+Package: d-push-maildir
+Architecture: all
+Depends: ${misc:Depends}, d-push-common
+Recommends: 
+Description: open source implementation of the ActiveSync protocol
+ D-push is debian's rebranded version of zarafa's z-push.
+ It is an implementation of the ActiveSync protocol which is used
+ 'over-the-air' for multi platform ActiveSync devices, including Windows
+ Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With D-push any
+ groupware can be connected and synced with these devices.
+ .
+ The backend contained in this package allows you to sync emails to mobile
+ devices from a Maildir directory.
+
+Package: d-push-vcarddir
+Architecture: all
+Depends: ${misc:Depends}, d-push-common
+Recommends: 
+Description: open source implementation of the ActiveSync protocol
+ D-push is debian's rebranded version of zarafa's z-push.
+ It is an implementation of the ActiveSync protocol which is used
+ 'over-the-air' for multi platform ActiveSync devices, including Windows
+ Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With D-push any
+ groupware can be connected and synced with these devices.
+ .
+ The backend contained in this package allows you to sync contact information
+ to your mobile devices from vcards directory.
+
+Package: d-push-imap
+Architecture: all
+Depends: ${misc:Depends}, d-push-common, php5-imap
+Recommends: 
+Description: open source implementation of the ActiveSync protocol
+ D-push is debian's rebranded version of zarafa's z-push.
+ It is an implementation of the ActiveSync protocol which is used
+ 'over-the-air' for multi platform ActiveSync devices, including Windows
+ Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With D-push any
+ groupware can be connected and synced with these devices.
+ .
+ The backend contained in this package allows you to sync emails to mobile
+ devices from an IMAP server.
+
+Package: d-push-combined
+Architecture: all
+Depends: ${misc:Depends}, d-push-common
+Recommends: d-push-imap | d-push-maildir | d-push-vcarddir | d-push-zarafa 
+Description: open source implementation of the ActiveSync protocol
+ D-push is debian's rebranded version of zarafa's z-push.
+ It is an implementation of the ActiveSync protocol which is used
+ 'over-the-air' for multi platform ActiveSync devices, including Windows
+ Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With D-push any
+ groupware can be connected and synced with these devices.
+ .
+ The combined backend allows you to use a combination from different other
+ backends (imap, maildir, vcarddir, zarafa) to sync data to mobile devices.
+
+Package: d-push-searchldap
+Architecture: all
+Depends: ${misc:Depends}, d-push-common, php5-ldap
+Recommends: 
+Description: open source implementation of the ActiveSync protocol
+ D-push is debian's rebranded version of zarafa's z-push.
+ It is an implementation of the ActiveSync protocol which is used
+ 'over-the-air' for multi platform ActiveSync devices, including Windows
+ Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With D-push any
+ groupware can be connected and synced with these devices.
+ .
+ The backend contained in this package allows you to provide alternative
+ contact information to your mobile devices from an LDAP Server (Global Address
+ Lists).

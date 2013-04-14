@@ -1,0 +1,2 @@
+backend/imap/config.php       /etc/d-push/backend/imap/
+backend/imap  /usr/share/d-push/backend/
