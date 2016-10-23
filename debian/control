@@ -1,12 +1,13 @@
 Source: d-push
 Section: web
 Priority: extra
-Maintainer: Wolfram Quester <wolfi@sigxcpu.org>
-Build-Depends: debhelper (>= 7.0.50~), quilt, po-debconf
-Standards-Version: 3.9.3
-Homepage: http://z-push.sourceforge.net/soswp
-Vcs-Git: git://git.debian.org/git/pkg-giraffe/d-push.git
-Vcs-Browser: http://git.debian.org/?p=git/pkg-giraffe/d-push.git;a=summary
+Maintainer: Giraffe Maintainers <pkg-giraffe-maintainers@lists.alioth.debian.org>
+Uploaders: Carsten Schoenert <c.schoenert@t-online.de>, Guido Günther <agx@sigxcpu.org>
+Build-Depends: debhelper (>= 9), dh-exec, po-debconf
+Standards-Version: 3.9.8
+Vcs-Git: https://anonscm.debian.org/git/pkg-giraffe/d-push.git
+Vcs-Browser: https://anonscm.debian.org/git/pkg-giraffe/d-push.git
+Homepage: http://z-push.org/download/
 
 Package: d-push
 Architecture: all
