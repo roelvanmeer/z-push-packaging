@@ -9,18 +9,17 @@ Vcs-Git: https://anonscm.debian.org/git/pkg-giraffe/d-push.git
 Vcs-Browser: https://anonscm.debian.org/git/pkg-giraffe/d-push.git
 Homepage: http://z-push.org/download/
 
-Package: d-push
+Package: z-push
 Architecture: all
 Depends: ${misc:Depends}, d-push-common, d-push-imap | d-push-maildir | d-push-vcarddir | d-push-zarafa | d-push-combined | d-push-searchldap
 Recommends: apache2 | lighttpd | httpd-cgi, libapache2-mod-php5
-Description: open source implementation of the ActiveSync protocol
- D-push is debian's rebranded version of zarafa's z-push.
- It is an implementation of the ActiveSync protocol which is used
+Description: open source implementation of the ActiveSync protocol - metapackage
+ Z-Push is an implementation of the ActiveSync protocol which is used
  'over-the-air' for multi platform ActiveSync devices, including Windows
- Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With D-push any
+ Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With Z-Push any
  groupware can be connected and synced with these devices.
  .
- This is a meta package depending on packages providing the basic
+ This is a metapackage depending on packages providing the basic
  syncronisation functionality.
 
 Package: d-push-common
