@@ -11,7 +11,7 @@ Homepage: http://z-push.org/download/
 
 Package: z-push
 Architecture: all
-Depends: ${misc:Depends}, d-push-common, d-push-imap | d-push-maildir | d-push-vcarddir | d-push-zarafa | d-push-combined | d-push-searchldap
+Depends: ${misc:Depends}, z-push-common, d-push-imap | d-push-maildir | d-push-vcarddir | d-push-zarafa | d-push-combined | d-push-searchldap
 Recommends: apache2 | lighttpd | httpd-cgi, libapache2-mod-php5
 Description: open source implementation of the ActiveSync protocol - metapackage
  Z-Push is an implementation of the ActiveSync protocol which is used
@@ -22,22 +22,20 @@ Description: open source implementation of the ActiveSync protocol - metapackage
  This is a metapackage depending on packages providing the basic
  syncronisation functionality.
 
-Package: d-push-common
+Package: z-push-common
 Architecture: all
-Depends: ${misc:Depends}, php5, php5-cli, php-pear, php-mail
-Recommends:
-Description: open source implementation of the ActiveSync protocol
- D-push is debian's rebranded version of zarafa's z-push.
- It is an implementation of the ActiveSync protocol which is used
+Depends: ${misc:Depends}, php5 (>= 5.4) | php7, php5-cli, php-soap
+Description: open source implementation of the ActiveSync protocol - common files
+ Z-Push is an implementation of the ActiveSync protocol which is used
  'over-the-air' for multi platform ActiveSync devices, including Windows
- Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With D-push any
+ Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With Z-Push any
  groupware can be connected and synced with these devices.
  .
- This package contains the actual d-push software used by all the backends.
+ This package contains the actual Z-Push software used by all the backends.
 
 Package: d-push-zarafa
 Architecture: all
-Depends: ${misc:Depends}, d-push-common
+Depends: ${misc:Depends}, z-push-common
 Recommends: 
 Description: open source implementation of the ActiveSync protocol
  D-push is debian's rebranded version of zarafa's z-push.
@@ -51,7 +49,7 @@ Description: open source implementation of the ActiveSync protocol
 
 Package: d-push-maildir
 Architecture: all
-Depends: ${misc:Depends}, d-push-common
+Depends: ${misc:Depends}, z-push-common
 Recommends: 
 Description: open source implementation of the ActiveSync protocol
  D-push is debian's rebranded version of zarafa's z-push.
@@ -65,7 +63,7 @@ Description: open source implementation of the ActiveSync protocol
 
 Package: d-push-vcarddir
 Architecture: all
-Depends: ${misc:Depends}, d-push-common
+Depends: ${misc:Depends}, z-push-common
 Recommends: 
 Description: open source implementation of the ActiveSync protocol
  D-push is debian's rebranded version of zarafa's z-push.
@@ -79,7 +77,7 @@ Description: open source implementation of the ActiveSync protocol
 
 Package: d-push-imap
 Architecture: all
-Depends: ${misc:Depends}, d-push-common, php5-imap
+Depends: ${misc:Depends}, z-push-common, php5-imap
 Recommends: 
 Description: open source implementation of the ActiveSync protocol
  D-push is debian's rebranded version of zarafa's z-push.
@@ -93,7 +91,7 @@ Description: open source implementation of the ActiveSync protocol
 
 Package: d-push-combined
 Architecture: all
-Depends: ${misc:Depends}, d-push-common
+Depends: ${misc:Depends}, z-push-common
 Recommends: d-push-imap | d-push-maildir | d-push-vcarddir | d-push-zarafa 
 Description: open source implementation of the ActiveSync protocol
  D-push is debian's rebranded version of zarafa's z-push.
@@ -107,7 +105,7 @@ Description: open source implementation of the ActiveSync protocol
 
 Package: d-push-searchldap
 Architecture: all
-Depends: ${misc:Depends}, d-push-common, php5-ldap
+Depends: ${misc:Depends}, z-push-common, php5-ldap
 Recommends: 
 Description: open source implementation of the ActiveSync protocol
  D-push is debian's rebranded version of zarafa's z-push.

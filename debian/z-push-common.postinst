@@ -1,5 +1,5 @@
 #!/bin/sh
-# postinst script for d-push
+# postinst script for z-push
 #
 # see: dh_installdeb(1)
 
@@ -19,21 +19,21 @@ set -e
 
 
 lighttpd_install() {
-    if [ ! -f /etc/lighttpd/conf-available/50-d-push.conf ] ; then
+    if [ ! -f /etc/lighttpd/conf-available/50-z-push.conf ] ; then
 	if [ ! -x /usr/sbin/lighty-enable-mod ] ; then
 	    echo "Lighttpd not installed, skipping"
 	else
-	    ln -s ../../d-push/lighttpd.conf /etc/lighttpd/conf-available/50-d-push.conf
+	    ln -s ../../z-push/lighttpd.conf /etc/lighttpd/conf-available/50-z-push.conf
 	    # We also need auth to protect setup.php
-	    lighty-enable-mod d-push auth
+	    lighty-enable-mod z-push auth
 	fi
     fi
 }
 
 apache_install() {
     webserver=$1
-    if [ -d /etc/$webserver/conf.d ] && [ ! -e /etc/$webserver/conf.d/d-push.conf ]; then
-	ln -s ../../d-push/apache.conf /etc/$webserver/conf.d/d-push.conf
+    if [ -d /etc/$webserver/conf.d ] && [ ! -e /etc/$webserver/conf.d/z-push.conf ]; then
+	ln -s ../../z-push/apache.conf /etc/$webserver/conf.d/z-push.conf
     fi
 }
 
@@ -56,7 +56,7 @@ case "$1" in
     db_version 2.0
 
     # Configure Apache
-    db_get d-push/reconfigure-webserver
+    db_get z-push/reconfigure-webserver
 
     webservers="$RET"
 
@@ -77,8 +77,8 @@ case "$1" in
 	fi
     done
 
-        set_perms www-data www-data 700 /var/lib/d-push/state
-        set_perms www-data www-data 700 /var/log/d-push
+        set_perms www-data www-data 700 /var/lib/z-push/state
+        set_perms www-data www-data 700 /var/log/z-push
 
     ;;
 

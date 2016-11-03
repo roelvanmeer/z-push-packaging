@@ -1,0 +1,13 @@
+#!/usr/bin/dh-exec
+config/z-push.lr       etc/logrotate.d
+
+src/policies.ini       etc/z-push
+src/config.php      => etc/z-push/z-push.conf.php
+
+src/include            usr/share/z-push
+src/index.php          usr/share/z-push
+src/lib                usr/share/z-push
+src/vendor             usr/share/z-push
+src/version.php        usr/share/z-push
+src/z-push-admin.php   usr/share/z-push
+src/z-push-top.php     usr/share/z-push
