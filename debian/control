@@ -11,7 +11,7 @@ Homepage: http://z-push.org/download/
 
 Package: z-push
 Architecture: all
-Depends: ${misc:Depends}, z-push-common, d-push-imap | d-push-maildir | d-push-vcarddir | d-push-zarafa | d-push-combined | d-push-searchldap
+Depends: ${misc:Depends}, z-push-common, d-push-imap | d-push-maildir | d-push-vcarddir | z-push-kopano | d-push-combined | d-push-searchldap
 Recommends: apache2 | lighttpd | httpd-cgi, libapache2-mod-php5
 Description: open source implementation of the ActiveSync protocol - metapackage
  Z-Push is an implementation of the ActiveSync protocol which is used
@@ -33,19 +33,18 @@ Description: open source implementation of the ActiveSync protocol - common file
  .
  This package contains the actual Z-Push software used by all the backends.
 
-Package: d-push-zarafa
+Package: z-push-kopano
 Architecture: all
-Depends: ${misc:Depends}, z-push-common
-Recommends: 
-Description: open source implementation of the ActiveSync protocol
- D-push is debian's rebranded version of zarafa's z-push.
- It is an implementation of the ActiveSync protocol which is used
+Depends: ${misc:Depends}, php5-cli, php5-mapi | php7-mapi, z-push-common (= ${binary:Version})
+Recommends:
+Description: open source implementation of the ActiveSync protocol - kopano backend bindings
+ Z-Push is an implementation of the ActiveSync protocol which is used
  'over-the-air' for multi platform ActiveSync devices, including Windows
- Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With D-push any
+ Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With Z-Push any
  groupware can be connected and synced with these devices.
  .
  The backend contained in this package allows you to sync mobile devices
- against a zarafa server.
+ against a kopano server.
 
 Package: d-push-maildir
 Architecture: all
@@ -92,7 +91,7 @@ Description: open source implementation of the ActiveSync protocol
 Package: d-push-combined
 Architecture: all
 Depends: ${misc:Depends}, z-push-common
-Recommends: d-push-imap | d-push-maildir | d-push-vcarddir | d-push-zarafa 
+Recommends: d-push-imap | d-push-maildir | d-push-vcarddir | z-push-kopano
 Description: open source implementation of the ActiveSync protocol
  D-push is debian's rebranded version of zarafa's z-push.
  It is an implementation of the ActiveSync protocol which is used
