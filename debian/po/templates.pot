@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the d-push package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: d-push\n"
 "Report-Msgid-Bugs-To: d-push@packages.debian.org\n"
-"POT-Creation-Date: 2011-06-23 14:53+0200\n"
+"POT-Creation-Date: 2016-11-05 14:58+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,14 +19,14 @@ msgstr ""
 
 #. Type: multiselect
 #. Description
-#: ../d-push.templates:1001
+#: ../z-push-common.templates:1001
 msgid "Web server to reconfigure automatically:"
 msgstr ""
 
 #. Type: multiselect
 #. Description
-#: ../d-push.templates:1001
+#: ../z-push-common.templates:1001
 msgid ""
 "Please choose the web server that should be automatically configured to run "
-"d-push."
+"z-push."
 msgstr ""

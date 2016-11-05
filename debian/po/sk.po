@@ -1,14 +1,14 @@
 # Slovak translation for d-push debconf template.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the d-push package.
-# 
+#
 # Ivan Masár <helix84@centrum.sk>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: d-push\n"
 "Report-Msgid-Bugs-To: d-push@packages.debian.org\n"
-"POT-Creation-Date: 2011-06-23 14:53+0200\n"
+"POT-Creation-Date: 2016-11-05 14:58+0100\n"
 "PO-Revision-Date: 2012-02-24 13:00+0100\n"
 "Last-Translator: Ivan Masár <helix84@centrum.sk>\n"
 "Language-Team: Slovak <debian-l10n-slovak@lists.debian.org>\n"
@@ -19,13 +19,16 @@ msgstr ""
 
 #. Type: multiselect
 #. Description
-#: ../d-push.templates:1001
+#: ../z-push-common.templates:1001
 msgid "Web server to reconfigure automatically:"
 msgstr "Webový server, ktorého konfigurácia sa má automaticky upraviť:"
 
 #. Type: multiselect
 #. Description
-#: ../d-push.templates:1001
-msgid "Please choose the web server that should be automatically configured to run d-push."
-msgstr "Prosím, vyberte webový server, ktorý sa má automaticky nakonfigurovať, aby na ňom bežal d-push."
-
+#: ../z-push-common.templates:1001
+msgid ""
+"Please choose the web server that should be automatically configured to run "
+"z-push."
+msgstr ""
+"Prosím, vyberte webový server, ktorý sa má automaticky nakonfigurovať, aby "
+"na ňom bežal z-push."

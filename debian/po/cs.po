@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: d-push 1.5.5-1\n"
 "Report-Msgid-Bugs-To: d-push@packages.debian.org\n"
-"POT-Creation-Date: 2011-06-23 14:53+0200\n"
+"POT-Creation-Date: 2016-11-05 14:58+0100\n"
 "PO-Revision-Date: 2012-02-18 18:01+0100\n"
 "Last-Translator: Michal Simunek <michal.simunek@gmail.com>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
@@ -18,16 +18,16 @@ msgstr ""
 
 #. Type: multiselect
 #. Description
-#: ../d-push.templates:1001
+#: ../z-push-common.templates:1001
 msgid "Web server to reconfigure automatically:"
 msgstr "Automaticky přenastavit webový server:"
 
 #. Type: multiselect
 #. Description
-#: ../d-push.templates:1001
+#: ../z-push-common.templates:1001
 msgid ""
 "Please choose the web server that should be automatically configured to run "
-"d-push."
+"z-push."
 msgstr ""
 "Zvolte si prosím webový server, který se má automaticky nastavit ke spuštění "
-"d-push."
+"z-push."

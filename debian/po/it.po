@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: d-push\n"
 "Report-Msgid-Bugs-To: d-push@packages.debian.org\n"
-"POT-Creation-Date: 2011-06-23 14:53+0200\n"
+"POT-Creation-Date: 2016-11-05 14:58+0100\n"
 "PO-Revision-Date: 2012-02-24 19:02+0200\n"
 "Last-Translator: Beatrice Torracca <beatricet@libero.it>\n"
 "Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
@@ -19,16 +19,16 @@ msgstr ""
 
 #. Type: multiselect
 #. Description
-#: ../d-push.templates:1001
+#: ../z-push-common.templates:1001
 msgid "Web server to reconfigure automatically:"
 msgstr "Server web da riconfigurare automaticamente:"
 
 #. Type: multiselect
 #. Description
-#: ../d-push.templates:1001
+#: ../z-push-common.templates:1001
 msgid ""
 "Please choose the web server that should be automatically configured to run "
-"d-push."
+"z-push."
 msgstr ""
 "Selezionare il server web che deve essere configurato automaticamente per "
-"eseguire d-push."
+"eseguire z-push."

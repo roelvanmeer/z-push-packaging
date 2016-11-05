@@ -31,10 +31,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: d-push 1.5.3-1\n"
 "Report-Msgid-Bugs-To: d-push@packages.debian.org\n"
-"POT-Creation-Date: 2011-06-23 14:53+0200\n"
+"POT-Creation-Date: 2016-11-05 14:58+0100\n"
 "PO-Revision-Date: 2011-08-16 17:18+0100\n"
 "Last-Translator: SM Baby Siabef <siabef.debian@gmail.com>\n"
 "Language-Team: Debian Spanish <debian-l10n-spanish@lists.debian.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -42,14 +43,16 @@ msgstr ""
 
 #. Type: multiselect
 #. Description
-#: ../d-push.templates:1001
+#: ../z-push-common.templates:1001
 msgid "Web server to reconfigure automatically:"
 msgstr "Servidor web a reconfigurar automáticamente:"
 
 #. Type: multiselect
 #. Description
-#: ../d-push.templates:1001
-msgid "Please choose the web server that should be automatically configured to run d-push."
-msgstr "Seleccione el servidor web que se configurará automáticamente al ejecutar d-push."
-
-
+#: ../z-push-common.templates:1001
+msgid ""
+"Please choose the web server that should be automatically configured to run "
+"z-push."
+msgstr ""
+"Seleccione el servidor web que se configurará automáticamente al ejecutar z-"
+"push."
