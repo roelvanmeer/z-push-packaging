@@ -1,0 +1,3 @@
+#!/usr/bin/dh-exec
+src/backend/ldap/config.php => etc/z-push/ldap.conf.php
+src/backend/ldap               usr/share/z-push/backend
