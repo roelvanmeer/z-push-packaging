@@ -7,9 +7,7 @@
 # This special exception was added by Craig Small in version 0.37 of dh-make.
 
 # Uncomment this to turn on verbose mode.
-export DH_VERBOSE=1
-
-include /usr/share/quilt/quilt.make
+#export DH_VERBOSE=1
 
 DEB_VERSION := $(shell dpkg-parsechangelog | egrep '^Version:' | cut -f 2 -d ' ')
 
@@ -17,17 +15,15 @@ DEB_VERSION := $(shell dpkg-parsechangelog | egrep '^Version:' | cut -f 2 -d ' '
 	dh  $@
 
 override_dh_install:
-	sed -s "s/DPUSHVERSION/${DEB_VERSION}/" debian/version.php.in > version.php
+	sed -i "s/GIT/${DEB_VERSION}/" src/version.php
 	dh_install -X LICENSE
-	mkdir -p debian/d-push/var/lib/d-push/state/
-	mkdir -p debian/d-push/var/log/d-push
 	dh_installlogrotate
 
-clean: unpatch
+clean:
 	dh_testdir
 	dh_testroot
 	rm -f build-stamp
 	dh_clean
 	debconf-updatepo
 
-build: patch
+build:
