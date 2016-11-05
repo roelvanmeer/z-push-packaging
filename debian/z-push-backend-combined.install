@@ -1,0 +1,3 @@
+#!/usr/bin/dh-exec
+src/backend/combined/config.php => etc/z-push/combined.conf.php
+src/backend/combined               usr/share/z-push/backend
