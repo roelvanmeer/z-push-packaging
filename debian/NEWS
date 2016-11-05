@@ -49,4 +49,4 @@ d-push (2.0-1) unstable; urgency=low
     This version offers improved logging facilities, so please review your
     configuration with respect to this.
 
--- Wolfram Quester <wolfi@sigxcpu.org>  Thu, 28 Jun 2012 21:34:55 +0200
+ -- Wolfram Quester <wolfi@sigxcpu.org>  Thu, 28 Jun 2012 21:34:55 +0200

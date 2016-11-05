@@ -88,7 +88,7 @@ simply by clicking the 'Sync' button in ActiveSync on your mobile.
 *NOTE* using the synchronisation without SSL is not recommended because
 your private data is transmitted in clear text over the net. Configuring
 SSL on Apache is beyond of the scope of this document. Please refer to
-Apache documention available at http://httpd.apache.org/docs/
+Apache documentation available at http://httpd.apache.org/docs/
 
 
 Troubleshooting
