@@ -1,2 +1,2 @@
-# we want to modify the version string dynamically during build
-d-push source: patch-system-but-direct-changes-in-diff version.php
+# We need to ignore this issue as we use modified files from the PEAR modules.
+d-push source: license-problem-bad-php-license debian/copyright
