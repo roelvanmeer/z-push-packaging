@@ -1,0 +1,5 @@
+# We can't use the suggested packages, we use modified files instead.
+z-push-backend-imap: embedded-pear-module usr/share/z-push/backend/imap/Mail.php please use php-mail
+z-push-backend-imap: embedded-pear-module usr/share/z-push/backend/imap/Net/SMTP.php please use php-net-smtp
+z-push-backend-imap: embedded-pear-module usr/share/z-push/backend/imap/Net/Socket.php please use php-net-socket
+z-push-backend-imap: embedded-pear-module usr/share/z-push/backend/imap/mimePart.php please use php-mail-mime

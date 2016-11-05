@@ -1,0 +1,2 @@
+# php-mail-mimedecode isn't available in Stretch due PHP7 transition
+z-push-common: embedded-pear-module usr/share/z-push/include/mimeDecode.php please use php-mail-mimedecode
