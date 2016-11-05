@@ -1,0 +1,3 @@
+#!/usr/bin/dh-exec
+src/backend/imap/config.php => etc/z-push/imap.conf.php
+src/backend/imap               usr/share/z-push/backend

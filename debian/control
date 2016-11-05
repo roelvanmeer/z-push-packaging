@@ -11,7 +11,7 @@ Homepage: http://z-push.org/download/
 
 Package: z-push
 Architecture: all
-Depends: ${misc:Depends}, z-push-common, d-push-imap | z-push-kopano | z-push-backend-combined | z-push-backend-ldap
+Depends: ${misc:Depends}, z-push-common, z-push-backend-imap | z-push-kopano | z-push-backend-combined | z-push-backend-ldap
 Recommends: apache2 | lighttpd | httpd-cgi, libapache2-mod-php5
 Description: open source implementation of the ActiveSync protocol - metapackage
  Z-Push is an implementation of the ActiveSync protocol which is used
@@ -46,15 +46,14 @@ Description: open source implementation of the ActiveSync protocol - kopano back
  The backend contained in this package allows you to sync mobile devices
  against a kopano server.
 
-Package: d-push-imap
+Package: z-push-backend-imap
 Architecture: all
-Depends: ${misc:Depends}, z-push-common, php5-imap
-Recommends: 
-Description: open source implementation of the ActiveSync protocol
- D-push is debian's rebranded version of zarafa's z-push.
- It is an implementation of the ActiveSync protocol which is used
+Depends: ${misc:Depends}, z-push-common (= ${binary:Version}), php-imap | php5-imap
+Recommends:
+Description: open source implementation of the ActiveSync protocol - IMAP backend
+ Z-Push is an implementation of the ActiveSync protocol which is used
  'over-the-air' for multi platform ActiveSync devices, including Windows
- Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With D-push any
+ Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With Z-Push any
  groupware can be connected and synced with these devices.
  .
  The backend contained in this package allows you to sync emails to mobile
