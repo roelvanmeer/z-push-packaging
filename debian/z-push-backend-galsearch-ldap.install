@@ -1,0 +1,3 @@
+#!/usr/bin/dh-exec
+src/backend/searchldap/config.php => etc/z-push/galsearch-ldap.conf.php
+src/backend/searchldap               usr/share/z-push/backend

@@ -221,28 +221,29 @@ Description: open source implementation of the ActiveSync protocol - CardDav bac
  This package contains the backend that allows connecting your devices to
  a carddav server.
 
-Package: z-push-backend-ldap
+Package: z-push-backend-galsearch-ldap
 Architecture: all
-Depends: ${misc:Depends}, z-push-common (= ${binary:Version}), php-ldap | php5-ldap
-Recommends:
+Depends:
+ php-ldap | php5-ldap,
+ z-push-common (= ${binary:Version}),
+ ${misc:Depends},
 Provides: d-push-searchldap
 Replaces: d-push-searchldap (<< 2.1.0~M2-1.1~)
 Breaks: d-push-searchldap (<< 2.1.0~M2-1.1~)
-Description: open source implementation of the ActiveSync protocol - LDAP backend
+Description: open source implementation of the ActiveSync protocol - LDAP search backend
  Z-Push is an implementation of the ActiveSync protocol which is used
  'over-the-air' for multi platform ActiveSync devices, including Windows
  Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With Z-Push any
  groupware can be connected and synced with these devices.
  .
- The backend contained in this package allows you to provide alternative
- contact information to your mobile devices from an LDAP Server (e.g. Global
- Address Lists).
+ This package contains the possibility to search GAB entries on the mobile
+ device within a LDAP server.
 
 Package: d-push-searchldap
 Architecture: any
 Section: oldlibs
 Depends:
- z-push-backend-ldap,
+ z-push-backend-galsearch-ldap,
  ${misc:Depends},
 Description: open source implementation of the ActiveSync protocol
  D-push is debian's rebranded version of zarafa's z-push.
@@ -255,6 +256,20 @@ Description: open source implementation of the ActiveSync protocol
  contact information to your mobile devices from an LDAP Server (Global Address
  Lists).
  This is a transitional package. It can be safely removed.
+
+Package: z-push-backend-ldap
+Architecture: all
+Depends: ${misc:Depends}, z-push-common (= ${binary:Version}), php-ldap | php5-ldap
+Recommends:
+Description: open source implementation of the ActiveSync protocol - LDAP backend
+ Z-Push is an implementation of the ActiveSync protocol which is used
+ 'over-the-air' for multi platform ActiveSync devices, including Windows
+ Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With Z-Push any
+ groupware can be connected and synced with these devices.
+ .
+ The backend contained in this package allows you to provide alternative
+ contact information to your mobile devices from an LDAP Server (e.g. Global
+ Address Lists).
 
 Package: z-push-backend-kopano
 Architecture: all
