@@ -189,6 +189,22 @@ Description: open source implementation of the ActiveSync protocol
  to your mobile devices from vcards directory.
  This is a transitional package. It can be safely removed.
 
+Package: z-push-backend-caldav
+Architecture: all
+Depends:
+ libawl-php,
+ php-curl | php5-curl,
+ z-push-common (= ${binary:Version}),
+ ${misc:Depends},
+Description: open source implementation of the ActiveSync protocol - CalDav backend
+ Z-Push is an implementation of the ActiveSync protocol which is used
+ 'over-the-air' for multi platform ActiveSync devices, including Windows
+ Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With Z-Push any
+ groupware can be connected and synced with these devices.
+ .
+ This package contains the backend that allows connecting your devices to
+ a caldav server.
+
 Package: z-push-backend-ldap
 Architecture: all
 Depends: ${misc:Depends}, z-push-common (= ${binary:Version}), php-ldap | php5-ldap

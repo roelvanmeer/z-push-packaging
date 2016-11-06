@@ -1,0 +1,3 @@
+#!/usr/bin/dh-exec
+src/backend/caldav/config.php => etc/z-push/caldav.conf.php
+src/backend/caldav               usr/share/z-push/backend
