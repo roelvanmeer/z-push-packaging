@@ -13,6 +13,9 @@ Package: z-push
 Architecture: all
 Depends: ${misc:Depends}, z-push-common, z-push-backend-imap | z-push-kopano | z-push-backend-combined | z-push-backend-ldap
 Recommends: apache2 | lighttpd | httpd-cgi, libapache2-mod-php5
+Provides: d-push
+Replaces: d-push (<< 2.1.0~M2-1.1~)
+Breaks: d-push (<< 2.1.0~M2-1.1~)
 Description: open source implementation of the ActiveSync protocol - metapackage
  Z-Push is an implementation of the ActiveSync protocol which is used
  'over-the-air' for multi platform ActiveSync devices, including Windows
@@ -21,6 +24,20 @@ Description: open source implementation of the ActiveSync protocol - metapackage
  .
  This is a metapackage depending on packages providing the basic
  syncronisation functionality.
+
+Package: d-push
+Architecture: any
+Section: oldlibs
+Depends:
+ z-push,
+ ${misc:Depends},
+Description: open source implementation of the ActiveSync protocol
+ D-push is debian's rebranded version of zarafa's z-push.
+ It is an implementation of the ActiveSync protocol which is used
+ Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With D-push any
+ groupware can be connected and synced with these devices.
+ .
+ This is a transitional package. It can be safely removed.
 
 Package: z-push-common
 Architecture: all
