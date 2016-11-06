@@ -1,0 +1,3 @@
+#!/usr/bin/dh-exec
+src/backend/carddav/config.php => etc/z-push/carddav.conf.php
+src/backend/carddav               usr/share/z-push/backend
