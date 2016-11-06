@@ -335,3 +335,18 @@ Description: open source implementation of the ActiveSync protocol - Kopano GAB 
  .
  This package provides the GAB (Global Address Book) for the Kopano Outlook
  Extension.
+
+Package: z-push-state-sql
+Architecture: all
+Depends:
+ php5-cli,
+ php-mysql | php5-mysql,
+ z-push-common (= ${binary:Version}),
+ ${misc:Depends},
+Description: open source implementation of the ActiveSync protocol - MySQL state backend
+ Z-Push is an implementation of the ActiveSync protocol which is used
+ 'over-the-air' for multi platform ActiveSync devices, including Windows
+ Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With Z-Push any
+ groupware can be connected and synced with these devices.
+ .
+ This package provides the saving of states in a MySQL server.

@@ -1,0 +1,4 @@
+#!/usr/bin/dh-exec
+src/backend/sqlstatemachine/config.php => etc/z-push/state-sql.conf.php
+src/backend/sqlstatemachine               usr/share/z-push/backend
+tools/migrate-filestates-to-db.php        usr/share/z-push/tools

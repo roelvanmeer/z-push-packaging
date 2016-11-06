@@ -25,6 +25,7 @@ override_dh_fixperms:
 	chmod 755 debian/z-push-backend-kopano/usr/share/z-push/backend/kopano/listfolders.php
 	chmod 755 debian/z-push-common/usr/share/z-push/z-push-admin.php
 	chmod 755 debian/z-push-common/usr/share/z-push/z-push-top.php
+	chmod 755 debian/z-push-state-sql/usr/share/z-push/tools/migrate-filestates-to-db.php
 
 clean:
 	dh_testdir
