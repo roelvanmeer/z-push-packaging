@@ -1,0 +1,3 @@
+#!/usr/bin/dh-exec
+src/backend/ipcmemcached/config.php => etc/z-push/memcached.conf.php
+src/backend/ipcmemcached               usr/share/z-push/backend
