@@ -1,3 +1,0 @@
-#!/usr/bin/dh-exec
-src/backend/kopano/config.php => etc/z-push/kopano.conf.php
-src/backend/kopano               usr/share/z-push/backend
