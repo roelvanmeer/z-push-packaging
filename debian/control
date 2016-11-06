@@ -255,3 +255,20 @@ Description: open source implementation of the ActiveSync protocol
  contact information to your mobile devices from an LDAP Server (Global Address
  Lists).
  This is a transitional package. It can be safely removed.
+
+Package: z-push-backend-kopano
+Architecture: all
+Depends:
+ php5-mapi | php7-mapi,
+ z-push-common (= ${binary:Version}),
+ ${misc:Depends},
+Description: open source implementation of the ActiveSync protocol - Kopano backend
+ Z-Push is an implementation of the ActiveSync protocol which is used
+ 'over-the-air' for multi platform ActiveSync devices, including Windows
+ Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With Z-Push any
+ groupware can be connected and synced with these devices.
+ .
+ This package contains the ability that allows connecting your devices to
+ a Kopano or ZCP server to sync email, calendar, contacts, notes, tasks and
+ searches in the GAB.
+
