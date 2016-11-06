@@ -320,3 +320,18 @@ Description: open source implementation of the ActiveSync protocol - IPC shared 
  .
  This package is a provider for Z-Push that provides the usage of IPC
  shared memory. IPC is a acronym for 'Inter Process Communication'.
+
+Package: z-push-kopano-gabsync
+Architecture: all
+Depends:
+ php5-cli,
+ php5-mapi | php7-mapi,
+ ${misc:Depends},
+Description: open source implementation of the ActiveSync protocol - Kopano GAB sync
+ Z-Push is an implementation of the ActiveSync protocol which is used
+ 'over-the-air' for multi platform ActiveSync devices, including Windows
+ Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With Z-Push any
+ groupware can be connected and synced with these devices.
+ .
+ This package provides the GAB (Global Address Book) for the Kopano Outlook
+ Extension.

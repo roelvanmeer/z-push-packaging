@@ -1,0 +1,3 @@
+#!/usr/bin/dh-exec
+tools/gab-sync/config.php => etc/z-push/gabsync.conf.php
+tools/gab-sync               usr/share/z-push/tools
