@@ -1,3 +1,47 @@
+d-push (2.3.2-1) UNRELEASED; urgency=medium
+
+  [ Carsten Schoenert ]
+  * [e660271] debian/gbp.conf: Adding helper config for git-buildpackage
+  * [c521ed5] New upstream version 2.3.2
+  * [c846ce4] Switching to 3.0 (source)
+  * [9e3f3b3] Update metainformation for d-push source package
+  * [8f80548] de-branding: rename d-push to z-push
+  * [0c8197a] de-branding: rename d-push-common to z-push-common
+  * [79c8fb3] de-branding: rename d-push-zarafa to z-push-kopano
+  * [ba93d55] de-branding: remove no longer existing package d-push-maildir
+  * [ac703f5] de-branding: remove no longer existing package d-push-vcarddir
+  * [65b71b8] de-branding: rename d-push-combined to z-push-backend-combined
+  * [26be7d1] de-branding: rename d-push-searchldap to z-push-backend-ldap
+  * [ba3e358] de-branding: rename d-push-imap to z-push-backend-imap
+  * [98ac7c6] de-branding: adding transitional d-push package
+  * [503ee5d] de-branding: adding transitional d-push-common package
+  * [ac6289a] de-branding: adding transitional d-push-zarafa package
+  * [a212af7] de-branding: adding transitional d-push-[maildir,vcarddir] pkgs
+  * [1f25401] de-branding: adding transitional d-push-searchldap package
+  * [0c21a8e] de-branding: adding transitional d-push-imap package
+  * [db0ec8f] README.Debian, NEWS: fix mailformed line, typo fix
+  * [339ab9d] de-branding: refresh debconf template and translations
+  * [64be9a8] de-branding: adopt debian/rules to build existing packages
+  * [5aa26ed] copyright: update package information
+  * [4bf1c68] lintian: update source.lintian-overrides
+  * [f2ed4d2] lintian-overrides: adding some overrides for binaries
+  * [e1efe6c] debian/rules: fix file permission for *.php files
+  * [2495f91] debian/watch: adjust watching URL to new upstream URL
+  * [3288b22] adding new package z-push-backend-caldav
+  * [bf105ec] adding new package z-push-backend-carddav
+  * [6eb0f5f] adding new package z-push-backend-kopano
+  * [5d25d50] adding new package z-push-backend-galsearch-ldap
+  * [c8b0775] adding new package z-push-ipc-sharedmemory
+  * [e3aceee] adding new package z-push-ipc-memcached
+  * [e833774] update package z-push-kopano
+  * [8ac71f2] adding new package z-push-kopano-gabsync
+  * [2f6ade9] adding new package z-push-state-sql
+  * [1da97d9] WIP: disable the current patch queue
+
+  [ Roel van Meer ]
+
+ -- Carsten Schoenert <c.schoenert@t-online.de>  Tue, 27 Dec 2016 15:25:48 +0100
+
 d-push (2.1.0~M2-1) experimental; urgency=low
 
   * We want to ship beta versions in experimental
