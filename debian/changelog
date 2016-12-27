@@ -1,4 +1,4 @@
-d-push (2.3.2-1) UNRELEASED; urgency=medium
+z-push (2.3.2-1) UNRELEASED; urgency=medium
 
   [ Carsten Schoenert ]
   * [e660271] debian/gbp.conf: Adding helper config for git-buildpackage
