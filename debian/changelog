@@ -1,4 +1,4 @@
-z-push (2.3.2-1) UNRELEASED; urgency=medium
+z-push (2.3.4-1) UNRELEASED; urgency=medium
 
   [ Carsten Schoenert ]
   * [e660271] debian/gbp.conf: Adding helper config for git-buildpackage
@@ -39,8 +39,10 @@ z-push (2.3.2-1) UNRELEASED; urgency=medium
   * [1da97d9] WIP: disable the current patch queue
 
   [ Roel van Meer ]
+  * [2f05bb3] Change source package from d-push to z-push
+  * [0517dc3] Imported Upstream version 2.3.4
 
- -- Carsten Schoenert <c.schoenert@t-online.de>  Tue, 27 Dec 2016 15:25:48 +0100
+ -- Roel van Meer <roel@1afa.com>  Tue, 27 Dec 2016 15:40:27 +0100
 
 d-push (2.1.0~M2-1) experimental; urgency=low
 
