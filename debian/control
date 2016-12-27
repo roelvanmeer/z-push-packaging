@@ -22,7 +22,7 @@ Depends:
  ${misc:Depends},
 Recommends:
  apache2 | lighttpd | httpd-cgi,
- libapache2-mod-php5,
+ libapache2-mod-php,
 Provides: d-push
 Replaces: d-push (<< 2.1.0~M2-1.1~)
 Breaks: d-push (<< 2.1.0~M2-1.1~)
@@ -55,8 +55,8 @@ Provides: d-push-common
 Replaces: d-push-common (<< 2.1.0~M2-1.1~)
 Breaks: d-push-common (<< 2.1.0~M2-1.1~)
 Depends:
- php5 (>= 5.4) | php7,
- php5-cli,
+ php,
+ php-cli,
  php-soap,
  ${misc:Depends},
 Description: open source implementation of the ActiveSync protocol - common files
@@ -120,7 +120,7 @@ Description: open source implementation of the ActiveSync protocol
 Package: z-push-backend-imap
 Architecture: all
 Depends:
- php-imap | php5-imap,
+ php-imap,
  z-push-common (= ${binary:Version}),
  ${misc:Depends},
 Recommends:
@@ -214,7 +214,7 @@ Package: z-push-backend-caldav
 Architecture: all
 Depends:
  libawl-php,
- php-curl | php5-curl,
+ php-curl,
  z-push-common (= ${binary:Version}),
  ${misc:Depends},
 Description: open source implementation of the ActiveSync protocol - CalDav backend
@@ -229,8 +229,8 @@ Description: open source implementation of the ActiveSync protocol - CalDav back
 Package: z-push-backend-carddav
 Architecture: all
 Depends:
- php-curl | php5-curl,
- php5-xsl | php7.0-xsl,
+ php-curl,
+ php7.0-xsl,
  z-push-common (= ${binary:Version}),
  ${misc:Depends},
 Description: open source implementation of the ActiveSync protocol - CardDav backend
@@ -245,7 +245,7 @@ Description: open source implementation of the ActiveSync protocol - CardDav bac
 Package: z-push-backend-galsearch-ldap
 Architecture: all
 Depends:
- php-ldap | php5-ldap,
+ php-ldap,
  z-push-common (= ${binary:Version}),
  ${misc:Depends},
 Provides: d-push-searchldap
@@ -281,7 +281,7 @@ Description: open source implementation of the ActiveSync protocol
 Package: z-push-backend-ldap
 Architecture: all
 Depends:
- php-ldap | php5-ldap,
+ php-ldap,
  z-push-common (= ${binary:Version}),
  ${misc:Depends},
 Recommends:
@@ -298,7 +298,7 @@ Description: open source implementation of the ActiveSync protocol - LDAP backen
 Package: z-push-backend-kopano
 Architecture: all
 Depends:
- php5-cli,
+ php-cli,
  php5-mapi | php7-mapi,
  z-push-common (= ${binary:Version}),
  ${misc:Depends},
@@ -315,7 +315,7 @@ Description: open source implementation of the ActiveSync protocol - Kopano back
 Package: z-push-ipc-memcached
 Architecture: all
 Depends:
- php-memcached | php5-memcached,
+ php-memcached,
  z-push-common (= ${binary:Version}),
  ${misc:Depends},
 Description: open source implementation of the ActiveSync protocol - IPC memory management
@@ -331,7 +331,7 @@ Description: open source implementation of the ActiveSync protocol - IPC memory 
 Package: z-push-kopano-gabsync
 Architecture: all
 Depends:
- php5-cli,
+ php-cli,
  php5-mapi | php7-mapi,
  ${misc:Depends},
 Description: open source implementation of the ActiveSync protocol - Kopano GAB sync
@@ -346,8 +346,8 @@ Description: open source implementation of the ActiveSync protocol - Kopano GAB 
 Package: z-push-state-sql
 Architecture: all
 Depends:
- php5-cli,
- php-mysql | php5-mysql,
+ php-cli,
+ php-mysql,
  z-push-common (= ${binary:Version}),
  ${misc:Depends},
 Description: open source implementation of the ActiveSync protocol - MySQL state backend
