@@ -335,3 +335,21 @@ Description: open source implementation of the ActiveSync protocol - MySQL state
  groupware can be connected and synced with these devices.
  .
  This package provides the saving of states in a MySQL server.
+
+Package: z-push-autodiscover
+Architecture: all
+Depends:
+ php-mysql | php5-mysql,
+ z-push-common (= ${binary:Version}),
+ z-push-backend-imap (= ${binary:Version}) | z-push-kopano (= ${binary:Version}) | z-push-backend-combined (= ${binary:Version}) | z-push-backend-ldap (= ${binary:Version}),
+ ${misc:Depends},
+Description: open source implementation of the ActiveSync protocol - Autodiscovery
+ Z-Push is an implementation of the ActiveSync protocol which is used
+ 'over-the-air' for multi platform ActiveSync devices, including Windows
+ Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With Z-Push any
+ groupware can be connected and synced with these devices.
+ .
+ This package provides the service used to simplify the configuration of
+ collaboration accounts for clients, especially for mobile phones. With
+ Autodiscover a user is only required to fill in an email address and
+ password in order to configure his or her device.
