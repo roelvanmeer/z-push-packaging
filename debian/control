@@ -2,8 +2,13 @@ Source: z-push
 Section: web
 Priority: extra
 Maintainer: Giraffe Maintainers <pkg-giraffe-maintainers@lists.alioth.debian.org>
-Uploaders: Carsten Schoenert <c.schoenert@t-online.de>, Guido Günther <agx@sigxcpu.org>
-Build-Depends: debhelper (>= 9), dh-exec, po-debconf
+Uploaders:
+ Carsten Schoenert <c.schoenert@t-online.de>,
+ Guido Günther <agx@sigxcpu.org>,
+Build-Depends:
+ debhelper (>= 9),
+ dh-exec,
+ po-debconf,
 Standards-Version: 3.9.8
 Vcs-Git: https://anonscm.debian.org/git/pkg-giraffe/d-push.git
 Vcs-Browser: https://anonscm.debian.org/git/pkg-giraffe/d-push.git
@@ -11,8 +16,13 @@ Homepage: http://z-push.org/download/
 
 Package: z-push
 Architecture: all
-Depends: ${misc:Depends}, z-push-common, z-push-backend-imap | z-push-kopano | z-push-backend-combined | z-push-backend-ldap
-Recommends: apache2 | lighttpd | httpd-cgi, libapache2-mod-php5
+Depends:
+ z-push-backend-imap | z-push-kopano | z-push-backend-combined | z-push-backend-ldap,
+ z-push-common,
+ ${misc:Depends},
+Recommends:
+ apache2 | lighttpd | httpd-cgi,
+ libapache2-mod-php5,
 Provides: d-push
 Replaces: d-push (<< 2.1.0~M2-1.1~)
 Breaks: d-push (<< 2.1.0~M2-1.1~)
@@ -44,7 +54,11 @@ Architecture: all
 Provides: d-push-common
 Replaces: d-push-common (<< 2.1.0~M2-1.1~)
 Breaks: d-push-common (<< 2.1.0~M2-1.1~)
-Depends: ${misc:Depends}, php5 (>= 5.4) | php7, php5-cli, php-soap
+Depends:
+ php5 (>= 5.4) | php7,
+ php5-cli,
+ php-soap,
+ ${misc:Depends},
 Description: open source implementation of the ActiveSync protocol - common files
  Z-Push is an implementation of the ActiveSync protocol which is used
  'over-the-air' for multi platform ActiveSync devices, including Windows
@@ -105,7 +119,10 @@ Description: open source implementation of the ActiveSync protocol
 
 Package: z-push-backend-imap
 Architecture: all
-Depends: ${misc:Depends}, z-push-common (= ${binary:Version}), php-imap | php5-imap
+Depends:
+ php-imap | php5-imap,
+ z-push-common (= ${binary:Version}),
+ ${misc:Depends},
 Recommends:
 Provides: d-push-imap
 Replaces: d-push-imap (<< 2.1.0~M2-1.1~)
@@ -137,7 +154,9 @@ Description: open source implementation of the ActiveSync protocol
 
 Package: z-push-backend-combined
 Architecture: all
-Depends: ${misc:Depends}, z-push-common (= ${binary:Version})
+Depends:
+ z-push-common (= ${binary:Version}),
+ ${misc:Depends},
 Recommends: z-push-backend-imap | z-push-kopano
 Provides:
  d-push-maildir,
@@ -261,7 +280,10 @@ Description: open source implementation of the ActiveSync protocol
 
 Package: z-push-backend-ldap
 Architecture: all
-Depends: ${misc:Depends}, z-push-common (= ${binary:Version}), php-ldap | php5-ldap
+Depends:
+ php-ldap | php5-ldap,
+ z-push-common (= ${binary:Version}),
+ ${misc:Depends},
 Recommends:
 Description: open source implementation of the ActiveSync protocol - LDAP backend
  Z-Push is an implementation of the ActiveSync protocol which is used
