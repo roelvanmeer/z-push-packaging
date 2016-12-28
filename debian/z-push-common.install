@@ -11,3 +11,5 @@ src/vendor             usr/share/z-push
 src/version.php        usr/share/z-push
 src/z-push-admin.php   usr/share/z-push
 src/z-push-top.php     usr/share/z-push
+
+src/backend/ipcsharedmemory  usr/share/z-push/backend

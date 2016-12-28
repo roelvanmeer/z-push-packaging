@@ -72,7 +72,6 @@ Package: z-push-kopano
 Architecture: all
 Depends:
  z-push-backend-kopano (= ${binary:Version}),
- z-push-ipc-sharedmemory (= ${binary:Version}),
  z-push-common (= ${binary:Version}),
  ${misc:Depends},
 Provides: d-push-zarafa
@@ -306,20 +305,6 @@ Description: open source implementation of the ActiveSync protocol - IPC memory 
  This package is a provider for Z-Push that provides the usage of IPC
  via memcached mainly used in multi hosted setups. IPC is a acronym for
  'Inter Process Communication'.
-
-Package: z-push-ipc-sharedmemory
-Architecture: all
-Depends:
- z-push-common (= ${binary:Version}),
- ${misc:Depends},
-Description: open source implementation of the ActiveSync protocol - IPC shared memory
- Z-Push is an implementation of the ActiveSync protocol which is used
- 'over-the-air' for multi platform ActiveSync devices, including Windows
- Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With Z-Push any
- groupware can be connected and synced with these devices.
- .
- This package is a provider for Z-Push that provides the usage of IPC
- shared memory. IPC is a acronym for 'Inter Process Communication'.
 
 Package: z-push-kopano-gabsync
 Architecture: all
