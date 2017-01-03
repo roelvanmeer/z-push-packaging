@@ -1,2 +1,2 @@
 # We need to ignore this issue as we use modified files from the PEAR modules.
-d-push source: license-problem-bad-php-license debian/copyright
+z-push source: license-problem-bad-php-license debian/copyright
