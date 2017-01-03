@@ -1,6 +1,4 @@
 #!/usr/bin/dh-exec
-config/z-push.lr       etc/logrotate.d
-
 src/policies.ini       etc/z-push
 src/config.php      => etc/z-push/z-push.conf.php
 
