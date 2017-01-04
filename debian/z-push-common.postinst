@@ -67,13 +67,10 @@ case "$1" in
     # If we have more than one webserver, ask the user which of them
     # he wants to use for Z-push.
     if [ "$(echo $webservers | wc -w)" -gt 1 ]; then
-    . /usr/share/debconf/confmodule
-    db_version 2.0
-
-    # Configure Apache
-    db_get z-push/reconfigure-webserver
-
-    webservers="$RET"
+	. /usr/share/debconf/confmodule
+	db_version 2.0
+	db_get z-push/reconfigure-webserver
+	webservers="$RET"
     fi
 
     for webserver in $webservers; do
