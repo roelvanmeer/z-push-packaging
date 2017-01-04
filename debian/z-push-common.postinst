@@ -52,6 +52,21 @@ set_perms() {
 case "$1" in
     configure)
 
+    # Find out which webservers we have.
+    webservers=
+    if [ -e /usr/share/apache2/apache2-maintscript-helper ] ; then
+	webservers="$webservers apache2"
+    fi
+    if which lighty-enable-mod >/dev/null 2>&1 ; then
+        webservers="$webservers lighttpd"
+    fi
+    if which nginx >/dev/null 2>&1 ; then
+	webservers="$webservers nginx"
+    fi
+
+    # If we have more than one webserver, ask the user which of them
+    # he wants to use for Z-push.
+    if [ "$(echo $webservers | wc -w)" -gt 1 ]; then
     . /usr/share/debconf/confmodule
     db_version 2.0
 
@@ -59,6 +74,7 @@ case "$1" in
     db_get z-push/reconfigure-webserver
 
     webservers="$RET"
+    fi
 
     for webserver in $webservers; do
 	webserver=${webserver%,}
