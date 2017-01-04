@@ -1,4 +1,5 @@
 0005-adapt-path-variable-in-migration-tool.patch
 configure-disable-provisioning.patch
+configure-state-dir.patch
 gab2contacts-path-to-z-push.patch
 z-push-no-deprecated-apache-config.patch
