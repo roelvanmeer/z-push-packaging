@@ -16,7 +16,7 @@ DEB_VERSION := $(shell dpkg-parsechangelog | egrep '^Version:' | cut -f 2 -d ' '
 
 override_dh_install:
 	find src -type f \( -name "*.php" \) -exec chmod 644 {} \;
-	sed -i "s/GIT/${DEB_VERSION}/" src/version.php
+	sed -e "s/DEB_VERSION/${DEB_VERSION}/" debian/version.php.in > src/version.php
 	dh_install -X LICENSE
 
 override_dh_fixperms:
