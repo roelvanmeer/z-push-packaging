@@ -18,22 +18,15 @@ set -e
 # the debian-policy package
 
 
-lighttpd_install() {
-    if [ ! -f /etc/lighttpd/conf-available/50-z-push.conf ] ; then
-	if [ ! -x /usr/sbin/lighty-enable-mod ] ; then
-	    echo "Lighttpd not installed, skipping"
-	else
-	    ln -s ../../z-push/lighttpd.conf /etc/lighttpd/conf-available/50-z-push.conf
-	    # We also need auth to protect setup.php
-	    lighty-enable-mod z-push auth
-	fi
-    fi
-}
+reload() {
+    service=$1
 
-apache_install() {
-    webserver=$1
-    if [ -d /etc/$webserver/conf.d ] && [ ! -e /etc/$webserver/conf.d/z-push.conf ]; then
-	ln -s ../../z-push/apache.conf /etc/$webserver/conf.d/z-push.conf
+    # Redirection of 3 is needed because Debconf uses it and it might
+    # be inherited by webserver. See bug #446324.
+    if [ -x /usr/sbin/invoke-rc.d ]; then
+	invoke-rc.d $service reload 3>/dev/null || true
+    else
+	/etc/init.d/$service reload 3>/dev/null || true
     fi
 }
 
@@ -75,19 +68,25 @@ case "$1" in
 
     for webserver in $webservers; do
 	webserver=${webserver%,}
-	if [ "$webserver" = "lighttpd" ] ; then
-	    lighttpd_install
-	else
-	    apache_install $webserver
-	fi
-	# Reload webserver in any case, configuration might have changed
-	# Redirection of 3 is needed because Debconf uses it and it might
-	# be inherited by webserver. See bug #446324.
-	if [ -x /usr/sbin/invoke-rc.d ]; then
-	    invoke-rc.d $webserver reload 3>/dev/null || true
-	else
-	    /etc/init.d/$webserver reload 3>/dev/null || true
-	fi
+
+	    case "$webserver" in
+		apache2)
+		    if [ -e /usr/share/apache2/apache2-maintscript-helper ] ; then
+			. /usr/share/apache2/apache2-maintscript-helper
+			apache2_invoke enconf z-push.conf || exit $?
+		    fi
+		;;
+
+		lighttpd)
+		    # We also need auth to protect setup.php
+		    lighty-enable-mod z-push auth
+		    reload $webserver
+		;;
+
+		nginx)
+		;;
+	    esac
+
     done
 
         set_perms www-data www-data 700 /var/lib/z-push/state

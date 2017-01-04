@@ -11,3 +11,6 @@ src/z-push-admin.php   usr/share/z-push
 src/z-push-top.php     usr/share/z-push
 
 src/backend/ipcsharedmemory  usr/share/z-push/backend
+
+config/apache2/z-push.conf	=> etc/apache2/conf-available/z-push.conf
+config/lighttpd/z-push.conf	=> etc/lighttpd/conf-available/50-z-push.conf
