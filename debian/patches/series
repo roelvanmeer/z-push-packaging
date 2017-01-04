@@ -1,4 +1,4 @@
 #0002-set-IMAP-as-default-backend.patch
 #0003-Use-mail-in-sample-config.patch
 #0004-set-proper-default-config.patch
-#0005-adapt-path-variable-in-migration-tool.patch
+0005-adapt-path-variable-in-migration-tool.patch

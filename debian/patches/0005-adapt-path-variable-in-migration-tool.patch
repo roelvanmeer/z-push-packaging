@@ -6,23 +6,16 @@ Subject: adapt path variable in migration tool
  tools/migrate-2.0.x-2.1.0.php |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tools/migrate-2.0.x-2.1.0.php b/tools/migrate-2.0.x-2.1.0.php
-index e9c7606..294a8f0 100755
---- a/tools/migrate-2.0.x-2.1.0.php
-+++ b/tools/migrate-2.0.x-2.1.0.php
-@@ -44,7 +44,7 @@
+Index: z-push/tools/migrate-2.0.x-2.1.0.php
+===================================================================
+--- z-push.orig/tools/migrate-2.0.x-2.1.0.php	2017-01-04 14:11:43.903584491 +0100
++++ z-push/tools/migrate-2.0.x-2.1.0.php	2017-01-04 14:11:58.127626735 +0100
+@@ -26,7 +26,7 @@
  ************************************************/
  
  // Please adjust to match your z-push installation directory, usually /usr/share/z-push
 -define('ZPUSH_BASE_PATH', "../src");
-+define('ZPUSH_BASE_PATH', "/usr/share/d-push");
++define('ZPUSH_BASE_PATH', "/usr/share/z-push");
  
  
  
-@@ -214,4 +214,4 @@ class StateMigrator20xto210 {
-     }
- }
- 
--?>
-\ No newline at end of file
-+?>
