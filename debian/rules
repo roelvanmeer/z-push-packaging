@@ -18,7 +18,6 @@ override_dh_install:
 	find src -type f \( -name "*.php" \) -exec chmod 644 {} \;
 	sed -i "s/GIT/${DEB_VERSION}/" src/version.php
 	dh_install -X LICENSE
-	dh_installlogrotate
 
 override_dh_fixperms:
 	dh_fixperms
