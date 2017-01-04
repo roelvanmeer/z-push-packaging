@@ -36,7 +36,11 @@ if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
 	    ;;
 
 	    lighttpd)
-		lighty-disable-mod z-push
+		ret=0
+		lighty-disable-mod z-push || ret=$?
+		if [ $ret = 1 ]; then
+		    exit 1
+		fi
 		reload $webserver
 	    ;;
 
