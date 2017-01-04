@@ -79,7 +79,11 @@ case "$1" in
 
 		lighttpd)
 		    # We also need auth to protect setup.php
-		    lighty-enable-mod z-push auth
+		    ret=0
+		    lighty-enable-mod z-push auth || ret=$?
+		    if [ $ret = 1 ]; then
+			exit 1
+		    fi
 		    reload $webserver
 		;;
 
