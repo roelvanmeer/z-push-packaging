@@ -18,7 +18,7 @@ reload() {
 if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
     # Find out which webservers we have.
     webservers=
-    if [ -e /etc/apache2/conf-enabled/z-push.conf ] ; then
+    if [ -e /etc/apache2/conf-enabled/z-push.conf -o -e /etc/apache2/conf-enabled/z-push-autodiscover.conf ] ; then
         webservers="$webservers apache2"
     fi
     if [ -e /etc/lighttpd/conf-enabled/50-z-push.conf ] ; then
@@ -31,6 +31,7 @@ if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
 	    apache2)
 		if [ -e /usr/share/apache2/apache2-maintscript-helper ] ; then
 		    . /usr/share/apache2/apache2-maintscript-helper
+		    apache2_invoke disconf z-push-autodiscover.conf || exit $?
 		    apache2_invoke disconf z-push.conf || exit $?
 		fi
 	    ;;
