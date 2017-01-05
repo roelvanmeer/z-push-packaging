@@ -17,8 +17,8 @@ Homepage: http://z-push.org/download/
 Package: z-push
 Architecture: all
 Depends:
- z-push-backend-imap | z-push-kopano | z-push-backend-combined | z-push-backend-ldap,
- z-push-common,
+ z-push-backend-imap (= ${binary:Version}) | z-push-kopano (= ${binary:Version}) | z-push-backend-combined (= ${binary:Version}) | z-push-backend-ldap (= ${binary:Version}),
+ z-push-common (= ${binary:Version}),
  ${misc:Depends},
 Recommends:
  apache2 | lighttpd | httpd-cgi,
