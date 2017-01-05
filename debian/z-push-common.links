@@ -1,3 +1,4 @@
+etc/z-push/autodiscover.conf.php usr/share/z-push/autodiscover/config.php
 etc/z-push/z-push.conf.php usr/share/z-push/config.php
 etc/z-push/policies.ini usr/share/z-push/policies.ini
 var/lib/z-push/state/ usr/share/z-push/state
