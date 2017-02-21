@@ -19,3 +19,6 @@ src/autodiscover/config.php       => etc/z-push/autodiscover.conf.php
 src/autodiscover/response.xml        usr/share/z-push/autodiscover
 src/autodiscover/autodiscover.php    usr/share/z-push/autodiscover
 config/apache2/z-push-autodiscover.conf => etc/apache2/conf-available/z-push-autodiscover.conf
+
+debian/z-push-admin	usr/sbin
+debian/z-push-top	usr/sbin
