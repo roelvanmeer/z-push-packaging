@@ -17,7 +17,7 @@ Homepage: http://z-push.org/download/
 Package: z-push
 Architecture: all
 Depends:
- z-push-backend-imap (= ${binary:Version}) | z-push-kopano (= ${binary:Version}) | z-push-backend-combined (= ${binary:Version}) | z-push-backend-ldap (= ${binary:Version}),
+ z-push-backend-imap (= ${binary:Version}) | z-push-backend-kopano (= ${binary:Version}) | z-push-backend-combined (= ${binary:Version}) | z-push-backend-ldap (= ${binary:Version}),
  z-push-common (= ${binary:Version}),
  ${misc:Depends},
 Recommends:
@@ -82,29 +82,11 @@ Description: open source implementation of the ActiveSync protocol
  The package contains the actual d-push software used by all the backends.
  This is a transitional package. It can be safely removed.
 
-Package: z-push-kopano
-Architecture: all
-Depends:
- z-push-backend-kopano (= ${binary:Version}),
- z-push-common (= ${binary:Version}),
- ${misc:Depends},
-Provides: d-push-zarafa
-Replaces: d-push-zarafa (<< 2.1.0~M2-1.1~)
-Breaks: d-push-zarafa (<< 2.1.0~M2-1.1~)
-Description: open source implementation of the ActiveSync protocol - Kopano metapackage
- Z-Push is an implementation of the ActiveSync protocol which is used
- 'over-the-air' for multi platform ActiveSync devices, including Windows
- Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With Z-Push any
- groupware can be connected and synced with these devices.
- .
- This is a metapackage and is depending on packages that let your devices
- connect to a Kopano server or to the ZCP.
-
 Package: d-push-zarafa
 Architecture: any
 Section: oldlibs
 Depends:
- z-push-kopano,
+ z-push-backend-kopano,
  ${misc:Depends},
 Description: open source implementation of the ActiveSync protocol
  D-push is debian's rebranded version of zarafa's z-push.
@@ -157,7 +139,7 @@ Architecture: all
 Depends:
  z-push-common (= ${binary:Version}),
  ${misc:Depends},
-Recommends: z-push-backend-imap | z-push-kopano
+Recommends: z-push-backend-imap | z-push-backend-kopano
 Provides:
  d-push-maildir,
  d-push-vcarddir,
@@ -302,6 +284,9 @@ Depends:
  php7.0-mapi,
  z-push-common (= ${binary:Version}),
  ${misc:Depends},
+Provides: d-push-zarafa
+Replaces: d-push-zarafa (<< 2.1.0~M2-1.1~), z-push-kopano
+Breaks: d-push-zarafa (<< 2.1.0~M2-1.1~), z-push-kopano
 Description: open source implementation of the ActiveSync protocol - Kopano backend
  Z-Push is an implementation of the ActiveSync protocol which is used
  'over-the-air' for multi platform ActiveSync devices, including Windows
