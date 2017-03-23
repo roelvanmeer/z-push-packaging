@@ -1,0 +1,3 @@
+#!/usr/bin/dh-exec
+tools/gab2contacts/config.php => etc/z-push/gab2contacts.conf.php
+tools/gab2contacts               usr/share/z-push/tools
