@@ -70,6 +70,7 @@ webserver_disable() {
 case "$1" in
 	purge)
 		webserver_disable
+		rm -rf /var/log/z-push
 		;;
 	remove)
 		webserver_disable
