@@ -328,6 +328,21 @@ Description: open source implementation of the ActiveSync protocol - Kopano GAB 
  This package provides the GAB (Global Address Book) for the Kopano Outlook
  Extension.
 
+Package: z-push-kopano-gab2contacts
+Architecture: all
+Depends:
+ php5-cli,
+ php5-mapi | php7-mapi,
+ z-push (= ${binary:Version}),
+ ${misc:Depends},
+Description: open source implementation of the ActiveSync protocol - Kopano GAB to contacts
+ Z-Push is an implementation of the ActiveSync protocol which is used
+ 'over-the-air' for multi platform ActiveSync devices, including Windows
+ Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With Z-Push any
+ groupware can be connected and synced with these devices.
+ .
+ This package provides the GAB sync into a contacts folder for Kopano.
+
 Package: z-push-state-sql
 Architecture: all
 Depends:
