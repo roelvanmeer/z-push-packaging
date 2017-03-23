@@ -15,7 +15,7 @@ reload() {
     fi
 }
 
-if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
+webserver_disable() {
     # Find out which webservers we have.
     webservers=
     if [ -e /etc/apache2/conf-enabled/z-push.conf -o -e /etc/apache2/conf-enabled/z-push-autodiscover.conf ] ; then
@@ -50,9 +50,11 @@ if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
 	esac
 
     done
+}
 
+if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
+	webserver_disable
 fi
-
 
 #DEBHELPER#
 
