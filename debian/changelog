@@ -41,6 +41,37 @@ z-push (2.3.4-1) UNRELEASED; urgency=medium
   [ Roel van Meer ]
   * [2f05bb3] Change source package from d-push to z-push
   * [0517dc3] Imported Upstream version 2.3.4
+  * [57ac23a] Add .travis.yml from http://travis.debian.net.
+  * [1082789] Merge z-push-ipc-sharedmemory into z-push-common
+  * [3519208] Adding new package z-push-autodiscover
+
+  [ Carsten Schoenert ]
+  * [416193e] debian/control: wrap and sort entries
+  * [3cc0817] debian/control: move php package to default packages
+  * [ef50923] debian/control: adopt kopanocore package php7.0-mapi
+
+  [ Roel van Meer ]
+  * [4eed4a2] Don't install duplicate logrotate file
+  * [fca9725] Keep only four weeks of logs
+  * [279d206] Update source package name
+  * [a8e8276] Remove duplicate invocation of dh_installogrotate
+  * [48dc300] Add verbatim copy of version.php
+  * [62dad30] Don't try to run git to set the Z-push version
+  * [cfe9425] Add code snippet to find out which webservers are installed
+  * [c6c5313] Indentation
+  * [817461d] Remove obsolete apache config
+  * [0fefca0] Remove obsolete lighttpd config
+  * [7631aca] Configure webservers during install
+  * [703c4c4] Don't fail if lighttpd and auth module is already enabled
+  * [3104f9d] Update z-push config.php link target
+  * [cd3c029] Remove obsolete patch
+  * [8361e88] Refresh migration tools path patch
+  * [32d7256] Add link to policies.ini
+  * [33bb0c6] Disable device provisioning
+  * [968b1af] Ensure z-push depends on subpackages with same version
+  * [c8f7638] Merge z-push-autodiscover with z-push
+  * [cc0654f] Install z-push-autodiscover config and enable for apache2
+  * [03c6f75] Add wrapper scripts for z-push utilities
 
  -- Roel van Meer <roel@1afa.com>  Tue, 27 Dec 2016 15:40:27 +0100
 
