@@ -18,6 +18,8 @@ override_dh_install:
 	find src -type f \( -name "*.php" \) -exec chmod 644 {} \;
 	sed -e "s/DEB_VERSION/${DEB_VERSION}/" debian/version.php.in > src/version.php
 	dh_install -X LICENSE
+	# Rename so we can have dh_installdocs install this with a proper name.
+	cp -a src/autodiscover/INSTALL src/autodiscover/README.autodiscover
 
 override_dh_fixperms:
 	dh_fixperms
