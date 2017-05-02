@@ -33,23 +33,19 @@ License: BSD-2-clause
 
 Files: src/backend/imap/Mail.php
 Copyright: 2001-2010, Richard Heyes
-License: BSD-2-clause
+License: BSD-3-clause
 
 Files: src/backend/imap/Mail/*
 Copyright: 2010, Chuck Hagenbuch
+License: BSD-3-clause
+
+Files: src/backend/imap/Net/SMTP.php
+Copyright: 1997-2017, Jon Parise and Chuck Hagenbuch
 License: BSD-2-clause
-
-Files: src/backend/imap/Mail/sendmail.php
-Copyright: 1997-2003, The PHP Group
-License: PHP-2.02
-
-Files: src/backend/imap/Net/*
-Copyright: 1997-2003, The PHP Group
-License: PHP-2.02
 
 Files: src/backend/imap/Net/Socket.php
 Copyright: 1997-2013, The PHP Group
-License: PHP-2.02
+License: BSD-2-clause
 
 Files: src/backend/imap/mimePart.php
 Copyright: 2003-2006, PEAR <pear-group@php.net>
