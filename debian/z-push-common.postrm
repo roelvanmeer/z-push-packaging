@@ -69,12 +69,12 @@ webserver_disable() {
 
 case "$1" in
 	purge)
-		webserver_disable
+		webserver_disable $1
 		rm -rf /var/log/z-push
 		rm -rf /var/lib/z-push
 		;;
 	remove)
-		webserver_disable
+		webserver_disable $1
 		;;
 	upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
 		;;
