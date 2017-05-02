@@ -19,100 +19,100 @@ set -e
 
 
 reload() {
-    service=$1
+	service=$1
 
-    # Redirection of 3 is needed because Debconf uses it and it might
-    # be inherited by webserver. See bug #446324.
-    if [ -x /usr/sbin/invoke-rc.d ]; then
-	invoke-rc.d $service reload 3>/dev/null || true
-    else
-	/etc/init.d/$service reload 3>/dev/null || true
-    fi
+	# Redirection of 3 is needed because Debconf uses it and it might
+	# be inherited by webserver. See bug #446324.
+	if [ -x /usr/sbin/invoke-rc.d ]; then
+		invoke-rc.d $service reload 3>/dev/null || true
+	else
+		/etc/init.d/$service reload 3>/dev/null || true
+	fi
 }
 
 set_perms() {
-        USER=$1
-        GROUP=$2
-        MODE=$3
-        FILE=$4
-        if ! dpkg-statoverride --list $FILE > /dev/null 2>&1; then
-                chown $USER:$GROUP $FILE
-                chmod $MODE $FILE
-        fi
+	USER=$1
+	GROUP=$2
+	MODE=$3
+	FILE=$4
+	if ! dpkg-statoverride --list $FILE > /dev/null 2>&1; then
+		chown $USER:$GROUP $FILE
+		chmod $MODE $FILE
+	fi
 }
 
 
 case "$1" in
-    configure)
+	configure)
 
-    # Find out which webservers we have.
-    webservers=
-    if [ -e /usr/share/apache2/apache2-maintscript-helper ] ; then
-	webservers="$webservers apache2"
-    fi
-    if which lighty-enable-mod >/dev/null 2>&1 ; then
-        webservers="$webservers lighttpd"
-    fi
-    if which nginx >/dev/null 2>&1 ; then
-	webservers="$webservers nginx"
-    fi
-
-    # If we have more than one webserver, ask the user which of them
-    # he wants to use for Z-push.
-    if [ "$(echo $webservers | wc -w)" -gt 1 ]; then
-	. /usr/share/debconf/confmodule
-	db_version 2.0
-	db_get z-push/reconfigure-webserver
-	webservers="$RET"
-    fi
-
-    for webserver in $webservers; do
-	webserver=${webserver%,}
-
-	    case "$webserver" in
-		apache2)
-		    if [ -e /usr/share/apache2/apache2-maintscript-helper ] ; then
-			. /usr/share/apache2/apache2-maintscript-helper
-			apache2_invoke enconf z-push.conf || exit $?
-			apache2_invoke enconf z-push-autodiscover.conf || exit $?
-		    fi
-		;;
-
-		lighttpd)
-		    # We also need auth to protect setup.php
-		    ret=0
-		    lighty-enable-mod z-push auth || ret=$?
-		    if [ $ret = 1 ]; then
-			exit 1
-		    fi
-		    reload $webserver
-		;;
-
-		nginx)
-		;;
-	    esac
-
-    done
-
-        set_perms www-data www-data 700 /var/lib/z-push/state
-        set_perms www-data www-data 700 /var/log/z-push
-
-	if [ -f /var/lib/z-push/state/settings -o -f /var/lib/z-push/state/users ]; then
-		if ! /usr/sbin/z-push-admin -a fixstates >/dev/null 2>&1 ; then
-			echo "Error running command '/usr/sbin/z-push-admin -a fixstates'" >&2
-			echo "Please fix the issue and run this command manually." >&2
+		# Find out which webservers we have.
+		webservers=
+		if [ -e /usr/share/apache2/apache2-maintscript-helper ] ; then
+			webservers="$webservers apache2"
 		fi
-	fi
+		if which lighty-enable-mod >/dev/null 2>&1 ; then
+			webservers="$webservers lighttpd"
+		fi
+		if which nginx >/dev/null 2>&1 ; then
+			webservers="$webservers nginx"
+		fi
 
-    ;;
+		# If we have more than one webserver, ask the user which of them
+		# he wants to use for Z-push.
+		if [ "$(echo $webservers | wc -w)" -gt 1 ]; then
+			. /usr/share/debconf/confmodule
+			db_version 2.0
+			db_get z-push/reconfigure-webserver
+			webservers="$RET"
+		fi
 
-    abort-upgrade|abort-remove|abort-deconfigure)
-    ;;
+		for webserver in $webservers; do
+			webserver=${webserver%,}
 
-    *)
-        echo "postinst called with unknown argument \`$1'" >&2
-        exit 1
-    ;;
+			case "$webserver" in
+				apache2)
+					if [ -e /usr/share/apache2/apache2-maintscript-helper ] ; then
+						. /usr/share/apache2/apache2-maintscript-helper
+						apache2_invoke enconf z-push.conf || exit $?
+						apache2_invoke enconf z-push-autodiscover.conf || exit $?
+					fi
+				;;
+
+				lighttpd)
+					# We also need auth to protect setup.php
+					ret=0
+					lighty-enable-mod z-push auth || ret=$?
+					if [ $ret = 1 ]; then
+						exit 1
+					fi
+					reload $webserver
+				;;
+
+				nginx)
+				;;
+			esac
+
+		done
+
+		set_perms www-data www-data 700 /var/lib/z-push/state
+		set_perms www-data www-data 700 /var/log/z-push
+
+		if [ -f /var/lib/z-push/state/settings -o -f /var/lib/z-push/state/users ]; then
+			if ! /usr/sbin/z-push-admin -a fixstates >/dev/null 2>&1 ; then
+				echo "Error running command '/usr/sbin/z-push-admin -a fixstates'" >&2
+				echo "Please fix the issue and run this command manually." >&2
+			fi
+		fi
+
+	;;
+
+	abort-upgrade|abort-remove|abort-deconfigure)
+	;;
+
+	*)
+		echo "postinst called with unknown argument \`$1'" >&2
+		exit 1
+	;;
 esac
 
 # dh_installdeb will replace this with shell code automatically
