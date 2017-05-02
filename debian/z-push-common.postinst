@@ -97,6 +97,13 @@ case "$1" in
         set_perms www-data www-data 700 /var/lib/z-push/state
         set_perms www-data www-data 700 /var/log/z-push
 
+	if [ -f /var/lib/z-push/state/settings -o -f /var/lib/z-push/state/users ]; then
+		if ! /usr/sbin/z-push-admin -a fixstates >/dev/null 2>&1 ; then
+			echo "Error running command '/usr/sbin/z-push-admin -a fixstates'" >&2
+			echo "Please fix the issue and run this command manually." >&2
+		fi
+	fi
+
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
