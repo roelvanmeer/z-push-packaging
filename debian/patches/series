@@ -1,4 +1,3 @@
-#0003-Use-mail-in-sample-config.patch
 0005-adapt-path-variable-in-migration-tool.patch
 configure-disable-provisioning.patch
 gab2contacts-path-to-z-push.patch
