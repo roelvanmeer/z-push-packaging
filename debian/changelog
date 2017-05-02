@@ -1,4 +1,4 @@
-z-push (2.3.4-1) UNRELEASED; urgency=medium
+z-push (2.3.5-1) UNRELEASED; urgency=medium
 
   [ Carsten Schoenert ]
   * [e660271] debian/gbp.conf: Adding helper config for git-buildpackage
@@ -72,8 +72,21 @@ z-push (2.3.4-1) UNRELEASED; urgency=medium
   * [c8f7638] Merge z-push-autodiscover with z-push
   * [cc0654f] Install z-push-autodiscover config and enable for apache2
   * [03c6f75] Add wrapper scripts for z-push utilities
+  * [04a3680] Imported Upstream version 2.3.5
+  * [3c73d58] Create symlink to mapi dir
+  * [58a8a14] Drop z-push-kopano metapackage
+  * [692d663] postrm: move code into a function
+  * [f7fba9b] postrm: add boilerplate code for postrm
+  * [005952a] postrm: remove log files when purging z-push
+  * [3f78832] Add the z-push-kopano-gab2contacts package
+  * [57e087f] Set correct path to z-push in gab2contacts
+  * [f2975b9] debian/watch: include final releases in watch file
+  * [9c66066] lintian-overrides: add override for apache config name
+  * [d4c7879] apache2 config: remove deprecated auth options
+  * [c72391d] Create symlinks to correct config files
+  * [b470720] postrm: remove the state dir when purging z-push
 
- -- Roel van Meer <roel@1afa.com>  Tue, 27 Dec 2016 15:40:27 +0100
+ -- Roel van Meer <roel@1afa.com>  Tue, 02 May 2017 14:03:27 +0200
 
 d-push (2.1.0~M2-1) experimental; urgency=low
 
