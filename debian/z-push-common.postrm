@@ -73,12 +73,18 @@ case "$1" in
 		rm -rf /var/log/z-push
 		rm -rf /var/lib/z-push
 	;;
+
 	remove)
 		webserver_disable $1
 	;;
+
 	upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
 	;;
+
 	*)
+		echo "postrm called with unknown argument \`$1'" >&2
+		exit 1
+	;;
 esac
 
 
