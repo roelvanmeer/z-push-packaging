@@ -44,7 +44,6 @@ set_perms() {
 
 case "$1" in
 	configure)
-
 		# Find out which webservers we have.
 		webservers=
 		if [ -e /usr/share/apache2/apache2-maintscript-helper ] ; then
@@ -91,7 +90,6 @@ case "$1" in
 				nginx)
 				;;
 			esac
-
 		done
 
 		set_perms www-data www-data 700 /var/lib/z-push/state
@@ -103,7 +101,6 @@ case "$1" in
 				echo "Please fix the issue and run this command manually." >&2
 			fi
 		fi
-
 	;;
 
 	abort-upgrade|abort-remove|abort-deconfigure)
