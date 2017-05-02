@@ -41,6 +41,36 @@ z-push (2.3.4-1) UNRELEASED; urgency=medium
   [ Roel van Meer ]
   * [2f05bb3] Change source package from d-push to z-push
   * [0517dc3] Imported Upstream version 2.3.4
+  * [26df27d] Add .travis.yml from http://travis.debian.net.
+  * [5394971] Merge z-push-ipc-sharedmemory into z-push-common
+  * [debdc12] Adding new package z-push-autodiscover
+
+  [ Carsten Schoenert ]
+  * [223eb4d] debian/control: wrap and sort entries
+
+  [ Roel van Meer ]
+  * [619c1ac] Don't install duplicate logrotate file
+  * [a4579a7] Keep only four weeks of logs
+  * [f957df9] Update source package name
+  * [ef87cb6] On jessie, the current standards version is 3.9.6
+  * [c4b82fa] Remove duplicate invocation of dh_installogrotate
+  * [83f3410] Add verbatim copy of version.php
+  * [c88a231] Don't try to run git to set the Z-push version
+  * [d3591d7] Add code snippet to find out which webservers are installed
+  * [7247b14] Indentation
+  * [1767664] Remove obsolete apache config
+  * [3ff26f6] Remove obsolete lighttpd config
+  * [18f4261] Configure webservers during install
+  * [90aa652] Don't fail if lighttpd and auth module is already enabled
+  * [306e49b] Update z-push config.php link target
+  * [6c4df35] Remove obsolete patch
+  * [8808b40] Refresh migration tools path patch
+  * [acf4147] Add link to policies.ini
+  * [37da66f] Disable device provisioning
+  * [ddd0996] Ensure z-push depends on subpackages with same version
+  * [a3b6f60] Merge z-push-autodiscover with z-push
+  * [5129b5a] Install z-push-autodiscover config and enable for apache2
+  * [a788510] Add wrapper scripts for z-push utilities
 
  -- Roel van Meer <roel@1afa.com>  Tue, 27 Dec 2016 15:40:27 +0100
 
