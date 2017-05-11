@@ -331,7 +331,7 @@ Description: open source implementation of the ActiveSync protocol - Kopano GAB 
 Package: z-push-kopano-gab2contacts
 Architecture: all
 Depends:
- php5-cli,
+ php-cli,
  php7.0-mapi,
  z-push (= ${binary:Version}),
  ${misc:Depends},
