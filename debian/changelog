@@ -1,4 +1,27 @@
-z-push (2.3.5-1) UNRELEASED; urgency=medium
+z-push (2.3.6-1~1.gbp75d6bc) UNRELEASED; urgency=medium
+
+  ** SNAPSHOT build @75d6bcf5a445a62761cc38ea95d897831a9895e4 **
+
+  * [ba4d424] Imported Upstream version 2.3.6
+  * [8c9a301] Install the new manpages
+  * [ed8b64e] lintian: update lintian warning
+  * [c716bda] copyright: update license info
+  * [683de00] lintian: add override for lintian warning
+  * [9f2987b] Install autodiscover documentation with a better name
+  * [edb881f] Remove unused patch that sets default backend
+  * [793798f] Remove unused patch that adapts config for d-push
+  * [f18ce46] Remove unused obsolete patch setting IMAP_USE_IMAPMAIL
+  * [70fa864] Set state dir to /var/lib/z-push/state
+  * [8adbb17] postinst: run z-push-admin -a fixstates after installation
+  * [55e9cd8] postrm: Fix problem uninstalling the z-push-common package
+  * [b23b7fc] postinst, postrm: Indentation only
+  * [eecd640] postrm: layout according to boilerplate
+  * [7d623cf] postinst: Remove some useless empty lines
+  * [75d6bcf] Don't specify full path to invoke-rc.d
+
+ -- Roel van Meer <roel@1afa.com>  Thu, 11 May 2017 12:11:19 +0200
+
+z-push (2.3.5-1) experimental; urgency=medium
 
   [ Carsten Schoenert ]
   * [e660271] debian/gbp.conf: Adding helper config for git-buildpackage
