@@ -332,7 +332,7 @@ Package: z-push-kopano-gab2contacts
 Architecture: all
 Depends:
  php5-cli,
- php5-mapi | php7-mapi,
+ php7.0-mapi,
  z-push (= ${binary:Version}),
  ${misc:Depends},
 Description: open source implementation of the ActiveSync protocol - Kopano GAB to contacts
