@@ -1,4 +1,29 @@
-z-push (2.3.5-1) UNRELEASED; urgency=medium
+z-push (2.3.6-1~1.gbp62e72f) UNRELEASED; urgency=medium
+
+  ** SNAPSHOT build @62e72f272e41bafab3280663a4de3911855c3ad2 **
+
+  * [ba4d424] Imported Upstream version 2.3.6
+  * [aeb8e1b] Install the new manpages
+  * [ad79964] lintian: update lintian warning
+  * [2a68de2] copyright: update license info
+  * [c7b5534] lintian: add override for lintian warning
+  * [2342cf8] Install autodiscover documentation with a better name
+  * [27405af] Remove unused patch that sets default backend
+  * [733435d] Remove unused patch that adapts config for d-push
+  * [377c9d9] Remove unused obsolete patch setting IMAP_USE_IMAPMAIL
+  * [b0872f1] Set state dir to /var/lib/z-push/state
+  * [5ca0f01] postinst: run z-push-admin -a fixstates after installation
+  * [4f3ad07] postrm: Fix problem uninstalling the z-push-common package
+  * [1f80d44] postinst, postrm: Indentation only
+  * [eccf02a] postrm: layout according to boilerplate
+  * [f91db75] postinst: Remove some useless empty lines
+  * [5e1226f] Don't specify full path to invoke-rc.d
+  * [bfab6b7] control: Depend on correct php mapi package
+  * [62e72f2] control: Depend on correct php-cli package
+
+ -- Roel van Meer <roel@1afa.com>  Thu, 11 May 2017 12:09:55 +0200
+
+z-push (2.3.5-1) experimental; urgency=medium
 
   [ Carsten Schoenert ]
   * [e660271] debian/gbp.conf: Adding helper config for git-buildpackage
