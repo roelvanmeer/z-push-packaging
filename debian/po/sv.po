@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: d-push@packages.debian.org\n"
+"Report-Msgid-Bugs-To: z-push@packages.debian.org\n"
 "POT-Creation-Date: 2016-11-05 14:58+0100\n"
 "PO-Revision-Date: 2011-09-01 22:20+0100\n"
 "Last-Translator: Martin Bagge / brother <brother@bsnet.se>\n"
