@@ -231,9 +231,6 @@ Depends:
  php-ldap | php5-ldap,
  z-push-common (= ${binary:Version}),
  ${misc:Depends},
-Provides: d-push-searchldap
-Replaces: d-push-searchldap (<< 2.1.0~M2-1.1~)
-Breaks: d-push-searchldap (<< 2.1.0~M2-1.1~)
 Description: open source implementation of the ActiveSync protocol - LDAP search backend
  Z-Push is an implementation of the ActiveSync protocol which is used
  'over-the-air' for multi platform ActiveSync devices, including Windows
@@ -242,24 +239,6 @@ Description: open source implementation of the ActiveSync protocol - LDAP search
  .
  This package contains the possibility to search GAB entries on the mobile
  device within a LDAP server.
-
-Package: d-push-searchldap
-Architecture: any
-Section: oldlibs
-Depends:
- z-push-backend-galsearch-ldap,
- ${misc:Depends},
-Description: open source implementation of the ActiveSync protocol
- D-push is debian's rebranded version of zarafa's z-push.
- It is an implementation of the ActiveSync protocol which is used
- 'over-the-air' for multi platform ActiveSync devices, including Windows
- Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With D-push any
- groupware can be connected and synced with these devices.
- .
- The backend contained in this package allows you to provide alternative
- contact information to your mobile devices from an LDAP Server (Global Address
- Lists).
- This is a transitional package. It can be safely removed.
 
 Package: z-push-backend-ldap
 Architecture: all
