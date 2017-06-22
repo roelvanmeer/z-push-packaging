@@ -1,2 +1,2 @@
-var/lib/z-push/state
+var/lib/z-push
 var/log/z-push
