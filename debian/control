@@ -52,9 +52,6 @@ Description: open source implementation of the ActiveSync protocol
 
 Package: z-push-common
 Architecture: all
-Provides: d-push-common
-Replaces: d-push-common (<< 2.1.0~M2-1.1~)
-Breaks: d-push-common (<< 2.1.0~M2-1.1~)
 Depends:
  php5 (>= 5.4) | php7,
  php5-cli,
@@ -67,21 +64,6 @@ Description: open source implementation of the ActiveSync protocol - common file
  groupware can be connected and synced with these devices.
  .
  This package contains the actual Z-Push software used by all the backends.
-
-Package: d-push-common
-Architecture: any
-Section: oldlibs
-Depends:
- z-push-common,
- ${misc:Depends},
-Description: open source implementation of the ActiveSync protocol
- D-push is debian's rebranded version of zarafa's z-push.
- It is an implementation of the ActiveSync protocol which is used
- Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With D-push any
- groupware can be connected and synced with these devices.
- .
- The package contains the actual d-push software used by all the backends.
- This is a transitional package. It can be safely removed.
 
 Package: z-push-backend-imap
 Architecture: all
