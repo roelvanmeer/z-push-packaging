@@ -107,9 +107,6 @@ Depends:
  z-push-common (= ${binary:Version}),
  ${misc:Depends},
 Recommends:
-Provides: d-push-imap
-Replaces: d-push-imap (<< 2.1.0~M2-1.1~)
-Breaks: d-push-imap (<< 2.1.0~M2-1.1~)
 Description: open source implementation of the ActiveSync protocol - IMAP backend
  Z-Push is an implementation of the ActiveSync protocol which is used
  'over-the-air' for multi platform ActiveSync devices, including Windows
@@ -118,22 +115,6 @@ Description: open source implementation of the ActiveSync protocol - IMAP backen
  .
  The backend contained in this package allows you to sync emails to mobile
  devices from an IMAP server.
-
-Package: d-push-imap
-Architecture: any
-Section: oldlibs
-Depends:
- z-push-backend-imap,
- ${misc:Depends},
-Description: open source implementation of the ActiveSync protocol
- D-push is debian's rebranded version of zarafa's z-push.
- It is an implementation of the ActiveSync protocol which is used
- Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With D-push any
- groupware can be connected and synced with these devices.
- .
- The backend contained in this package allows you to sync emails to mobile
- devices from an IMAP server.
- This is a transitional package. It can be safely removed.
 
 Package: z-push-backend-combined
 Architecture: all
