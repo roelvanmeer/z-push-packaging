@@ -5,6 +5,7 @@ Maintainer: Giraffe Maintainers <pkg-giraffe-maintainers@lists.alioth.debian.org
 Uploaders:
  Carsten Schoenert <c.schoenert@t-online.de>,
  Guido Günther <agx@sigxcpu.org>,
+ Roel van Meer <roel@1afa.com>,
 Build-Depends:
  debhelper (>= 9),
  dh-exec,
