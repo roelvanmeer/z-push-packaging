@@ -141,12 +141,6 @@ Depends:
  z-push-common (= ${binary:Version}),
  ${misc:Depends},
 Recommends: z-push-backend-imap | z-push-backend-kopano
-Provides:
- d-push-maildir,
-Replaces:
- d-push-maildir (<< 2.1.0~M2-1.1~),
-Breaks:
- d-push-maildir (<< 2.1.0~M2-1.1~),
 Description: open source implementation of the ActiveSync protocol - combine backends
  Z-Push is an implementation of the ActiveSync protocol which is used
  'over-the-air' for multi platform ActiveSync devices, including Windows
@@ -155,23 +149,6 @@ Description: open source implementation of the ActiveSync protocol - combine bac
  .
  The combined backend allows you to use a combination from different other
  backends (imap, maildir, vcarddir, kopano) to sync data to mobile devices.
-
-Package: d-push-maildir
-Architecture: any
-Section: oldlibs
-Depends:
- z-push-backend-combined,
- ${misc:Depends},
-Description: open source implementation of the ActiveSync protocol
- D-push is debian's rebranded version of zarafa's z-push.
- It is an implementation of the ActiveSync protocol which is used
- 'over-the-air' for multi platform ActiveSync devices, including Windows
- Mobile, iPhone, Sony Ericsson and Nokia mobile devices. With D-push any
- groupware can be connected and synced with these devices.
- .
- The backend contained in this package allows you to sync emails to mobile
- devices from a Maildir directory.
- This is a transitional package. It can be safely removed.
 
 Package: z-push-backend-caldav
 Architecture: all
