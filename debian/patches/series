@@ -1,4 +1,3 @@
-0005-adapt-path-variable-in-migration-tool.patch
-configure-disable-provisioning.patch
-gab2contacts-path-to-z-push.patch
-z-push-no-deprecated-apache-config.patch
+adapt-path-variable-in-migration-tool.patch
+Set-correct-path-to-z-push-in-gab2contacts.patch
+apache2-config-remove-deprecated-auth-options.patch

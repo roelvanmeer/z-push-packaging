@@ -1,0 +1,45 @@
+From: Roel van Meer <roel@1afa.com>
+Date: Thu, 23 Mar 2017 13:25:29 +0100
+Subject: apache2 config: remove deprecated auth options
+
+This fixes two lintian warnings:
+  W: z-push: apache2-deprecated-auth-config Order
+  W: z-push: apache2-deprecated-auth-config Deny
+
+Upstream uses a mechansim to detect the module 'mod_authz_core.c' and do
+the access control in evaluation of this. This brings the advantage to
+use the same Apache2 configuration file for all Apache2 versions no
+matter if less or equal version 2.4.
+In Debian we only have apache2 packages 2.2 in oldoldstable (wheezy)
+right now. So we can ignore this kind of setup.
+---
+ config/apache2/z-push.conf | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
+
+diff --git a/config/apache2/z-push.conf b/config/apache2/z-push.conf
+index c7a2f91..9685259 100644
+--- a/config/apache2/z-push.conf
++++ b/config/apache2/z-push.conf
+@@ -23,20 +23,13 @@
+     # Security
+     # Don't allow .htaccess Overrides, disallow access to files
+     AllowOverride none
+-    <IfModule !mod_authz_core.c>
+-        Order allow,deny
+-        allow from all
+-    </IfModule>
+     <IfModule mod_authz_core.c>
+         Require all granted
+     </IfModule> 
+ 
+     <Files "config.php">
+-      <IfModule !mod_authz_core.c>
+-        Deny from All
+-      </IfModule>
+       <IfModule mod_authz_core.c>
+         Require all denied
+       </IfModule>
+     </Files>
+-</Directory>
+\ No newline at end of file
++</Directory>
