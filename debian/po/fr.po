@@ -1,6 +1,6 @@
-# Translation of d-push debconf templates to French
+# Translation of z-push debconf templates to French
 # Copyright (C) 2011 Debian French l10n team <debian-l10n-french@lists.debian.org>
-# This file is distributed under the same license as the d-push package.
+# This file is distributed under the same license as the z-push package.
 #
 # Translator:
 # Christian Perrier <bubulle@debian.org>, 2011.

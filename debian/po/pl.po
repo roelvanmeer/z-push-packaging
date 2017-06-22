@@ -1,6 +1,6 @@
-# Translation of d-push debconf templates to Polish.
+# Translation of z-push debconf templates to Polish.
 # Copyright (C) 2011
-# This file is distributed under the same license as the d-push package.
+# This file is distributed under the same license as the z-push package.
 #
 # Michał Kułach <michal.kulach@gmail.com>, 2012.
 msgid ""
