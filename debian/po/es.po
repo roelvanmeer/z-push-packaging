@@ -1,6 +1,6 @@
-# d-push po-debconf translation to Spanish
+# z-push po-debconf translation to Spanish
 # Copyright (C) 2011 Software in the Public Interest
-# This file is distributed under the same license as the d-push package.
+# This file is distributed under the same license as the z-push package.
 #
 # Changes:
 # - Initial translation
@@ -29,7 +29,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: d-push 1.5.3-1\n"
+"Project-Id-Version: z-push 1.5.3-1\n"
 "Report-Msgid-Bugs-To: z-push@packages.debian.org\n"
 "POT-Creation-Date: 2016-11-05 14:58+0100\n"
 "PO-Revision-Date: 2011-08-16 17:18+0100\n"
