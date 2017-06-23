@@ -1,4 +1,26 @@
-z-push (2.3.6-1~1.gbp75d6bc) UNRELEASED; urgency=medium
+z-push (2.3.7-1~1.gbp4e90de) UNRELEASED; urgency=medium
+
+  ** SNAPSHOT build @4e90de8bcb9d97900d67c94acf918f3f6be3f1e5 **
+
+  * [6faf956] Update changelog for 2.3.6-1~1.gbp75d6bc release
+  * [6ce681b] Imported Upstream version 2.3.7
+  * [92b3c25] control: Add myself to uploaders
+  * [7b5a7a3] po: Change email address to z-push@packages.debian.org
+  * [1fb9788] po: Replace references to d-push with z-push
+  * [6fb6355] control: Update links to Git repo
+  * [814d648] Use /var/lib/z-push as state dir
+  * [77daa55] control: Remove d-push-searchldap transitional package
+  * [b7256b0] control: Remove d-push-vcarddir transitional package
+  * [304bfdb] control: Remove d-push-maildir transitional package
+  * [2fba69d] control: Remove d-push-imap transitional package
+  * [37f6f19] control: Remove d-push-zarafa transitional package
+  * [1912e8d] control: Remove d-push-common transitional package
+  * [f6987ce] patches: Don't disable provisioning
+  * [4e90de8] Trivial update of README.source
+
+ -- Roel van Meer <roel@1afa.com>  Fri, 23 Jun 2017 11:05:48 +0200
+
+z-push (2.3.6-1~1.gbp75d6bc) experimental; urgency=medium
 
   ** SNAPSHOT build @75d6bcf5a445a62761cc38ea95d897831a9895e4 **
 
