@@ -1,83 +1,97 @@
-If you are upgrading from a 2.0 version of d-push or lowere, please have look
-at the NEWS file for changes in configuration and package structure.
-
-
-Installing and Configuring D-Push
+Installing and Configuring Z-Push
 =================================
 
-After installing d-push, you must configure your webserver to redirect the URL
-'Microsoft-Server-ActiveSync' to the index.php file in the d-push directory.
+If you are installing Z-Push for the first time, there is some configuration
+that should be done. At minimum, the following settings should be reviewed:
 
-If you like the postinst script automatically configures apache or
-lighttp for you via debconf. You can rerun this configuration by issuing
-"dpkg-reconfigure d-push" as root on the command line.
+  - In /etc/z-push/z-push.conf.php:
 
-If you still want to do things by hand, the redirect can be achieved by adding
-the line
+      Enable PROVISIONING if you want to be able to remotely wipe all
+      connected devices. See z-push-admin(1).
 
-    Alias /Microsoft-Server-ActiveSync /usr/share/d-push/index.php
+      Set BACKEND_PROVIDER to 'BackendKopano' or 'BackendIMAP', or keep it
+      empty to use autodetection based on the installed backend packages.
 
-to your Apache httpd.conf file. Make sure that you are adding the line to the
-correct part of your Apache configuration, taking care of virtual hosts and
-other Apache configurations.
+  - In /etc/z-push/autodiscover.conf.php:
 
-Another possibility is to add this line to a d-push.conf file inside the directory
-which contents are automatically processed during the webserver start (by
-default it is conf.d inside the /etc/apache2 or /etc/httpd depending on your
-distribution).
+      Set ZPUSH_HOST to the name of the web server that is running Z-Push.
 
-You have to reload your webserver after making these configurations.
+  - In /etc/z-push/imap.conf.php:
 
-*WARNING* You CANNOT simply rename the d-push directory to
-Microsoft-Server-ActiveSync. This will cause Apache to send redirects to the
-mobile device, which will definitely break your mobile device synchronisation.
+      You have to set IMAP_SERVER and the IMAP_FOLDER_* options at minimum.
 
-Lastly, make sure that PHP has the following settings:
+  - In /etc/z-push/kopano.conf.php:
 
-    php_flag magic_quotes_gpc off
-    php_flag register_globals off
-    php_flag magic_quotes_runtime off
-    php_flag short_open_tag on
-
-You can set this in the httpd.conf, in php.ini or in an .htaccess file in
-the root of d-push. If you don't set this up correctly, you will not be
-able to login correctly via d-push.
-
-D-Push writes files to your file system like logs or data from the
-FileStateMachine (which is default). In order to make this possible,
-you either need to disable the php-safe-mode in php.ini or .htaccess with
-    php_admin_flag safe_mode off
-or configure it accordingly, so D-Push is allowed to write to the 
-log and state directories. 
-
-After doing this, you should be able to synchronize with your mobile device.
+      Nothing; the Kopano backend should work without changes if Kopano is
+      installed on the same server as Z-Push.
 
 
-Upgrading from D-Push 1.X versions
-------------------------------------
+Upgrading from D-Push
+=====================
 
-The easiest way to upgrade is to follow the steps for a new installation. The states
-of D-Push 1.X are not compatible and there is no upgrade path, but as this version 
-implements a fully automatic resynchronisation of devices it should not affect the
-users and work without the user interaction.
+If you have used D-Push in the past, upgrading to Z-Push will take a bit of
+effort. Due to the new package structure of Z-Push, there is no easy way to
+convert the D-Push config to Z-Push config. If you are upgrading, make sure
+you have the correct backend packages installed and review the configuration
+in /etc/z-push.
+
+Things to watch out for:
+
+  - If Apache is used, remove any old d-push config lying around. Check the
+    Apache logs for an error such as:
+
+       The Alias directive in /etc/apache2/conf-enabled/z-push.conf at
+       line 3 will probably never match because it overlaps an earlier Alias.
+
+  - Review the configuration in /etc/z-push.
+
+  - The D-Push state dir was /var/lib/d-push/state. The Z-Push state dir is
+    /var/lib/z-push. State files are currently not migrated.
+
+An effort will be made to write more detailed upgrade instructions, or to
+add some automation that will help with this task.
 
 
-Update to newer D-Push versions
--------------------------------
+Differences between Debian packages and z-push.org packages
+===========================================================
 
-Upgrading to a newer D-Push version follows the same path as the initial 
-installation.
+Z-Push can be installed from the official Debian archive and from packages
+provided by z-push.org. The list of z-push packages between those two is
+slightly different. These differences are listed here:
 
-Please observe the published release notes of the new D-Push version.
-For some releases it is necessary to e.g. resynchronize the mobile.
+| Package                           | Debian               | z-push.org
+|-----------------------------------|----------------------|-------------------|
+| z-push                            |                      | N/A (metapackage) |
+| z-push-autodiscover               | N/A -> z-push-common |                   |
+| z-push-backend-caldav             |                      |                   |
+| z-push-backend-carddav            |                      |                   |
+| z-push-backend-combined           |                      |                   |
+| z-push-backend-galsearch-ldap     |                      |                   |
+| z-push-backend-imap               |                      |                   |
+| z-push-backend-kopano             |                      |                   |
+| z-push-backend-ldap               |                      |                   |
+| z-push-common                     |                      |                   |
+| z-push-config-apache              | N/A -> z-push-common |                   |
+| z-push-config-apache-autodiscover | N/A -> z-push-common |                   |
+| z-push-ipc-memcached              |                      |                   |
+| z-push-ipc-sharedmemory           | N/A -> z-push-common |                   |
+| z-push-kopano                     | N/A (metapackage)    |                   |
+| z-push-kopano-gab2contacts        |                      |                   |
+| z-push-kopano-gabsync             |                      |                   |
+| z-push-state-sql                  |                      |                   |
+|-----------------------------------|----------------------|-------------------|
+
+The most important difference is that some of the z-push.org packages have
+been merged with 'z-push-common' in Debian. Additionally, the z-push.org
+'z-push-kopano' metapackage was dropped, while Debian has a 'z-push'
+metapackage.
 
 
 Setting up your mobile device
------------------------------
+=============================
 
 This is simply a case of adding an 'exchange server' to your activesync
-server list, specifying the IP address of the D-Push's apache server,
-disabling SSL, unless you have already setup SSL on your Apache server,
+server list, specifying the host name of the Z-Push's apache server,
 setting the correct username and password (the domain is ignored, you can
 simply specify 'domain' or some other random string), and then going through
 the standard activesync settings.
@@ -92,33 +106,29 @@ Apache documentation available at http://httpd.apache.org/docs/
 
 
 Troubleshooting
----------------
+===============
 
 Most problems will be caused by incorrect Apache settings. To test whether
-your Apache setup is working correctly, you can simply type the D-Push URL
+your Apache setup is working correctly, you can simply type the Z-Push URL
 in your browser, to see if apache is correctly redirecting your request to
-d-push. You can simply use:
+z-push. You can simply use:
 
-    http://<serverip>/Microsoft-Server-ActiveSync
+    https://<servername>/Microsoft-Server-ActiveSync
 
 If correctly configured, you should see a username/password request and
-when you specify a valid username and password, you should see a D-Push
+when you specify a valid username and password, you should see a Z-Push
 information page, saying that this kind of requests is not supported.
-Without authentication credentials D-Push displays general information.
+Without authentication credentials Z-Push displays general information.
 
 If not then check your PHP and Apache settings and Apache error logs.
 
 If you have other synchronisation problems, you can increase the LOGLEVEL
 parameter in the config e.g. to LOGLEVEL_DEBUG or LOGLEVEL_WBXML.
 
-The d-push.log file will then collect detailed debug information from your
+The z-push.log file will then collect detailed debug information from your
 synchronisation.
 
-*NOTE* This setting will set D-Push to log the detailed information for
+*NOTE* This setting will set Z-Push to log the detailed information for
 *every* user on the system. You can set a different log level for particular
-users by adding them comma separated to $specialLogUsers in the config.php
- e.g. $specialLogUsers = array("user1", "user2", "user3");
- 
- *NOTE* Be aware that if you are using LOGLEVEL_DEBUG and LOGLEVEL_WBXML
- D-Push will be quite talkative, so it is advisable to use log-rotate
- on the log file.
+users by configuring $specialLogUsers in /etc/z-push/z-push.conf.php, e.g:
+   $specialLogUsers = array("user1", "user2", "user3");
