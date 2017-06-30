@@ -1,3 +1,18 @@
+z-push (2.3.7-1) experimental; urgency=medium
+
+    Upgrading from d-push
+
+    Several important things have changed since the last release of d-push.
+    The upstream Z-Push code has been relicensed so that de-branding it to
+    D-Push is no longer necessary. Therefore the packages are all called
+    z-push(-something) now. Additionally, the package structure has changed
+    quite a lot.
+
+    Currently no automatic upgrade from D-Push to Z-Push is possible. Please
+    check README.Debian for instructions on how to upgrade.
+
+ -- Roel van Meer <roel@1afa.com>  Fri, 30 Jun 2017 07:54:18 +0200
+
 d-push (2.1.0~M2-1) experimental; urgency=low
 
     Upgrading from d-push 2.0 versions
