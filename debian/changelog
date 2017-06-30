@@ -1,6 +1,4 @@
-z-push (2.3.7-1~1.gbp4e90de) UNRELEASED; urgency=medium
-
-  ** SNAPSHOT build @4e90de8bcb9d97900d67c94acf918f3f6be3f1e5 **
+z-push (2.3.7-1) experimental; urgency=low
 
   * [6faf956] Update changelog for 2.3.6-1~1.gbp75d6bc release
   * [6ce681b] Imported Upstream version 2.3.7
@@ -17,8 +15,12 @@ z-push (2.3.7-1~1.gbp4e90de) UNRELEASED; urgency=medium
   * [1912e8d] control: Remove d-push-common transitional package
   * [f6987ce] patches: Don't disable provisioning
   * [4e90de8] Trivial update of README.source
+  * [7ac06d7] Update changelog for 2.3.7-1~1.gbp4e90de release
+  * [be9cba3] Let z-push-common replace z-push.org packages
+  * [379e6bd] Updated README.Debian
+  * [55f0a02] Updated NEWS
 
- -- Roel van Meer <roel@1afa.com>  Fri, 23 Jun 2017 11:05:48 +0200
+ -- Roel van Meer <roel@1afa.com>  Fri, 30 Jun 2017 10:13:18 +0200
 
 z-push (2.3.6-1~1.gbp75d6bc) experimental; urgency=medium
 
