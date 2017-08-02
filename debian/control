@@ -174,7 +174,7 @@ Package: z-push-backend-kopano
 Architecture: all
 Depends:
  php-cli,
- php7.0-mapi,
+ php-mapi,
  z-push-common (= ${binary:Version}),
  ${misc:Depends},
 Replaces: z-push-kopano
@@ -209,7 +209,7 @@ Package: z-push-kopano-gabsync
 Architecture: all
 Depends:
  php-cli,
- php7.0-mapi,
+ php-mapi,
  ${misc:Depends},
 Description: open source implementation of the ActiveSync protocol - Kopano GAB sync
  Z-Push is an implementation of the ActiveSync protocol which is used
@@ -224,7 +224,7 @@ Package: z-push-kopano-gab2contacts
 Architecture: all
 Depends:
  php-cli,
- php7.0-mapi,
+ php-mapi,
  z-push (= ${binary:Version}),
  ${misc:Depends},
 Description: open source implementation of the ActiveSync protocol - Kopano GAB to contacts
