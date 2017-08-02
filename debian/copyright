@@ -14,22 +14,28 @@ License: GPL-2+
 Files: src/backend/caldav/*
 Copyright: 2012-2014, Jean-Louis Dupond
 License: AGPL-3
+Comment: Original Code from https://github.com/dupondje/PHP-Push-2
 
 Files: src/backend/carddav/*
 Copyright: 2013-2016, Francisco Miguel Biete
 License: AGPL-3
 
+Files: src/backend/imap/mimePart.php
+Copyright: 2002-2003, Richard Heyes <richard@phpguru.org>
+ 2003-2006, PEAR <pear-group@php.net>
+License: BSD-3-clause
+
 Files: src/backend/imap/Auth/*
-Copyright: 2002, 2003, Richard Heyes
-License: BSD-2-clause
+Copyright: 2002, 2003, Richard Heyes <richard@php.net>
+License: BSD-3-clause
 
 Files: src/backend/imap/Auth/SASL/External.php
 Copyright: 2008, Christoph Schulz
-License: BSD-2-clause
+License: BSD-3-clause
 
 Files: src/backend/imap/Auth/SASL/SCRAM.php
 Copyright: 2011, Jehan
-License: BSD-2-clause
+License: BSD-3-clause
 
 Files: src/backend/imap/Mail.php
 Copyright: 2001-2010, Richard Heyes
@@ -47,23 +53,19 @@ Files: src/backend/imap/Net/Socket.php
 Copyright: 1997-2013, The PHP Group
 License: BSD-2-clause
 
-Files: src/backend/imap/mimePart.php
-Copyright: 2003-2006, PEAR <pear-group@php.net>
-  2002, 2003, Richard Heyes <richard@phpguru.org>
-License: BSD-3-clause
-
 Files: src/backend/kopano/mapi/*
-Copyright: 2005-2013, Zarafa B.V.
+Copyright: 2005-2016, Zarafa B.V.
 License: AGPL-3
 
 Files: src/backend/ldap/ldap.php
 Copyright: 2015, Francisco Miguel Biete
   2012-2014, Jean-Louis Dupond
 License: AGPL-3
+Comment: Original Code from https://github.com/dupondje/PHP-Push-2
 
 Files: src/include/*
 Copyright: 2001-2010, Richard Heyes
-License: BSD-2-clause
+License: BSD-3-clause
 
 Files: src/include/iCalendar.php
 Copyright: Catalyst IT Ltd, Morphoss Ltd <http:www.morphoss.com/>
@@ -82,6 +84,10 @@ Files: src/include/z_caldav.php
 Copyright: Thorsten Köster, Andrew McMillan (original caldav-client-v2.php)
   Jean-Louis Dupond (cURL code), xbgmsharp (bugfixes)
 License: LGPL-3
+
+Files: src/include/z_carddav.php
+Copyright: 2011, Christian Putzke <christian.putzke@graviox.de>
+License: AGPL-3
 
 Files: src/vendor/*
 Copyright: Nils Adermann <naderman@naderman.de>
