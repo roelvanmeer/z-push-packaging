@@ -9,7 +9,8 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-DEB_VERSION := $(shell dpkg-parsechangelog | egrep '^Version:' | cut -f 2 -d ' ')
+# getting DEB_VERSION from helper without manually parsing the changelog file
+include /usr/share/dpkg/pkg-info.mk
 
 %:
 	dh  $@
