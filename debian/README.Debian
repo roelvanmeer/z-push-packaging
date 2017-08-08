@@ -87,6 +87,19 @@ been merged with 'z-push-common' in Debian. Additionally, the z-push.org
 metapackage.
 
 
+PEAR modules used in Z-push
+===========================
+
+Z-push uses several Pear modules. Unfortunately, these are copies of the
+original modules that have been slightly modified, so it is not possible to
+use the Debian packages for these modules. It is a long-term goal of the
+Z-push developers to replace these copies with their original equivalents,
+but until that time the z-push packages must carry the copied code.
+
+There are five Pear modules involved: Mail, Mail_MIME, Mail_mimeDecode,
+Net_SMTP and Net_Socket.
+
+
 Setting up your mobile device
 =============================
 
