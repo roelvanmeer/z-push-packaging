@@ -1,7 +1,6 @@
-z-push (2.3.6-1~1.gbp62e72f) UNRELEASED; urgency=medium
+z-push (2.3.7-1~exp1) experimental; urgency=medium
 
-  ** SNAPSHOT build @62e72f272e41bafab3280663a4de3911855c3ad2 **
-
+  [ Roel van Meer ]
   * [ba4d424] Imported Upstream version 2.3.6
   * [aeb8e1b] Install the new manpages
   * [ad79964] lintian: update lintian warning
@@ -20,8 +19,40 @@ z-push (2.3.6-1~1.gbp62e72f) UNRELEASED; urgency=medium
   * [5e1226f] Don't specify full path to invoke-rc.d
   * [bfab6b7] control: Depend on correct php mapi package
   * [62e72f2] control: Depend on correct php-cli package
+  * [b3c7123] Update changelog for 2.3.6-1~1.gbp62e72f release
+  * [6ce681b] Imported Upstream version 2.3.7
+  * [9d0067f] control: Add myself to uploaders
+  * [0256278] po: Change email address to z-push@packages.debian.org
+  * [86bc676] po: Replace references to d-push with z-push
+  * [2522d3a] control: Update links to Git repo
+  * [da8c507] Use /var/lib/z-push as state dir
+  * [b36ca20] control: Remove d-push-searchldap transitional package
+  * [f6d6aa8] control: Remove d-push-vcarddir transitional package
+  * [7c5b081] control: Remove d-push-maildir transitional package
+  * [bc449a8] control: Remove d-push-imap transitional package
+  * [d30d0fe] control: Remove d-push-zarafa transitional package
+  * [c0aa1b1] control: Remove d-push-common transitional package
+  * [2c2d1e2] Trivial update of README.source
+  * [50fcf50] Let z-push-common replace z-push.org packages
+  * [d6eb0d7] Updated README.Debian
+  * [5cf10a2] Updated NEWS
+  * [9ce7f4e] rebuild patch queue from patch-queue branch
+  * [51e042d] postinst, postrm: Don't use service variable
+  * [d825998] travis: Update list if branches to build
 
- -- Roel van Meer <roel@1afa.com>  Thu, 11 May 2017 12:09:55 +0200
+  [ Carsten Schoenert ]
+  * [2ef1cbe] debian/watch: remove unneeded line for beta versions
+  * [cfa4fbe] debian/control: s/php7.0-mapi/php-mapi
+  * [123b4b0] debian/control: increase Standards-Version to 4.0.1
+  * [4382c4f] debian/rules: use DEB_* variables for entries from changelog
+  * [28e5d1d] debian/copyright: remove PHP-2.02 license text
+  * [02b7596] debian/copyright: updates and small corrections
+  * [210d663] lintian-overrides: ignore warning about composer tool
+
+  [ Roel van Meer ]
+  * [09eaae1] README.Debian: additional information for PEAR modules
+
+ -- Carsten Schoenert <c.schoenert@t-online.de>  Sun, 20 Aug 2017 10:01:07 +0200
 
 z-push (2.3.5-1) experimental; urgency=medium
 
