@@ -100,6 +100,25 @@ There are five Pear modules involved: Mail, Mail_MIME, Mail_mimeDecode,
 Net_SMTP and Net_Socket.
 
 
+Apache configuration
+====================
+
+The z-push-common package provides two config files for Apache. The first
+config file, 'z-push.conf', enables the Z-Push application itself. Since
+upstream uses the name 'z-push.conf' for this config file, it seemed better
+to use this name as well, even though it is installed by the z-push-common
+package. This will make upgrading from upstream packages or source installs
+to the standard Debian packages much easier.
+The second config file, 'z-push-autodiscover.conf', configures Autodiscovery
+for Z-Push. This is done in a separate config file because 1) a user
+might not want to enable Autodiscovery or 2) he or she might want to
+run Autodiscovery by itself on a different host than the Z-push application.
+
+Because of this, the lintian suggestion that the name of the Apache
+config files should match the package name was not followed, and two
+lintian warnings were overridden in z-push-common.lintian-overrides.
+
+
 Setting up your mobile device
 =============================
 

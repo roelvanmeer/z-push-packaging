@@ -16,6 +16,7 @@ src/autodiscover/config.php       => etc/z-push/autodiscover.conf.php
 src/autodiscover/response.xml        usr/share/z-push/autodiscover
 src/autodiscover/autodiscover.php    usr/share/z-push/autodiscover
 
+# See section `Apache configuration' in README.Debian.
 config/apache2/z-push.conf              => etc/apache2/conf-available/z-push.conf
 config/apache2/z-push-autodiscover.conf => etc/apache2/conf-available/z-push-autodiscover.conf
 

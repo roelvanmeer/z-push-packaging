@@ -1,5 +1,5 @@
 # php-mail-mimedecode isn't available in Stretch due PHP7 transition
 z-push-common: embedded-pear-module usr/share/z-push/include/mimeDecode.php please use php-mail-mimedecode
-# Intentional - config in separate file so it can be easily enabled or disabled.
+# See section `Apache configuration' in README.Debian.
 z-push-common: non-standard-apache2-configuration-name z-push-autodiscover.conf != z-push-common.conf
 z-push-common: non-standard-apache2-configuration-name z-push.conf != z-push-common.conf
