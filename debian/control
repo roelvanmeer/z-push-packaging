@@ -39,6 +39,7 @@ Description: open source implementation of the ActiveSync protocol - metapackage
 Package: d-push
 Architecture: any
 Section: oldlibs
+Priority: extra
 Depends:
  z-push,
  ${misc:Depends},
