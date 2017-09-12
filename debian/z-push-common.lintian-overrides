@@ -1,3 +1,5 @@
+# We can't use the suggested packages, Z-Push uses modified files instead.
+# See section `PEAR modules used in Z-Push` in README.Debian.
 # php-mail-mimedecode isn't available in Stretch due PHP7 transition
 z-push-common: embedded-pear-module usr/share/z-push/include/mimeDecode.php please use php-mail-mimedecode
 # See section `Apache configuration' in README.Debian.
