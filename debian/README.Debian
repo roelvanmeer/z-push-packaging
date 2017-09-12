@@ -56,7 +56,7 @@ Differences between Debian packages and z-push.org packages
 ===========================================================
 
 Z-Push can be installed from the official Debian archive and from packages
-provided by z-push.org. The list of z-push packages between those two is
+provided by z-push.org. The list of Z-Push packages between those two is
 slightly different. These differences are listed here:
 
 | Package                           | Debian               | z-push.org
@@ -87,14 +87,14 @@ been merged with 'z-push-common' in Debian. Additionally, the z-push.org
 metapackage.
 
 
-PEAR modules used in Z-push
+PEAR modules used in Z-Push
 ===========================
 
-Z-push uses several Pear modules. Unfortunately, these are copies of the
+Z-Push uses several Pear modules. Unfortunately, these are copies of the
 original modules that have been slightly modified, so it is not possible to
 use the Debian packages for these modules. It is a long-term goal of the
-Z-push developers to replace these copies with their original equivalents,
-but until that time the z-push packages must carry the copied code.
+Z-Push developers to replace these copies with their original equivalents,
+but until that time the Z-Push packages must carry the copied code.
 
 There are five Pear modules involved: Mail, Mail_MIME, Mail_mimeDecode,
 Net_SMTP and Net_Socket.
@@ -112,7 +112,7 @@ to the standard Debian packages much easier.
 The second config file, 'z-push-autodiscover.conf', configures Autodiscovery
 for Z-Push. This is done in a separate config file because 1) a user
 might not want to enable Autodiscovery or 2) he or she might want to
-run Autodiscovery by itself on a different host than the Z-push application.
+run Autodiscovery by itself on a different host than the Z-Push application.
 
 Because of this, the lintian suggestion that the name of the Apache
 config files should match the package name was not followed, and two
@@ -143,7 +143,7 @@ Troubleshooting
 Most problems will be caused by incorrect Apache settings. To test whether
 your Apache setup is working correctly, you can simply type the Z-Push URL
 in your browser, to see if apache is correctly redirecting your request to
-z-push. You can simply use:
+Z-Push. You can simply use:
 
     https://<servername>/Microsoft-Server-ActiveSync
 
