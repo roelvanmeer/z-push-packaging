@@ -1,6 +1,6 @@
 Source: z-push
 Section: web
-Priority: extra
+Priority: optional
 Maintainer: Giraffe Maintainers <pkg-giraffe-maintainers@lists.alioth.debian.org>
 Uploaders:
  Carsten Schoenert <c.schoenert@t-online.de>,
