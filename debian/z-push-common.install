@@ -12,13 +12,14 @@ src/z-push-top.php     usr/share/z-push
 
 src/backend/ipcsharedmemory  usr/share/z-push/backend
 
-config/apache2/z-push.conf	=> etc/apache2/conf-available/z-push.conf
-config/lighttpd/z-push.conf	=> etc/lighttpd/conf-available/50-z-push.conf
-
 src/autodiscover/config.php       => etc/z-push/autodiscover.conf.php
 src/autodiscover/response.xml        usr/share/z-push/autodiscover
 src/autodiscover/autodiscover.php    usr/share/z-push/autodiscover
+
+config/apache2/z-push.conf              => etc/apache2/conf-available/z-push.conf
 config/apache2/z-push-autodiscover.conf => etc/apache2/conf-available/z-push-autodiscover.conf
+
+config/lighttpd/z-push.conf             => etc/lighttpd/conf-available/50-z-push.conf
 
 debian/z-push-admin	usr/sbin
 debian/z-push-top	usr/sbin
