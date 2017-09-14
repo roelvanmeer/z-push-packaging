@@ -1,3 +1,17 @@
+z-push (2.3.7-1) experimental; urgency=medium
+
+  [ Roel van Meer ]
+  * [4fa7f3f] control: Change priority to optional
+  * [736f8a0] control: Change priority of d-push package back to extra
+  * [7ea627b] postinst, postrm: Use invoke-rc.d unconditionally
+  * [746acf2] d/z-push-common.install: Reorder entries
+  * [bc4a962] README.Debian: Document Apache config and lintian overrides
+  * [ba3eded] Update README.source
+  * [dfbbf5f] README.Debian: Proper casing of Z-Push
+  * [91f4719] lintian-overrides: Point to relevant section in README.Debian
+
+ -- Carsten Schoenert <c.schoenert@t-online.de>  Wed, 13 Sep 2017 19:20:20 +0200
+
 z-push (2.3.7-1~exp1) experimental; urgency=medium
 
   [ Roel van Meer ]
