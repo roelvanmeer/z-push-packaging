@@ -1,3 +1,18 @@
+z-push (2.3.8-1) experimental; urgency=medium
+
+  [ Carsten Schoenert ]
+  * [162e5c5] debian/rules: use override_dh_fixperms-indep (Closes: #876448)
+
+  [ Roel van Meer ]
+  * [b3d6765] Imported Upstream version 2.3.8
+  * [35e7140] debian/control: increase Standards-Version to 4.1.0
+  * [de269e6] rebuild patch queue from patch-queue branch
+  * [78138a4] d/z-push-common.postinst: Don't specify command with full path
+  * [9077716] Revert "control: Change priority of d-push package back to extra"
+  * [c00ad7d] Revert "travis: Update list if branches to build"
+
+ -- Roel van Meer <roel@1afa.com>  Fri, 22 Sep 2017 23:26:07 +0200
+
 z-push (2.3.7-1) experimental; urgency=medium
 
   [ Roel van Meer ]
