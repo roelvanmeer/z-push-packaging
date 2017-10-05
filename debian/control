@@ -210,7 +210,6 @@ Architecture: all
 Depends:
  php-cli,
  php-mapi,
- z-push-backend-kopano (= ${binary:Version}),
  ${misc:Depends},
 Description: open source implementation of the ActiveSync protocol - Kopano GAB sync
  Z-Push is an implementation of the ActiveSync protocol which is used
