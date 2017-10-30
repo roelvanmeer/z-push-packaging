@@ -1,3 +1,19 @@
+z-push (2.3.8-2) unstable; urgency=medium
+
+  [ Carsten Schoenert ]
+  * [d69d5de] debian/control: mark d-push as Architecture all
+  * [354ecd1] z-p-kopano-gabsync: adding Depends on z-p-backend-kopano
+    (Closes: #877209)
+  * [2220666] debian/control: increase Standards-Version to 4.1.1
+
+  [ Roel van Meer ]
+  * [bd59b5b] Revert "z-p-kopano-gabsync: adding Depends on z-p-backend-kopano"
+  * [c212d4b] Remove symlink to /usr/share/z-push/backend/kopano/mapi
+    (Closes: #877209)
+  * [1d2fa16] gbp: Configure dch commit subject
+
+ -- Roel van Meer <roel@1afa.com>  Mon, 30 Oct 2017 14:34:23 +0100
+
 z-push (2.3.8-1) experimental; urgency=medium
 
   [ Carsten Schoenert ]
