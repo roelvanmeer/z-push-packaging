@@ -1,0 +1,23 @@
+From: Roel van Meer <roel@1afa.com>
+Date: Wed, 3 Jan 2018 23:53:44 +0100
+Subject: apache2 config: set apparmor hat name
+
+---
+ config/apache2/z-push.conf | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/config/apache2/z-push.conf b/config/apache2/z-push.conf
+index e16660d..721ab69 100644
+--- a/config/apache2/z-push.conf
++++ b/config/apache2/z-push.conf
+@@ -8,6 +8,10 @@
+     DirectoryIndex index.php
+     Options -Indexes +FollowSymLinks
+ 
++    <IfModule apparmor_module>
++        AAHatName z-push
++    </IfModule>
++
+     # Security
+     # Don't allow .htaccess Overrides, disallow access to files
+     AllowOverride none
