@@ -19,6 +19,7 @@ src/autodiscover/autodiscover.php    usr/share/z-push/autodiscover
 # See section `Apache configuration' in README.Debian.
 config/apache2/z-push.conf              => etc/apache2/conf-available/z-push.conf
 config/apache2/z-push-autodiscover.conf => etc/apache2/conf-available/z-push-autodiscover.conf
+debian/apparmor/z-push                     etc/apparmor.d/apache2.d
 
 config/lighttpd/z-push.conf             => etc/lighttpd/conf-available/50-z-push.conf
 
