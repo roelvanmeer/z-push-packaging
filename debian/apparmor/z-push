@@ -11,6 +11,7 @@
 
     /etc/z-push/*.ini r,
     /etc/z-push/*.php r,
+    /etc/mime.types r,
 
     /usr/share/z-push/** r,
 
