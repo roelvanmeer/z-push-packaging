@@ -1,3 +1,14 @@
+z-push (2.4.0~beta1-1) experimental; urgency=low
+
+  * [22dca8d] New upstream version 2.4.0~beta1
+  * [42d9068] rebuild patch queue from patch-queue branch
+  * [bbbbf0b] Add apparmor profile
+  * [2477d28] rebuild patch queue from patch-queue branch
+  * [0900895] apparmor: allow read access to /etc/mime.types
+  * [fa9f999] apparmor: allow execution of sendmail
+
+ -- Roel van Meer <roel@1afa.com>  Thu, 11 Jan 2018 16:32:57 +0100
+
 z-push (2.3.8-2) unstable; urgency=medium
 
   [ Carsten Schoenert ]
