@@ -64,11 +64,6 @@ case "$1" in
 
 			case "$webserver" in
 				apache2)
-					APP_PROFILE="/etc/apparmor.d/usr.sbin.apache2"
-					if [ -f "$APP_PROFILE" ] && aa-status --enabled 2>/dev/null; then
-						apparmor_parser -rTW "$APP_PROFILE" || true
-					fi
-
 					if [ -e /usr/share/apache2/apache2-maintscript-helper ] ; then
 						. /usr/share/apache2/apache2-maintscript-helper
 						apache2_invoke enconf z-push.conf || exit $?
