@@ -1,3 +1,25 @@
+z-push (2.3.9-1) unstable; urgency=medium
+
+  * [22dca8d] New upstream version 2.4.0~beta1
+  * [42d9068] rebuild patch queue from patch-queue branch
+  * [bbbbf0b] Add apparmor profile
+  * [2477d28] rebuild patch queue from patch-queue branch
+  * [0900895] apparmor: allow read access to /etc/mime.types
+  * [fa9f999] apparmor: allow execution of sendmail
+  * [786367b] document changes and release 2.4.0~beta1-1
+  * [89325e2] Revert "document changes and release 2.4.0~beta1-1"
+  * [ec8a952] Revert "apparmor: allow execution of sendmail"
+  * [fedf116] Revert "apparmor: allow read access to /etc/mime.types"
+  * [3f80dab] Revert "rebuild patch queue from patch-queue branch"
+  * [77b4bd7] Revert "Add apparmor profile"
+  * [6323012] Revert "rebuild patch queue from patch-queue branch"
+  * [a0f2323] Revert "Merge tag 'upstream/2.4.0_beta1' into debian/sid"
+  * [dcc8c25] New upstream version 2.3.9
+  * [ff96a4b] debian/control: depend on php-xsl instead of php7.0-xsl
+    (Closes: #889518)
+
+ -- Roel van Meer <roel@1afa.com>  Thu, 08 Feb 2018 21:20:25 +0100
+
 z-push (2.3.8-2) unstable; urgency=medium
 
   [ Carsten Schoenert ]
