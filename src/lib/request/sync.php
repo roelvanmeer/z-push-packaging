@@ -229,14 +229,11 @@ class Sync extends RequestProcessor {
 
                     // Get changes can be an empty tag as well as have value
                     // code block partly contributed by dw2412
-                    if($starttag = self::$decoder->getElementStartTag(SYNC_GETCHANGES)) {
+                    if(self::$decoder->getElementStartTag(SYNC_GETCHANGES)) {
                         $sc->AddParameter($spa, "getchanges", true);
                         if (($gc = self::$decoder->getElementContent()) !== false) {
                             $sc->AddParameter($spa, "getchanges", $gc);
-                        }
-                        // read the endtag if SYNC_GETCHANGES wasn't an empty tag
-                        if ($starttag[EN_FLAGS] & EN_FLAGS_CONTENT) {
-                            if (!self::$decoder->getElementEndTag()) {
+                            if(!self::$decoder->getElementEndTag()) {
                                 return false;
                             }
                         }
@@ -372,43 +369,6 @@ class Sync extends RequestProcessor {
                                     return false;
                             }
 
-                            if (self::$decoder->getElementStartTag(SYNC_AIRSYNCBASE_BODYPARTPREFERENCE)) {
-                                if (self::$decoder->getElementStartTag(SYNC_AIRSYNCBASE_TYPE)) {
-                                    $bpptype = self::$decoder->getElementContent();
-                                    $spa->BodyPartPreference($bpptype);
-                                    if (!self::$decoder->getElementEndTag()) {
-                                        return false;
-                                    }
-                                }
-
-                                if (self::$decoder->getElementStartTag(SYNC_AIRSYNCBASE_TRUNCATIONSIZE)) {
-                                    $spa->BodyPartPreference($bpptype)->SetTruncationSize(self::$decoder->getElementContent());
-                                    if(!self::$decoder->getElementEndTag())
-                                        return false;
-                                }
-
-                                if (self::$decoder->getElementStartTag(SYNC_AIRSYNCBASE_ALLORNONE)) {
-                                    $spa->BodyPartPreference($bpptype)->SetAllOrNone(self::$decoder->getElementContent());
-                                    if(!self::$decoder->getElementEndTag())
-                                        return false;
-                                }
-
-                                if (self::$decoder->getElementStartTag(SYNC_AIRSYNCBASE_PREVIEW)) {
-                                    $spa->BodyPartPreference($bpptype)->SetPreview(self::$decoder->getElementContent());
-                                    if(!self::$decoder->getElementEndTag())
-                                        return false;
-                                }
-
-                                if (!self::$decoder->getElementEndTag())
-                                    return false;
-                            }
-
-                            if (self::$decoder->getElementStartTag(SYNC_RIGHTSMANAGEMENT_SUPPORT)) {
-                                $spa->SetRmSupport(self::$decoder->getElementContent());
-                                if (!self::$decoder->getElementEndTag())
-                                    return false;
-                            }
-
                             $e = self::$decoder->peek();
                             if($e[EN_TYPE] == EN_TYPE_ENDTAG) {
                                 self::$decoder->getElementEndTag();
@@ -418,11 +378,10 @@ class Sync extends RequestProcessor {
                     }
 
                     // limit items to be synchronized to the mobiles if configured
-                    $maxAllowed = self::$deviceManager->GetFilterType($spa->GetFolderId());
-                    if ($maxAllowed > SYNC_FILTERTYPE_ALL &&
-                        (!$spa->HasFilterType() || $spa->GetFilterType() == SYNC_FILTERTYPE_ALL || $spa->GetFilterType() > $maxAllowed)) {
-                            ZLog::Write(LOGLEVEL_DEBUG, sprintf("HandleSync(): FilterType applied globally or specifically, using value: %s", $maxAllowed));
-                            $spa->SetFilterType($maxAllowed);
+                    if (defined('SYNC_FILTERTIME_MAX') && SYNC_FILTERTIME_MAX > SYNC_FILTERTYPE_ALL &&
+                        (!$spa->HasFilterType() || $spa->GetFilterType() == SYNC_FILTERTYPE_ALL || $spa->GetFilterType() > SYNC_FILTERTIME_MAX)) {
+                            ZLog::Write(LOGLEVEL_DEBUG, sprintf("SYNC_FILTERTIME_MAX defined. Filter set to value: %s", SYNC_FILTERTIME_MAX));
+                            $spa->SetFilterType(SYNC_FILTERTIME_MAX);
                     }
 
                     // unset filtertype for KOE GAB folder
@@ -432,7 +391,7 @@ class Sync extends RequestProcessor {
                     }
 
                     if ($currentFilterType != $spa->GetFilterType()) {
-                        ZLog::Write(LOGLEVEL_DEBUG, sprintf("HandleSync(): FilterType has changed (old: '%s', new: '%s'), removing folderstat to force Exporter setup", $currentFilterType, $spa->GetFilterType()));
+                        ZLog::Write(LOGLEVEL_DEBUG, sprintf("HandleSync(): filter type has changed (old: '%s', new: '%s'), removing folderstat to force Exporter setup", $currentFilterType, $spa->GetFilterType()));
                         $spa->DelFolderStat();
                     }
 
@@ -829,12 +788,6 @@ class Sync extends RequestProcessor {
                     $setupExporter = false;
                 }
 
-                // if max memory allocation is reached, stop processing other collections
-                if (Request::IsRequestMemoryLimitReached()) {
-                    ZLog::Write(LOGLEVEL_DEBUG, sprintf("Sync(): no exporter setup for '%s' as max memory allocatation reached, omitting output for collection.", $spa->GetFolderId()));
-                    $setupExporter = false;
-                }
-
                 // ZP-907: never send changes of UNKNOWN folders to an Outlook client
                 if (Request::IsOutlook() && self::$deviceManager->GetFolderTypeFromCacheById($spa->GetFolderId()) == SYNC_FOLDER_TYPE_UNKNOWN && $spa->HasSyncKey()) {
                     ZLog::Write(LOGLEVEL_DEBUG, sprintf("Sync(): no exporter setup for '%s' as type is UNKNOWN.", $spa->GetFolderId()));
@@ -1223,7 +1176,7 @@ class Sync extends RequestProcessor {
                     }
                 }
 
-                if($n >= $windowSize || Request::IsRequestTimeoutReached() || Request::IsRequestMemoryLimitReached()) {
+                if($n >= $windowSize || Request::IsRequestTimeoutReached()) {
                     ZLog::Write(LOGLEVEL_DEBUG, sprintf("HandleSync(): Exported maxItems of messages: %d / %d", $n, $changecount));
                     break;
                 }
@@ -1238,9 +1191,9 @@ class Sync extends RequestProcessor {
             self::$encoder->endTag();
 
             // log the request timeout
-            if (Request::IsRequestTimeoutReached() || Request::IsRequestMemoryLimitReached()) {
-                ZLog::Write(LOGLEVEL_DEBUG, "HandleSync(): Stopping export as limits of request timeout or available memory are almost reached!");
-                // Send a <MoreAvailable/> tag if we reached the request timeout or max memory, there are more changes and a moreavailable was not already send
+            if (Request::IsRequestTimeoutReached()) {
+                ZLog::Write(LOGLEVEL_DEBUG, "HandleSync(): Stopping export as maximum request timeout is almost reached!");
+                // Send a <MoreAvailable/> tag if we reached the request timeout, there are more changes and a moreavailable was not already send
                 if (!$moreAvailableSent && ($n > $windowSize)) {
                     self::$encoder->startTag(SYNC_MOREAVAILABLE, false, true);
                     $spa->DelFolderStat();
