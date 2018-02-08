@@ -126,7 +126,7 @@ Package: z-push-backend-carddav
 Architecture: all
 Depends:
  php-curl,
- php7.0-xsl,
+ php-xsl,
  z-push-common (= ${binary:Version}),
  ${misc:Depends},
 Description: open source implementation of the ActiveSync protocol - CardDav backend
