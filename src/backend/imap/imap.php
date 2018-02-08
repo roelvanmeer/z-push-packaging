@@ -190,7 +190,7 @@ class BackendIMAP extends BackendDiff implements ISearchProvider {
 
         ZLog::Write(LOGLEVEL_DEBUG, sprintf("BackendIMAP->SendMail(): We get the new message"));
         $mobj = new Mail_mimeDecode($sm->mime);
-        $message = $mobj->decode(array('decode_headers' => 'utf-8', 'decode_bodies' => true, 'include_bodies' => true, 'rfc_822bodies' => true, 'charset' => 'utf-8'));
+        $message = $mobj->decode(array('decode_headers' => true, 'decode_bodies' => true, 'include_bodies' => true, 'rfc_822bodies' => true, 'charset' => 'utf-8'));
         unset($mobj);
 
         ZLog::Write(LOGLEVEL_DEBUG, sprintf("BackendIMAP->SendMail(): We get the From and To"));
@@ -485,7 +485,7 @@ class BackendIMAP extends BackendDiff implements ISearchProvider {
         }
 
         $mobj = new Mail_mimeDecode($mail);
-        $message = $mobj->decode(array('decode_headers' => 'utf-8', 'decode_bodies' => true, 'include_bodies' => true, 'rfc_822bodies' => true, 'charset' => 'utf-8'));
+        $message = $mobj->decode(array('decode_headers' => true, 'decode_bodies' => true, 'include_bodies' => true, 'rfc_822bodies' => true, 'charset' => 'utf-8'));
 
         if (!isset($message->parts)) {
             throw new StatusException(sprintf("BackendIMAP->GetAttachmentData('%s'): Error, message without parts. Requesting part key: '%d'", $attname, $part), SYNC_ITEMOPERATIONSSTATUS_INVALIDATT);
@@ -1032,7 +1032,7 @@ class BackendIMAP extends BackendDiff implements ISearchProvider {
             }
 
             $mobj = new Mail_mimeDecode($mail);
-            $message = $mobj->decode(array('decode_headers' => 'utf-8', 'decode_bodies' => true, 'include_bodies' => true, 'rfc_822bodies' => true, 'charset' => 'utf-8'));
+            $message = $mobj->decode(array('decode_headers' => true, 'decode_bodies' => true, 'include_bodies' => true, 'rfc_822bodies' => true, 'charset' => 'utf-8'));
 
             Utils::CheckAndFixEncodingInHeaders($mail, $message);
 
@@ -1672,7 +1672,7 @@ class BackendIMAP extends BackendDiff implements ISearchProvider {
         // Get the original calendar request, so we don't need to create it from scratch
         $mobj = new Mail_mimeDecode($mail);
         unset($mail);
-        $message = $mobj->decode(array('decode_headers' => 'utf-8', 'decode_bodies' => true, 'include_bodies' => true, 'rfc_822bodies' => true, 'charset' => 'utf-8'));
+        $message = $mobj->decode(array('decode_headers' => true, 'decode_bodies' => true, 'include_bodies' => true, 'rfc_822bodies' => true, 'charset' => 'utf-8'));
         unset($mobj);
 
         $body_part = null;
@@ -1761,7 +1761,7 @@ class BackendIMAP extends BackendDiff implements ISearchProvider {
     /**
      * Applies settings to and gets informations from the device
      *
-     * @param SyncObject    $settings (SyncOOF, SyncUserInformation, SyncRightsManagementTemplates possible)
+     * @param SyncObject        $settings (SyncOOF or SyncUserInformation possible)
      *
      * @access public
      * @return SyncObject       $settings
@@ -1770,11 +1770,8 @@ class BackendIMAP extends BackendDiff implements ISearchProvider {
         if ($settings instanceof SyncOOF) {
             $this->settingsOOF($settings);
         }
-        elseif ($settings instanceof SyncUserInformation) {
+        else if ($settings instanceof SyncUserInformation) {
             $this->settingsUserInformation($settings);
-        }
-        elseif ($settings instanceof SyncRightsManagementTemplates) {
-            $settings->Status = SYNC_COMMONSTATUS_IRMFEATUREDISABLED;
         }
 
         return $settings;
@@ -1824,15 +1821,13 @@ class BackendIMAP extends BackendDiff implements ISearchProvider {
     /**
      * Queries the IMAP backend
      *
-     * @param string                        $searchquery        string to be searched for
-     * @param string                        $searchrange        specified searchrange
-     * @param SyncResolveRecipientsPicture  $searchpicture      limitations for picture
+     * @param string        $searchquery        string to be searched for
+     * @param string        $searchrange        specified searchrange
      *
      * @access public
      * @return array        search results
-     * @throws StatusException
      */
-    public function GetGALSearchResults($searchquery, $searchrange, $searchpicture) {
+    public function GetGALSearchResults($searchquery, $searchrange) {
         return false;
     }
 
@@ -2628,17 +2623,7 @@ class BackendIMAP extends BackendDiff implements ISearchProvider {
      */
     private function settingsUserInformation(&$userinformation) {
         $userinformation->Status = SYNC_SETTINGSSTATUS_USERINFO_SUCCESS;
-        if (Request::GetProtocolVersion() >= 14.1) {
-            $account = new SyncAccount();
-            $emailaddresses = new SyncEmailAddresses();
-            $emailaddresses->smtpaddress[] = $this->username;
-            $emailaddresses->primarysmtpaddress = $this->username;
-            $account->emailaddresses = $emailaddresses;
-            $userinformation->accounts[] = $account;
-        }
-        else {
-            $userinformation->emailaddresses[] = $this->username;
-        }
+        $userinformation->emailaddresses[] = $this->username;
         return true;
     }
 

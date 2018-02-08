@@ -157,18 +157,17 @@ class Syslog extends Log {
     /**
      * Build the log string for syslog.
      *
-     * @param int       $loglevel
-     * @param string    $message
-     * @param boolean   $includeUserDevice  puts username and device in the string, default: true
+     * @param int $loglevel
+     * @param string $message
      *
      * @access public
      * @return string
      */
-    public function BuildLogString($loglevel, $message, $includeUserDevice = true) {
+    public function BuildLogString($loglevel, $message) {
         $log = $this->GetLogLevelString($loglevel); // Never pad syslog log because syslog log are usually read with a software.
         $log .= $this->GetUser();
         if ($loglevel >= LOGLEVEL_DEVICEID) {
-            $log .= '['. $this->GetDevid() .']';
+            $log .= $this->GetDevid();
         }
         $log .= ' ' . $message;
         return $log;
@@ -192,7 +191,7 @@ class Syslog extends Log {
             $sock = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
             $facility = 1; // user level
             $pri = ($facility * 8) + $loglevel; // multiplying the Facility number by 8 + adding the level
-            $data = $this->BuildLogString($loglevel, $message);
+            $data = $this->buildLogString($loglevel, $message);
             if (strlen(trim($data)) > 0) {
                 $syslog_message = "<{$pri}>" . date('M d H:i:s ') . '[' . $this->GetProgramName() . ']: ' . $data;
                 socket_sendto($sock, $syslog_message, strlen($syslog_message), 0, $this->GetHost(), $this->GetPort());
@@ -202,7 +201,7 @@ class Syslog extends Log {
             openlog($this->GenerateProgramName(), LOG_PID, LOG_SYSLOG_FACILITY);
             syslog(
                 $this->GetZpushLogLevelToSyslogLogLevel($loglevel),
-                $this->BuildLogString($loglevel, $message)
+                $this->buildLogString($loglevel, $message)
             );
         }
     }

@@ -69,10 +69,6 @@ class SyncMail extends SyncObject {
     public $sender;
     public $categories;
 
-    // AS 14.1 props
-    public $rightsManagementLicense;
-    public $asbodypart;
-
     function __construct() {
         $mapping = array (
                     SYNC_POOMMAIL_TO                                    => array (  self::STREAMER_VAR      => "to",
@@ -186,14 +182,7 @@ class SyncMail extends SyncObject {
             $mapping[SYNC_POOMMAIL_CATEGORIES]                          = array (   self::STREAMER_VAR      => "categories",
                                                                                     self::STREAMER_ARRAY    => SYNC_POOMMAIL_CATEGORY,
                                                                                     self::STREAMER_RONOTIFY => true);
-            //TODO bodypart, accountid
-        }
-
-        if (Request::GetProtocolVersion() >= 14.1) {
-            $mapping[SYNC_RIGHTSMANAGEMENT_LICENSE]                     = array (   self::STREAMER_VAR      => "rightsManagementLicense",
-                                                                                    self::STREAMER_TYPE     => "SyncRightsManagementLicense");
-            $mapping[SYNC_AIRSYNCBASE_BODYPART]                         = array (   self::STREAMER_VAR      => "asbodypart",
-                                                                                    self::STREAMER_TYPE     => "SyncBaseBodyPart");
+            //TODO bodypart, accountid, rightsmanagementlicense
         }
 
         parent::__construct($mapping);

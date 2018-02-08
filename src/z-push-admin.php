@@ -92,7 +92,6 @@ class ZPushAdminCLI {
     static private $device = false;
     static private $type = false;
     static private $errormessage;
-    static private $daysold = false;
 
     /**
      * Returns usage instructions
@@ -103,8 +102,7 @@ class ZPushAdminCLI {
     static public function UsageInstructions() {
         return  "Usage:\n\tz-push-admin.php -a ACTION [options]\n\n" .
                 "Parameters:\n\t-a list/lastsync/wipe/remove/resync/clearloop/fixstates\n\t[-u] username\n\t[-d] deviceid\n" .
-                "\t[-t] type\tthe following types are available: '".self::TYPE_OPTION_EMAIL."', '".self::TYPE_OPTION_CALENDAR."', '".self::TYPE_OPTION_CONTACT."', '".self::TYPE_OPTION_TASK."', '".self::TYPE_OPTION_NOTE."', '".self::TYPE_OPTION_HIERARCHY."' of '".self::TYPE_OPTION_GAB."' (for KOE) or a folder id.\n" .
-                "\t[--days-old] n\tshow or remove profiles older than n days with lastsync or remove. n must be a positive integer.\n\n".
+                "\t[-t] type\tthe following types are available: '".self::TYPE_OPTION_EMAIL."', '".self::TYPE_OPTION_CALENDAR."', '".self::TYPE_OPTION_CONTACT."', '".self::TYPE_OPTION_TASK."', '".self::TYPE_OPTION_NOTE."', '".self::TYPE_OPTION_HIERARCHY."' of '".self::TYPE_OPTION_GAB."' (for KOE) or a folder id.\n\n" .
                 "Actions:\n" .
                 "\tlist\t\t\t\t\t Lists all devices and synchronized users\n" .
                 "\tlist -u USER\t\t\t\t Lists all devices of user USER\n" .
@@ -152,7 +150,7 @@ class ZPushAdminCLI {
         if (self::$errormessage)
             return;
 
-        $options = getopt("u:d:a:t:", array('user:', 'device:', 'action:', 'type:', 'days-old:', 'days-ago:'));
+        $options = getopt("u:d:a:t:");
 
         // get 'user'
         if (isset($options['u']) && !empty($options['u']))
@@ -178,19 +176,6 @@ class ZPushAdminCLI {
             self::$type = strtolower(trim($options['t']));
         elseif (isset($options['type']) && !empty($options['type']))
             self::$type = strtolower(trim($options['type']));
-
-        if (isset($options['days-ago']) && !empty($options['days-ago'])) {
-            $options['days-old'] = $options['days-ago'];
-        }
-
-        if (isset($options['days-old']) && !empty($options['days-old'])) {
-            if (!is_numeric($options['days-old']) || $options['days-old'] < 0) {
-                self::$errormessage = "--days-old parameter must be a positive integer\n";
-                self::$command = null;
-                return;
-            }
-            self::$daysold = trim($options['days-old']);
-        }
 
         // if type is set, it must be one of known types or a 44 or 48 byte long folder id
         if (self::$type !== false) {
@@ -453,22 +438,17 @@ class ZPushAdminCLI {
             echo "\tno devices found\n";
         else {
             echo "All known devices and users and their last synchronization time\n\n";
-            echo str_pad("Device id", 36) . str_pad("Synchronized user", 31) . str_pad("Last sync time", 33) . "Short Ids\n";
-            echo "------------------------------------------------------------------------------------------------------------------\n";
+            echo str_pad("Device id", 36) . str_pad("Synchronized user", 31) . str_pad("Last sync time", 20) . "Short Ids\n";
+            echo "-----------------------------------------------------------------------------------------------------\n";
         }
 
-        $now = time();
         foreach ($devicelist as $deviceId) {
             $users = ZPushAdmin::ListUsers($deviceId);
             foreach ($users as $user) {
                 $device = ZPushAdmin::GetDeviceDetails($deviceId, $user);
-                $daysOld = floor(($now - $device->GetLastSyncTime()) / 86400);
-                if (self::$daysold > $daysOld) {
-                    continue;
-                }
-                $lastsync = $device->GetLastSyncTime() ? strftime("%Y-%m-%d %H:%M", $device->GetLastSyncTime()) . ' (' . str_pad($daysOld, 3, ' ', STR_PAD_LEFT) . ' days ago)' : "never";
+                $lastsync = $device->GetLastSyncTime() ? strftime("%Y-%m-%d %H:%M", $device->GetLastSyncTime()) : "never";
                 $hasShortFolderIds = $device->HasFolderIdMapping() ? "Yes":"No";
-                echo str_pad($deviceId, 36) . str_pad($user, 30) . " " . str_pad($lastsync, 33) . $hasShortFolderIds . "\n";
+                echo str_pad($deviceId, 36) . str_pad($user, 30) . " " . str_pad($lastsync, 20) . $hasShortFolderIds . "\n";
             }
         }
     }
@@ -525,24 +505,20 @@ class ZPushAdminCLI {
     }
 
     /**
-     * Command "Remove device".
-     * Removes a device of that user from the device list.
+     * Command "Remove device"
+     * Remove a device of that user from the device list
      *
      * @return
      * @access public
      */
     static public function CommandRemoveDevice() {
-        $stat = ZPushAdmin::RemoveDevice(self::$user, self::$device, self::$daysold, time());
+        $stat = ZPushAdmin::RemoveDevice(self::$user, self::$device);
         if (self::$user === false)
            echo sprintf("State data of device '%s' removed: %s", self::$device, ($stat)?'OK':ZLog::GetLastMessage(LOGLEVEL_ERROR)). "\n";
         elseif (self::$device === false)
            echo sprintf("State data of all devices of user '%s' removed: %s", self::$user, ($stat)?'OK':ZLog::GetLastMessage(LOGLEVEL_ERROR)). "\n";
         else
            echo sprintf("State data of device '%s' of user '%s' removed: %s", self::$device, self::$user, ($stat)?'OK':ZLog::GetLastMessage(LOGLEVEL_ERROR)). "\n";
-
-        if (ZPushAdmin::$status == ZPushAdmin::STATUS_DEVICE_SYNCED_AFTER_DAYSOLD) {
-            print("Some devices might not have been removed because of --days-old parameter. Check Z-Push log file for more details.\n");
-        }
     }
 
     /**
@@ -915,38 +891,6 @@ class ZPushAdminCLI {
         echo "ActiveSync version:\t".($device->GetASVersion() ? $device->GetASVersion() : "unknown") ."\n";
         echo "First sync:\t\t". strftime("%Y-%m-%d %H:%M", $device->GetFirstSyncTime()) ."\n";
         echo "Last sync:\t\t". ($device->GetLastSyncTime() ? strftime("%Y-%m-%d %H:%M", $device->GetLastSyncTime()) : "never")."\n";
-
-        $filterType = (defined('SYNC_FILTERTIME_MAX') && SYNC_FILTERTIME_MAX > SYNC_FILTERTYPE_ALL) ? SYNC_FILTERTIME_MAX : SYNC_FILTERTYPE_ALL;
-        $maxDevice = $device->GetSyncFilterType();
-        if ($maxDevice !== false && $maxDevice > SYNC_FILTERTYPE_ALL && ($filterType == SYNC_FILTERTYPE_ALL || $maxDevice < $filterType)) {
-            $filterType = $maxDevice;
-        }
-        switch($filterType) {
-            case SYNC_FILTERTYPE_1DAY:
-                $filterTypeString = "1 day back";
-                break;
-            case SYNC_FILTERTYPE_3DAYS:
-                $filterTypeString = "3 days back";
-                break;
-            case SYNC_FILTERTYPE_1WEEK:
-                $filterTypeString = "1 week back";
-                break;
-            case SYNC_FILTERTYPE_2WEEKS:
-                $filterTypeString = "2 weeks back";
-                break;
-            case SYNC_FILTERTYPE_1MONTH:
-                $filterTypeString = "1 month back";
-                break;
-            case SYNC_FILTERTYPE_3MONTHS:
-                $filterTypeString = "3 months back";
-                break;
-            case SYNC_FILTERTYPE_6MONTHS:
-                $filterTypeString = "6 months back";
-                break;
-            default:
-                $filterTypeString = "unlimited";
-        }
-        echo "Sync Period:\t\t". $filterTypeString . " (".$filterType.")\n";
         echo "Total folders:\t\t". count($folders). "\n";
         echo "Short folder Ids:\t". ($device->HasFolderIdMapping() ? "Yes":"No") ."\n";
         echo "Synchronized folders:\t". $synchedFolders;
@@ -1009,21 +953,15 @@ class ZPushAdminCLI {
             echo "Kopano Outlook Extension:\n";
             echo "\tVersion:\t". $device->GetKoeVersion() ."\n";
             echo "\tBuild:\t\t". $device->GetKoeBuild() ."\n";
-            echo "\tBuild Date:\t". strftime("%Y-%m-%d %H:%M", $device->GetKoeBuildDate()) ."\n";
+            echo "\tBuild Date:\t". strftime("%Y-%m-%d %H:%M",$device->GetKoeBuildDate()) ."\n";
             echo "\tCapabilities:\t". (count($device->GetKoeCapabilities()) ? implode(',', $device->GetKoeCapabilities()) : 'unknown') ."\n";
-            echo "\tLast access:\t". ($device->GetKoeLastAccess() ? strftime("%Y-%m-%d", $device->GetKoeLastAccess()) : 'unknown') ."\n";
         }
 
         echo "Attention needed:\t";
 
-        if ($device->GetDeviceError()) {
+        if ($device->GetDeviceError())
             echo $device->GetDeviceError() ."\n";
-        }
-        // if KOE's access time is older than 7:01 h than the last successful sync it's probably inactive
-        elseif ($device->GetKoeLastAccess() && $device->GetKoeLastAccess() + 25260 < $device->GetLastSyncTime()) {
-            echo "KOE seems to be inactive on client\n";
-        }
-        if (!isset($device->ignoredmessages) || empty($device->ignoredmessages)) {
+        else if (!isset($device->ignoredmessages) || empty($device->ignoredmessages)) {
             echo "No errors known\n";
         }
         else {

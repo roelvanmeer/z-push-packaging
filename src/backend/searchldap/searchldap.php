@@ -83,17 +83,15 @@ class BackendSearchLDAP implements ISearchProvider {
 
 
     /**
-     * Queries the LDAP backend.
+     * Queries the LDAP backend
      *
-     * @param string                        $searchquery        string to be searched for
-     * @param string                        $searchrange        specified searchrange
-     * @param SyncResolveRecipientsPicture  $searchpicture      limitations for picture
+     * @param string        $searchquery        string to be searched for
+     * @param string        $searchrange        specified searchrange
      *
      * @access public
      * @return array        search results
-     * @throws StatusException
      */
-    public function GetGALSearchResults($searchquery, $searchrange, $searchpicture) {
+    public function GetGALSearchResults($searchquery, $searchrange) {
         global $ldap_field_map;
         if (isset($this->connection) && $this->connection !== false) {
             $searchfilter = str_replace("SEARCHVALUE", $searchquery, LDAP_SEARCH_FILTER);

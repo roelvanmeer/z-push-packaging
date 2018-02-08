@@ -594,16 +594,23 @@ class MAPIProvider {
             $props = $this->getProps($mapimessage, $meetingrequestproperties);
 
             // Get the GOID
-            if(isset($props[$meetingrequestproperties["goidtag"]]))
-                $message->meetingrequest->globalobjid = base64_encode($props[$meetingrequestproperties["goidtag"]]);
+            if(isset($props[$meetingrequestproperties["goidtag"]])) {
+                $req = new Meetingrequest($this->store, $mapimessage, $this->session);
+                $items = $req->findCalendarItems($props[$meetingrequestproperties["goidtag"]]);
+                // GlobalObjId support was removed in AS 16.0
+                if (Request::IsGlobalObjIdHexClient() && !empty($items)) {
+                    $message->meetingrequest->globalobjid = strtoupper(bin2hex($props[$meetingrequestproperties["goidtag"]]));
+                }
+                else {
+                    $message->meetingrequest->globalobjid = base64_encode($props[$meetingrequestproperties["goidtag"]]);
+                }
+            }
 
             // Set Timezone
-            if (isset($props[$meetingrequestproperties["timezonetag"]])) {
+            if(isset($props[$meetingrequestproperties["timezonetag"]]))
                 $tz = $this->getTZFromMAPIBlob($props[$meetingrequestproperties["timezonetag"]]);
-            }
-            else {
-                $tz = TimezoneUtil::GetFullTZ();
-            }
+            else
+                $tz = $this->getGMTTZ();
 
             $message->meetingrequest->timezone = base64_encode(TimezoneUtil::GetSyncBlobFromTZ($tz));
 
@@ -702,36 +709,6 @@ class MAPIProvider {
                 }
             }
             $message->contentclass = DEFAULT_CALENDAR_CONTENTCLASS;
-
-            // MeetingMessageType values
-            // 0 = A silent update was performed, or the message type is unspecified.
-            // 1 = Initial meeting request.
-            // 2 = Full update.
-            // 3 = Informational update.
-            // 4 = Outdated. A newer meeting request or meeting update was received after this message.
-            // 5 = Identifies the delegator's copy of the meeting request.
-            // 6 = Identifies that the meeting request has been delegated and the meeting request cannot be responded to.
-            $message->meetingrequest->meetingmessagetype = mtgEmpty;
-
-            if (isset($props[$meetingrequestproperties["meetingType"]])) {
-                switch ($props[$meetingrequestproperties["meetingType"]]) {
-                    case mtgRequest:
-                        $message->meetingrequest->meetingmessagetype = 1;
-                        break;
-                    case mtgFull:
-                        $message->meetingrequest->meetingmessagetype = 2;
-                        break;
-                    case mtgInfo:
-                        $message->meetingrequest->meetingmessagetype = 3;
-                        break;
-                    case mtgOutOfDate:
-                        $message->meetingrequest->meetingmessagetype = 4;
-                        break;
-                    case mtgDelegatorCopy:
-                        $message->meetingrequest->meetingmessagetype = 5;
-                        break;
-                }
-            }
         }
 
         // Add attachments
@@ -1709,7 +1686,7 @@ class MAPIProvider {
         $p = array( $taskprops["owner"]);
         $owner = $this->getProps($mapimessage, $p);
         if (!isset($owner[$taskprops["owner"]])) {
-            $userinfo = mapi_zarafa_getuser($this->store, Request::GetAuthUser());
+            $userinfo = mapi_zarafa_getuser_by_name($this->store, Request::GetAuthUser());
             if(mapi_last_hresult() == NOERROR && isset($userinfo["fullname"])) {
                 $props[$taskprops["owner"]] = $userinfo["fullname"];
             }
@@ -2506,7 +2483,7 @@ class MAPIProvider {
             }
             elseif (isset($message->internetcpid) && $bpReturnType == SYNC_BODYPREFERENCE_HTML) {
                 // if PR_HTML is UTF-8 we can stream it directly, else we have to convert to UTF-8 & wrap it
-                if ($message->internetcpid == INTERNET_CPID_UTF8) {
+                if (Utils::GetCodepageCharset($message->internetcpid) == "utf-8") {
                     $message->asbody->data = MAPIStreamWrapper::Open($stream, $truncateHtmlSafe);
                 }
                 else {
@@ -2556,37 +2533,32 @@ class MAPIProvider {
      * @return boolean
      */
     private function imtoinet($mapimessage, &$message) {
-        $mapiEmail = mapi_getprops($mapimessage, array(PR_EC_IMAP_EMAIL));
-        $stream = false;
-        if (isset($mapiEmail[PR_EC_IMAP_EMAIL]) || MAPIUtils::GetError(PR_EC_IMAP_EMAIL, $mapiEmail) == MAPI_E_NOT_ENOUGH_MEMORY) {
-            $stream = mapi_openproperty($mapimessage, PR_EC_IMAP_EMAIL, IID_IStream, 0, 0);
-            ZLog::Write(LOGLEVEL_DEBUG, "MAPIProvider->imtoinet(): using PR_EC_IMAP_EMAIL as full RFC822 message");
-        }
-        else {
+        if (function_exists("mapi_inetmapi_imtoinet")) {
             $addrbook = $this->getAddressbook();
             $stream = mapi_inetmapi_imtoinet($this->session, $addrbook, $mapimessage, array('use_tnef' => -1));
-        }
-        if (is_resource($stream)) {
-            $mstreamstat = mapi_stream_stat($stream);
-            $streamsize = $mstreamstat["cb"];
-            if (isset($streamsize)) {
-                if (Request::GetProtocolVersion() >= 12.0) {
-                    if (!isset($message->asbody))
-                        $message->asbody = new SyncBaseBody();
-                    $message->asbody->data = MAPIStreamWrapper::Open($stream);
-                    $message->asbody->estimatedDataSize = $streamsize;
-                    $message->asbody->truncated = 0;
+
+            if (is_resource($stream)) {
+                $mstreamstat = mapi_stream_stat($stream);
+                $streamsize = $mstreamstat["cb"];
+                if (isset($streamsize)) {
+                    if (Request::GetProtocolVersion() >= 12.0) {
+                        if (!isset($message->asbody))
+                            $message->asbody = new SyncBaseBody();
+                        $message->asbody->data = MAPIStreamWrapper::Open($stream);
+                        $message->asbody->estimatedDataSize = $streamsize;
+                        $message->asbody->truncated = 0;
+                    }
+                    else {
+                        $message->mimedata = MAPIStreamWrapper::Open($stream);
+                        $message->mimesize = $streamsize;
+                        $message->mimetruncated = 0;
+                    }
+                    unset($message->body, $message->bodytruncated);
+                    return true;
                 }
-                else {
-                    $message->mimedata = MAPIStreamWrapper::Open($stream);
-                    $message->mimesize = $streamsize;
-                    $message->mimetruncated = 0;
-                }
-                unset($message->body, $message->bodytruncated);
-                return true;
             }
+            ZLog::Write(LOGLEVEL_ERROR, sprintf("MAPIProvider->imtoinet(): got no stream or content from mapi_inetmapi_imtoinet()"));
         }
-        ZLog::Write(LOGLEVEL_ERROR, "MAPIProvider->imtoinet(): got no stream or content from mapi_inetmapi_imtoinet()");
 
         return false;
     }

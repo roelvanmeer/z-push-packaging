@@ -82,16 +82,16 @@ class ExportChangesICS implements IExportChanges{
             }
 
             // Get the actual ICS exporter
-            if ($folder) {
-                if ($folderid) {
+            if($folderid) {
+                if ($folder) {
                     $this->exporter = mapi_openproperty($folder, PR_CONTENTS_SYNCHRONIZER, IID_IExchangeExportChanges, 0 , 0);
                 }
                 else {
-                    $this->exporter = mapi_openproperty($folder, PR_HIERARCHY_SYNCHRONIZER, IID_IExchangeExportChanges, 0 , 0);
+                    $this->exporter = false;
                 }
             }
             else {
-                $this->exporter = false;
+                $this->exporter = mapi_openproperty($folder, PR_HIERARCHY_SYNCHRONIZER, IID_IExchangeExportChanges, 0 , 0);
             }
         }
         catch (MAPIException $me) {

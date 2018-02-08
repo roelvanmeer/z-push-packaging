@@ -61,15 +61,14 @@ class SearchProvider implements ISearchProvider{
     /**
      * Searches the GAL
      *
-     * @param string                        $searchquery        string to be searched for
-     * @param string                        $searchrange        specified searchrange
-     * @param SyncResolveRecipientsPicture  $searchpicture      limitations for picture
+     * @param string        $searchquery        string to be searched for
+     * @param string        $searchrange        specified searchrange
      *
      * @access public
      * @return array        search results
      * @throws StatusException
      */
-    public function GetGALSearchResults($searchquery, $searchrange, $searchpicture) {
+    public function GetGALSearchResults($searchquery, $searchrange) {
        return array();
     }
 
