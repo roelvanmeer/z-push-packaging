@@ -13,9 +13,6 @@
     /etc/z-push/*.php r,
     /etc/mime.types r,
 
-    /bin/dash ix,
-    /usr/sbin/sendmail PUx,
-
     /usr/share/z-push/** r,
 
     /var/lib/z-push/** rwk,
