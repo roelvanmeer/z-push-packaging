@@ -81,7 +81,6 @@ Depends:
  php-imap,
  z-push-common (= ${binary:Version}),
  ${misc:Depends},
-Recommends:
 Description: open source implementation of the ActiveSync protocol - IMAP backend
  Z-Push is an implementation of the ActiveSync protocol which is used
  'over-the-air' for multi platform ActiveSync devices, including Windows
@@ -159,7 +158,6 @@ Depends:
  php-ldap,
  z-push-common (= ${binary:Version}),
  ${misc:Depends},
-Recommends:
 Description: open source implementation of the ActiveSync protocol - LDAP backend
  Z-Push is an implementation of the ActiveSync protocol which is used
  'over-the-air' for multi platform ActiveSync devices, including Windows
