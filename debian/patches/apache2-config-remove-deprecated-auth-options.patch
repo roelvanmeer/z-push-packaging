@@ -17,10 +17,10 @@ right now. So we can ignore this kind of setup.
  1 file changed, 1 insertion(+), 8 deletions(-)
 
 diff --git a/config/apache2/z-push.conf b/config/apache2/z-push.conf
-index c7a2f91..9685259 100644
+index d20887f..e16660d 100644
 --- a/config/apache2/z-push.conf
 +++ b/config/apache2/z-push.conf
-@@ -23,20 +23,13 @@
+@@ -11,20 +11,13 @@
      # Security
      # Don't allow .htaccess Overrides, disallow access to files
      AllowOverride none
@@ -30,7 +30,7 @@ index c7a2f91..9685259 100644
 -    </IfModule>
      <IfModule mod_authz_core.c>
          Require all granted
-     </IfModule> 
+     </IfModule>
  
      <Files "config.php">
 -      <IfModule !mod_authz_core.c>
