@@ -1,3 +1,16 @@
+z-push (2.4.0-1) unstable; urgency=medium
+
+  [ Carsten Schoenert ]
+  * [2a96566] debian/control: increase Standards-Version to 4.1.3
+  * [0ec0c23] d/control: remove empty Recommends fields
+  * [50f1851] move over to debhelper 11
+
+  [ Roel van Meer ]
+  * [fbfde54] New upstream version 2.4.0
+  * [18d058e] rebuild patch queue from patch-queue branch
+
+ -- Roel van Meer <roel@1afa.com>  Tue, 20 Mar 2018 16:43:50 +0100
+
 z-push (2.3.9-2) unstable; urgency=medium
 
   [ Carsten Schoenert ]
