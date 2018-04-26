@@ -1,6 +1,6 @@
 version=3
 
-opts="mode=git" \
+opts="mode=git, uversionmangle=s/(\d)[_\.\-\+]?((RC|rc|pre|dev|beta|alpha)\.?\d*)$/$1~$2/" \
   https://stash.z-hub.io/scm/zp/z-push.git \
-  refs/tags/(\d+\.\d+\.\d+) \
+  refs/tags/(\d+\.\d+\.\d+(?:\.?beta[1-9])?) \
   debian uupdate
