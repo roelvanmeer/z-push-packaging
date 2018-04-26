@@ -1,3 +1,14 @@
+z-push (2.4.1-1) unstable; urgency=medium
+
+  * [e265dcb] New upstream version 2.4.1
+  * [a97f21e] rebuild patch queue from patch-queue branch
+  * [9d33141] debian/control: Update email address in maintainer field
+  * [7553c8e] debian/control: Increase Standards-Version to 4.1.4
+  * [f207228] debian/watch: Use git mode
+  * [c54fe8b] debian/watch: Also track beta versions
+
+ -- Roel van Meer <roel@1afa.com>  Thu, 26 Apr 2018 10:56:33 +0200
+
 z-push (2.4.0-2) unstable; urgency=medium
 
   [ Carsten Schoenert ]
