@@ -1,3 +1,10 @@
+z-push (2.4.2-1) unstable; urgency=medium
+
+  * [52e6497] New upstream version 2.4.2
+  * [3ad58e2] control: Depend on php-xml instead of php-xsl
+
+ -- Roel van Meer <roel@1afa.com>  Tue, 12 Jun 2018 13:31:20 +0200
+
 z-push (2.4.1-1) unstable; urgency=medium
 
   * [e265dcb] New upstream version 2.4.1
