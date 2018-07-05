@@ -1,3 +1,9 @@
+z-push (2.4.3-1) unstable; urgency=medium
+
+  * [5f36346] New upstream version 2.4.3
+
+ -- Roel van Meer <roel@1afa.com>  Thu, 05 Jul 2018 13:58:37 +0200
+
 z-push (2.4.2-1) unstable; urgency=medium
 
   * [52e6497] New upstream version 2.4.2
