@@ -55,6 +55,7 @@ Architecture: all
 Depends:
  php,
  php-cli,
+ php-mbstring,
  php-soap,
  ${misc:Depends},
 Replaces:
