@@ -1,3 +1,14 @@
+z-push (2.4.5-1) unstable; urgency=medium
+
+  [ Carsten Schoenert ]
+  * [1d619da] debian/control: increase Standards-Version to 4.2.1
+
+  [ Roel van Meer ]
+  * [2c6d56e] New upstream version 2.4.5
+  * [f293443] control: Let z-push-common depend on php-mbstring
+
+ -- Roel van Meer <roel@1afa.com>  Thu, 15 Nov 2018 16:37:58 +0100
+
 z-push (2.4.4-1) unstable; urgency=medium
 
   * [918fc68] New upstream version 2.4.4
