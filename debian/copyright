@@ -1,14 +1,16 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: Z-Push
-Source: http://z-push.org/download/
+Source: https://stash.z-hub.io/projects/ZP/repos/z-push/browse
 
 Files: *
 Copyright: 2007-2016, Zarafa Deutschland GmbH
+  2017-2018, Zarafa B.V. and its licensors
 License: AGPL-3
 
 Files: debian/*
 Copyright: 2010-2014, Wolfram Quester <wolfi@sigxcpu.org>
-  2016, Carsten Schoenert <c.schoenert@t-online.de>
+  2016-2018, Carsten Schoenert <c.schoenert@t-online.de>
+  2017-2018, Roel van Meer <roel@1afa.com>
 License: GPL-2+
 
 Files: src/backend/caldav/*
