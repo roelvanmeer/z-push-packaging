@@ -7,10 +7,30 @@
 # getting DEB_VERSION from helper without manually parsing the changelog file
 include /usr/share/dpkg/pkg-info.mk
 
+PHP_FILES := $(shell find src tools -type f -name "*.php")
+
 %:
 	dh  $@
 
-override_dh_install:
+check_php_files:
+	#########################################
+	# Perfoming syntax check for PHP files. #
+	#########################################
+	@ERROR=0 ;\
+	for file in $(PHP_FILES); do \
+		if ! /usr/bin/php -l $${file} 1>/dev/null ; then \
+			echo "syntax check for $${file} failed!" ;\
+			ERROR=1 ;\
+		fi \
+	done ;\
+	if [ "$${ERROR}" -eq "1" ]; then \
+		echo "Error(s) found while syntax check! Exciting!" ;\
+		exit 99 ;\
+	else \
+		echo "No syntax error(s) found." ;\
+	fi
+
+override_dh_install: check_php_files
 	find src -type f \( -name "*.php" \) -exec chmod 644 {} \;
 	sed -e "s/DEB_VERSION/${DEB_VERSION}/" debian/version.php.in > src/version.php
 	dh_install -X LICENSE

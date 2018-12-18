@@ -9,6 +9,7 @@ Uploaders:
 Build-Depends:
  debhelper (>= 11),
  dh-exec,
+ php-cli,
  po-debconf,
 Standards-Version: 4.2.1
 Vcs-Git: https://salsa.debian.org/giraffe-team/z-push.git
