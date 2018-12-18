@@ -1,3 +1,15 @@
+z-push (2.4.5-2) unstable; urgency=medium
+
+  * [95e4851] d/control: relay an php-mapi built with php7.3
+    Some z-push packages are depending on php-mapi which itself is build since
+    8.6.90-1 against PHP 7.3. Adding a versioned depends on this version at
+    least.
+  * [987142e] d/copyright: update copyright information
+  * [ac1c896] d/rules: install README files into /u/s/d/$package
+  * [721c41c] QA: adding PHP systax check while running build
+
+ -- Carsten Schoenert <c.schoenert@t-online.de>  Tue, 18 Dec 2018 10:15:25 +0100
+
 z-push (2.4.5-1) unstable; urgency=medium
 
   [ Carsten Schoenert ]
