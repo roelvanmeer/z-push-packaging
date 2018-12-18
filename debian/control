@@ -173,7 +173,7 @@ Package: z-push-backend-kopano
 Architecture: all
 Depends:
  php-cli,
- php-mapi,
+ php-mapi (>= 8.6.60-1~),
  z-push-common (= ${binary:Version}),
  ${misc:Depends},
 Replaces: z-push-kopano
@@ -208,7 +208,7 @@ Package: z-push-kopano-gabsync
 Architecture: all
 Depends:
  php-cli,
- php-mapi,
+ php-mapi (>= 8.6.60-1~),
  ${misc:Depends},
 Description: open source implementation of the ActiveSync protocol - Kopano GAB sync
  Z-Push is an implementation of the ActiveSync protocol which is used
