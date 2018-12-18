@@ -17,6 +17,15 @@ override_dh_install:
 	# Rename so we can have dh_installdocs install this with a proper name.
 	cp -a src/autodiscover/INSTALL src/autodiscover/README.autodiscover
 
+override_dh_installdocs:
+	dh_installdocs
+	# Move some README files to appropriate folder.
+	mv debian/z-push-backend-carddav/usr/share/z-push/backend/carddav/README \
+		debian/z-push-backend-carddav/usr/share/doc/z-push-backend-carddav/z-push-backend-carddav.README
+	mv debian/z-push-backend-imap/usr/share/z-push/backend/imap/README \
+		debian/z-push-backend-imap/usr/share/doc/z-push-backend-imap/z-push-backend-imap.README
+
+
 override_dh_fixperms-indep:
 	dh_fixperms
 	chmod 755 debian/z-push-backend-kopano/usr/share/z-push/backend/kopano/listfolders.php
