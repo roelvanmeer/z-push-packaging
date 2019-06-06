@@ -2,3 +2,4 @@ adapt-path-variable-in-migration-tool.patch
 Set-absolute-path-to-z-push-in-gab2contacts.patch
 apache2-config-remove-deprecated-auth-options.patch
 Set-absolute-path-to-z-push-in-gab-sync.patch
+ZP-1503-Fix-syntax-error.patch
