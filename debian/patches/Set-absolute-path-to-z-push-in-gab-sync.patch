@@ -1,0 +1,23 @@
+From: Roel van Meer <roel@1afa.com>
+Date: Thu, 6 Jun 2019 15:18:52 +0200
+Subject: Set absolute path to z-push in gab-sync
+
+Upstream does this with sed in the rules file, but using a patch is
+cleaner imho.
+---
+ tools/gab-sync/gab-sync.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/gab-sync/gab-sync.php b/tools/gab-sync/gab-sync.php
+index 594eed3..d74418b 100755
+--- a/tools/gab-sync/gab-sync.php
++++ b/tools/gab-sync/gab-sync.php
+@@ -28,7 +28,7 @@
+ // The path set by default is as required for a GIT checkout.
+ // It is also possible to use absolute path to z-push installation, e.g.
+ // /usr/share/z-push/
+-define('PATH_TO_ZPUSH', '../../src/');
++define('PATH_TO_ZPUSH', '/usr/share/z-push/');
+ 
+ if (!defined('SYNC_CONFIG')) define('SYNC_CONFIG', 'config.php');
+ include_once(SYNC_CONFIG);
