@@ -1,3 +1,13 @@
+z-push (2.5.0-1) unstable; urgency=medium
+
+  * [e66a97c] New upstream version 2.5.0
+  * [bcb80d5] rebuild patch queue from patch-queue branch
+  * [0d46951] patches: Set absolute path to z-push in gab-sync
+  * [9fcd713] debian/control: increase Standards-Version to 4.3.0
+  * [e7ab4f8] patches: Fix syntax error
+
+ -- Roel van Meer <roel@1afa.com>  Wed, 10 Jul 2019 13:12:29 +0200
+
 z-push (2.4.5-2) unstable; urgency=medium
 
   * [95e4851] d/control: relay an php-mapi built with php7.3
