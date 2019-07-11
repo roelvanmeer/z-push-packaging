@@ -1,3 +1,10 @@
+z-push (2.5.0-2) unstable; urgency=medium
+
+  * [1e7bf41] rules: Ensure checkshares.php script is executable
+  * [aaf79db] debian/control: increase Standards-Version to 4.4.0
+
+ -- Roel van Meer <roel@1afa.com>  Thu, 11 Jul 2019 10:13:12 +0200
+
 z-push (2.5.0-1) unstable; urgency=medium
 
   * [e66a97c] New upstream version 2.5.0
