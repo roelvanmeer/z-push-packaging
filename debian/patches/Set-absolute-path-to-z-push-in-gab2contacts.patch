@@ -9,7 +9,7 @@ cleaner imho.
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/tools/gab2contacts/gab2contacts.php b/tools/gab2contacts/gab2contacts.php
-index 0daa15b..45efc05 100755
+index 582734d..7f2e4ac 100755
 --- a/tools/gab2contacts/gab2contacts.php
 +++ b/tools/gab2contacts/gab2contacts.php
 @@ -28,7 +28,7 @@
