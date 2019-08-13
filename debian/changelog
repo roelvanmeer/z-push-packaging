@@ -1,3 +1,12 @@
+z-push (2.5.1-1) unstable; urgency=medium
+
+  * [305bb2e] New upstream version 2.5.1
+  * [5e250ec] Remove ZP-1503-Fix-syntax-error.patch
+  * [2434f45] rebuild patch queue from patch-queue branch
+  * [11459d8] Install manpages in correct location
+
+ -- Roel van Meer <roel@1afa.com>  Tue, 13 Aug 2019 11:30:37 +0200
+
 z-push (2.5.0-2) unstable; urgency=medium
 
   * [1e7bf41] rules: Ensure checkshares.php script is executable
